@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Chat.Web</name>
+    </assembly>
+    <members>
+        <member name="T:Chat.Web.Controllers.AccountController">
+            <summary>
+            账号接口
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.AccountController.CreateAccount(Chat.Application.Dto.AccountDto)">
+            <summary>
+            新增账号
+            </summary>
+            <param name="account"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.AccountController.FreezeAccount(System.Collections.Generic.List{System.Guid},System.DateTime)">
+            <summary>
+            封禁账号
+            </summary>
+            <param name="ids"></param>
+            <param name="time">封至时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.AccountController.GetAccountList(System.String,System.SByte,System.Int32,System.Int32)">
+            <summary>
+            获取用户列表
+            </summary>
+            <param name="name"></param>
+            <param name="status"></param>
+            <param name="pageNo"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.AccountController.GetAccountName(System.String)">
+            <summary>
+            获取用户账号
+            </summary>
+            <param name="accountNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.CreateFriendsController">
+            <summary>
+            添加申请好友
+            </summary>
+        </member>
+        <member name="T:Chat.Web.Controllers.FileController">
+            <summary>
+            文件接口
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.FileController.Uploading(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件接口
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.FriendsController">
+            <summary>
+            好友列表
+            </summary>
+        </member>
+        <member name="T:Chat.Web.Controllers.GroupDataController">
+            <summary>
+            群
+            </summary>
+        </member>
+        <member name="T:Chat.Web.Controllers.GroupMembersController">
+            <summary>
+            群列表
+            </summary>
+        </member>
+        <member name="T:Chat.Web.Controllers.LoginController">
+            <summary>
+            登录接口
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.LoginController.Register(System.String,System.String)">
+            <summary>
+            登录接口
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.LoginController.RefreshToken">
+            <summary>
+            刷新Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.LoginController.Exit">
+            <summary>
+            退出登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.SystemController">
+            <summary>
+            系统信息接口
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.SystemController.OSVersion">
+            <summary>
+            获取运行系统
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.SystemController.GetCpu(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.UtilController">
+            <summary>
+            工具
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.UtilController.MD5Decrypt(System.String)">
+            <summary>
+            MD5解密
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UtilController.MD5Encrypt(System.String)">
+            <summary>
+            MD5加密
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Startup">
+            <summary>
+            配置文件
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            人口
+            </summary>
+            <param name="configuration"></param>
+            <param name="env"></param>
+        </member>
+        <member name="P:Chat.Web.Startup.Configuration">
+            <summary>
+            appsettings文件
+            </summary>
+        </member>
+        <member name="P:Chat.Web.Startup.Env">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Chat.Web.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            管道
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="log"></param>
+        </member>
+        <member name="M:Chat.Web.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="containerBuilder"></param>
+        </member>
+    </members>
+</doc>
