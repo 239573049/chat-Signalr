@@ -37,7 +37,7 @@ namespace Chat.Web.Code.Middleware
                     filterContext.Result = new ObjectResult(new ModelStateResult($"ip：{filterContext.HttpContext.Connection.RemoteIpAddress.MapToIPv4()} 超出访问{count}次限制，请稍后请求", 413));
                 }
                 else {
-                   await redisUtil.SetAsync(targetInfo, data.count++, DateTime.Now.AddSeconds(seconds));
+                   await redisUtil.SetAsync(targetInfo, data.count++, data.Time);
                 }
             }
             base.OnActionExecuting(filterContext);

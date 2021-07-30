@@ -20,7 +20,7 @@
       <string>d:\开发项目\chat\Chat.Application\Dto\AccountDto.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\SystemController.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\SystemController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>d:\开发项目\chat\Chat.Web.Code\Model\ChatVM\SystemMassageVM.cs</string>
@@ -62,10 +62,10 @@
       <string>d:\开发项目\chat\Chat.Application\MapperProfile.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Uitl\Util\ServerConfig.cs</string>
+      <string>d:\开发项目\chat\Chat.Uitl\Util\ServerConfig.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web.Code\Gadget\ChatHub.cs</string>
+      <string>d:\开发项目\chat\Chat.Web.Code\Gadget\ChatHub.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>D:\开发项目\Chat\Chat.Web.Code\Middleware\CurrentLimiting.cs</string>
