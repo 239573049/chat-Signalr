@@ -25,10 +25,10 @@ namespace Chat.Uitl.Util
         /// <param name="key"></param>
         /// <param name="t"></param>
         /// <param name="expiresSec"></param>
-        public void Set(string key, object t, DateTime expiresSec)
+        public void Set(string key, object t, DateTime? expiresSec=null)
         {
             RedisHelper.Set(key, t);
-            SetDate(key,expiresSec);
+            if (expiresSec != null)SetDate(key, (DateTime)expiresSec);
         }
         /// <summary>
         /// 异步获取
@@ -56,10 +56,10 @@ namespace Chat.Uitl.Util
         /// <param name="t"></param>
         /// <param name="expiresSec"></param>
         /// <returns></returns>
-        public async Task SetAsync(string key, object t, DateTime expiresSec)
+        public async Task SetAsync(string key, object t, DateTime? expiresSec = null)
         {
             await RedisHelper.SetAsync(key, t);
-            await SetDateAsync(key,expiresSec);
+            if(expiresSec!=null) await SetDateAsync(key,(DateTime)expiresSec);
         }
         /// <summary>
         /// 设置超时时间

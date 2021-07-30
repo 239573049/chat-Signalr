@@ -1,5 +1,6 @@
 ﻿using Cx.NetCoreUtils.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
 
 namespace Chat.Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace Chat.Web.Controllers
         [HttpPost]
         public IActionResult MD5Decrypt(string data)
         {
+            if (string.IsNullOrEmpty(data)) return new ModelStateResult(string.Empty);
             return new OkObjectResult(data.MD5Decrypt());
         }
         /// <summary>
@@ -28,6 +30,7 @@ namespace Chat.Web.Controllers
         [HttpPost]
         public IActionResult MD5Encrypt(string data)
         {
+            if(string.IsNullOrEmpty(data))return new ModelStateResult(string.Empty) ;
             return new OkObjectResult(data.MD5Encrypt());
         }
     }

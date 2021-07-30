@@ -23,6 +23,8 @@ using System.Linq;
 using System.Reflection;
 using static Cx.NetCoreUtils.Swagger.SwaggerSetup;
 using Chat.Uitl.Util;
+using Chat.Web.Code.Middleware;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Chat.Web
 {
@@ -68,12 +70,13 @@ namespace Chat.Web
             services.AddMemoryCache();
             services.AddSwaggerSetup("1.0.0.1", "Chat API", "Chat Web API", new Contact { Email = "239573049@qq.com", Name = "xiaohu", Url = new System.Uri("https://github.com/239573049") });
             services.AddAutoMapperSetup("Chat.Application", "Chat.Web.Code");
-            services.AddHttpContext();            
+            services.AddHttpContext();
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(GlobalExceptionsFilter));
                 o.Filters.Add(typeof(GlobalResponseFilter));
                 o.Filters.Add<GlobalModelStateValidationFilter>();
+                o.Filters.Add<CurrentLimiting>();
             }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

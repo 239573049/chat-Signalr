@@ -7,8 +7,8 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAV3tgK+MLGUeNC3iL8kN7hAAAAAACAAAAAAAQZgAAAAEAACAAAACC7LDcO1kERWDgUbJ6eYEMdpOAUECSwLXLD4kL/WQ9RQAAAAAOgAAAAAIAACAAAAC6myJl30FWHn0rW/QuiWVtT538/8qflTvvdv9y9GKrohAAAADVxh17CA9KAjNZxv3JejVsQAAAAJ2D8/yLbQEdInSKZkSw45rXyIf4HIh6tSR2g4CLvm4K3QTzyBnh5bKyTDtKxZgusLDInlJtuLE6Rgpz/rsBN4o=</EncryptedPassword>
-    <History>False|2021-07-29T10:22:30.2965828Z;False|2021-07-29T18:17:34.9728377+08:00;False|2021-07-29T18:17:18.4430439+08:00;</History>
-    <_PublishTargetUrl>ftp://47.96.18.99:21/47.96.18.99:21</_PublishTargetUrl>
+    <History>True|2021-07-30T03:42:45.0953859Z;False|2021-07-29T18:22:30.2965828+08:00;False|2021-07-29T18:17:34.9728377+08:00;False|2021-07-29T18:17:18.4430439+08:00;</History>
+    <_PublishTargetUrl>C:\inetpub\wwwroot</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Aliyun.OSS.Core.dll">

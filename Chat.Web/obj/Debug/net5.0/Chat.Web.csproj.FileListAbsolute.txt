@@ -184,7 +184,6 @@ D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.AssemblyInfo.cs
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.csproj.CoreCompileInputs.cache
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.MvcApplicationPartsAssemblyInfo.cache
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\staticwebassets\Chat.Web.StaticWebAssets.Manifest.cache
-D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\staticwebassets\Chat.Web.StaticWebAssets.xml
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\scopedcss\bundle\Chat.Web.styles.css
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.RazorTargetAssemblyInfo.cache
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.csproj.CopyComplete
@@ -192,3 +191,5 @@ D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.dll
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\ref\Chat.Web.dll
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.pdb
 D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.genruntimeconfig.cache
+D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\Chat.Web.MvcApplicationPartsAssemblyInfo.cs
+D:\开发项目\Chat\Chat.Web\obj\Debug\net5.0\staticwebassets\Chat.Web.StaticWebAssets.xml

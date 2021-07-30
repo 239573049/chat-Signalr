@@ -19,7 +19,7 @@ namespace Chat.Uitl.Util
             public long irq;
             public long softirq;
         }
-        public static double QUERY_CPULOAD(bool a = true)
+        public static int QUERY_CPULOAD(bool a = false)
         {
             lock (syncobj) {
                 CPU_OCCUPY current_cpu_occupy = get_cpuoccupy();
@@ -41,7 +41,7 @@ namespace Chat.Uitl.Util
                     }
 
                     cpu_use = (cpu_use * 100) / Environment.ProcessorCount;
-                    return cpu_use;
+                    return (int)cpu_use;
                 }
                 finally {
                     previous_cpu_occupy = current_cpu_occupy;

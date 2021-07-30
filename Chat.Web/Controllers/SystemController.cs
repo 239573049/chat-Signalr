@@ -16,22 +16,13 @@ namespace Chat.Web.Controllers
     public class SystemController : ControllerBase
     {
         /// <summary>
-        /// 获取运行系统
+        /// 获取服务器信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public IActionResult OSVersion()
         {
-            return new OkObjectResult(ServerConfig.GetServerInfo());
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetCpu(bool status=true)
-        {
-            return new OkObjectResult(CPULinuxLoadValue.QUERY_CPULOAD(status));
+            return new OkObjectResult(new { MemInfo= ServerConfig.ReadMemInfo(),Cpu= CPULinuxLoadValue.QUERY_CPULOAD(false) });
         }
     }
 }

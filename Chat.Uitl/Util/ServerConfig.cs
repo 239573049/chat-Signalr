@@ -15,150 +15,6 @@ namespace Chat.Uitl.Util
 {
     public class ServerConfig
     {
-        //static private log4net.ILog log = log4net.LogManager.GetLogger(typeof(ServerConfig));
-        /// <summary>
-        /// 获取Linux服务器资源信息
-        /// </summary>
-        private const string NETWORK_CONFIG_FILE_PATH = @"/etc/NetworkManager/system-connections/";
-        private static string logs_service_port = ConfigurationManager.AppSettings["logs_service_port"]; //网口 配置文件中获取 
-        /// <summary>
-        /// 获取网关 IP信息
-        /// </summary>
-        /// <returns></returns>
-        public static NetworkInfo ReadIpConfig()
-        {
-            NetworkInfo networkInfo = new NetworkInfo();
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo("ifconfig", logs_service_port)
-                {
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false
-                }
-            };
-            process.Start();
-            var hddInfo = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            process.Dispose();
-
-            var lines = hddInfo.Split('\n');
-            foreach (var item in lines) {
-                if (item.Contains("inet")) {
-                    var li = item.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    // inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
-                    networkInfo.IPAddress = li[1];
-                    networkInfo.SubnetMark = li[3];
-                    networkInfo.Gateway = li[5];
-                    break;
-                }
-            }
-            return networkInfo;
-        }
-
-        /// <summary>
-        /// 读取服务器配置
-        /// </summary>
-        /// <returns></returns>
-        public static NetworkInfo ReadNetWorkConfig()
-        {
-            NetworkInfo networkInfo = new NetworkInfo();
-            var config_file = GetNetworkConfigFile();
-            try {
-                if (!string.IsNullOrEmpty(config_file)) {
-                    ConfigFile config = new ConfigFile(config_file);
-
-                    var setting_group = config.SettingGroups;
-                    var ip_info = setting_group["ipv4"].Settings;
-                    networkInfo.DNS = ip_info["dns"].GetValue();
-
-                    string address_info = ip_info["address1"].GetValue();
-                    var address = address_info.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    networkInfo.IPAddress = address[0];
-
-                    var gateway = address[1].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    networkInfo.SubnetMark = NetworkConfig.GetSubnetMarkString(int.Parse(gateway[0]));
-                    networkInfo.Gateway = gateway[1];
-
-                    if (setting_group.ContainsKey("ethernet")) {
-                        ip_info = setting_group["ethernet"].Settings;
-                        if (ip_info.ContainsKey("mac-address")) {
-                            networkInfo.MacAddress = ip_info["mac-address"].GetValue();
-                        }
-                    }
-                }
-            }
-            catch (Exception e) {
-            }
-            return networkInfo;
-        }
-
-        /// <summary>
-        /// 保存网络设置信息
-        /// </summary>
-        /// <param name="networkInfo"></param>
-        public static void SaveNetworkConfig(NetworkInfo networkInfo)
-        {
-            var config_file = GetNetworkConfigFile();
-            if (!string.IsNullOrEmpty(config_file)) {
-                ConfigFile config = new ConfigFile(config_file);
-                var ip_mark_gateway = string.Format("{0}/{1},{2}", networkInfo.IPAddress,
-                                    NetworkConfig.GetSubnetMarkString(NetworkConfig.SubnetMarkValue(networkInfo.SubnetMark)),
-                                    networkInfo.Gateway);
-
-                var ip_address = config.SettingGroups["ipv4"].Settings;
-                ip_address["dns"].SetValue(networkInfo.DNS);
-                ip_address["address1"].SetValue(ip_mark_gateway);
-                config.Save(config_file);
-            }
-        }
-
-        /// <summary>
-        /// 获取服务器网络配置信息
-        /// </summary>
-        /// <returns></returns>
-        private static string GetNetworkConfigFile()
-        {
-            var files = Directory.GetFiles(NETWORK_CONFIG_FILE_PATH);
-            string config = string.Empty;
-            if (files != null && files.Length > 0) {
-                config = files[0];
-            }
-            return config;
-        }
-
-        /// <summary>
-        /// 读取CPU序列号信息
-        /// </summary>
-        /// <returns></returns>
-        public static string ReadCpuSerialNumber()
-        {
-            const string CPU_FILE_PATH = "/proc/cpuinfo";
-            var s = File.ReadAllText(CPU_FILE_PATH);
-            var lines = s.Split(new[] { '\n' });
-            s = string.Empty;
-
-            foreach (var item in lines) {
-                if (item.StartsWith("Serial")) {
-                    var temp = item.Split(new[] { ':' });
-                    s = temp[1].Trim();
-                    break;
-                }
-            }
-            return s;
-        }
-
-        /// <summary>
-        /// 重启服务器命令
-        /// </summary>
-        public static void Reboot()
-        {
-            var process = new Process();
-            process.StartInfo = new ProcessStartInfo("reboot");
-            process.Start();
-            process.WaitForExit();
-            process.Dispose();
-        }
-
         /// <summary>
         /// 读取内存信息
         /// </summary>
@@ -169,112 +25,25 @@ namespace Chat.Uitl.Util
             const string CPU_FILE_PATH = "/proc/meminfo";
             var mem_file_info = File.ReadAllText(CPU_FILE_PATH);
             var lines = mem_file_info.Split(new[] { '\n' });
-            mem_file_info = string.Empty;
-            Console.WriteLine($"{string.Join(",",lines)}");
             int count = 0;
             foreach (var item in lines) {
                 if (item.StartsWith("MemTotal:")) {
                     count++;
                     var tt = item.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                    memInfo.Total = tt[1].Trim();
+                    var total = tt[1].Trim().Split(" ")[0];
+                    memInfo.Total= string.IsNullOrEmpty(total)?0: int.Parse(total) / 1024;
                 }
                 else if (item.StartsWith("MemAvailable:")) {
                     count++;
                     var tt = item.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                    memInfo.Available = tt[1].Trim();
+                    var availble = tt[1].Trim().Split(" ")[0];
+                    memInfo.Available = string.IsNullOrEmpty(availble) ? 0 : int.Parse(availble)/1024;
                 }
                 if (count >= 2) break;
             }
+            memInfo.Usage = Convert.ToInt32((memInfo.Total - memInfo.Available) / memInfo.Total * 100);
             return memInfo;
         }
-
-        /// <summary>
-        /// 同步系统时间
-        /// </summary>
-        public static void SyncSystemDatetime()
-        {
-            Task.Factory.StartNew(() =>
-            {
-                try {
-                    using (var process = new Process()) {
-                        process.StartInfo = new ProcessStartInfo("ntpdate", "ntp1.aliyun.com");
-                        process.Start();
-                        process.WaitForExit(50000);
-                    }
-                }
-                catch (Exception e) {
-
-                }
-            });
-        }
-
-        /// <summary>
-        /// 读取系统时间
-        /// </summary>
-        /// <param name="time"></param>
-        public static void SetSystemDateTime(DateTime time)
-        {
-            using (var process = new Process()) {
-                process.StartInfo = new ProcessStartInfo("date", $"-s \"{time.ToString("yyyy-MM-dd HH:mm:ss")}\"");
-                process.Start();
-                process.WaitForExit(3000);
-}
-}
-
-/// <summary>
-/// 读取硬盘信息
-/// </summary>
-/// <returns></returns>
-        public static HDDInfo ReadHddInfo()
-        {
-            HDDInfo hdd = null;
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo("df", "-h /")
-                {
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false
-                }
-            };
-            process.Start();
-            var hddInfo = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            process.Dispose();
-
-            var lines = hddInfo.Split('\n');
-            foreach (var item in lines) {
-
-                if (item.Contains("/dev/sda4") || item.Contains("/dev/mapper/cl-root") || item.Contains("/dev/mapper/centos-root")) {
-                    var li = item.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < li.Length; i++) {
-                        if (li[i].Contains("%")) {
-                            hdd = new HDDInfo()
-                            {
-                                Size = li[i - 3],
-                                Used = li[i - 2],
-                                Avail = li[i - 1],
-                                Usage = li[i]
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
-            return hdd;
-        }
-
-        /// <summary>
-        /// 读取CPU温度信息
-        /// </summary>
-        /// <returns></returns>
-        public static float ReadCpuTemperature()
-        {
-            const string CPU_Path = "/sys/class/thermal/thermal_zone0/temp";
-            var values = File.ReadAllText(CPU_Path);
-            float valuef = float.Parse(values);
-            return valuef / 1000f;
-        }
-
         /// <summary>
         /// 读取CPU使用率信息
         /// </summary>
@@ -317,23 +86,6 @@ namespace Chat.Uitl.Util
         }
 
         /// <summary>
-        /// 字符处理
-        /// </summary>
-        /// <param name="strings"></param>
-        /// <returns></returns>
-        private static string TrimString(string strings)
-        {
-            char[] tempchat = new char[strings.Length];
-            int n = 0;
-            foreach (var item in strings) {
-                if ((item >= 32 && item <= 126) || item == '\n' || item == ' ') {
-                    tempchat[n++] = item;
-                }
-            }
-            return new String(tempchat, 0, n);
-        }
-
-        /// <summary>
         /// 获取服务器运行时信息
         /// </summary>
         /// <returns></returns>
@@ -341,157 +93,32 @@ namespace Chat.Uitl.Util
         {
             var serverInfo = new ServerInfo
             {
-                HDDInfo = ReadHddInfo(),
                 MemInfo = ReadMemInfo(),
-                NetworkInfo = ReadIpConfig(),
-                CpuSerialNumber = ReadCpuSerialNumber()
             };
-
-            //serverInfo.CpuTemperature = ReadCpuTemperature();
-
-            // serverInfo.CpuTemperature = 24;
-
-            serverInfo.CpuUsage = ReadCpuUsage();
-            //从rdis取PacketCount、SessionCount
             serverInfo.PacketCount = 0;
             serverInfo.SessionCount = 0;
             return serverInfo;
         }
-    }
-    public class HDDInfo
-    {
-        /// <summary>
-        /// 硬盘大小
-        /// </summary>
-        public string Size { get; set; }
-
-        /// <summary>
-        /// 已使用大小
-        /// </summary>
-        public string Used { get; set; }
-
-        /// <summary>
-        /// 可用大小
-        /// </summary>
-        public string Avail { get; set; }
-
-        /// <summary>
-        /// 使用率
-        /// </summary>
-        public string Usage { get; set; }
     }
     public class MemInfo
     {
         /// <summary>
         /// 总计内存大小
         /// </summary>
-        public string Total { get; set; }
+        public decimal Total { get; set; }
         /// <summary>
         /// 可用内存大小
         /// </summary>
-        public string Available { get; set; }
+        public decimal Available { get; set; }
+        public int Usage { get; set; }
     }
 
-    public class NetworkInfo
-    {
-        /// <summary>
-        /// IP地址
-        /// </summary>
-        public string IPAddress { get; set; }
-
-        /// <summary>
-        /// 子掩码
-        /// </summary>
-        public string SubnetMark { get; set; }
-
-        /// <summary>
-        /// 网关
-        /// </summary>
-        public string Gateway { get; set; }
-
-        /// <summary>
-        /// DNS信息
-        /// </summary>
-        public string DNS { get; set; }
-
-        /// <summary>
-        /// MAC地址
-        /// </summary>
-        public string MacAddress { get; set; }
-    }
-    public class RunTimeInfo
-    {
-        /// <summary>
-        /// 最后登录时间
-        /// </summary>
-        public string LastLogon { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        public string UserName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// CPU序列号
-        /// </summary>
-        public string CpuSerialNo { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 启动时间
-        /// </summary>
-        public DateTime Startup { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// 魔方Token
-        /// </summary>
-        public string MagicToken { get; set; } = string.Empty;
-
-        /// <summary>
-        /// MAC地址
-        /// </summary>
-        public string MacAddress { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 数据包大小
-        /// </summary>
-        public long PacketCount { get; set; } = 0;
-
-        /// <summary>
-        /// TCP连接数据
-        /// </summary>
-        public int TcpSessionCount { get; set; } = 0;
-    }
     public class ServerInfo
     {
         /// <summary>
         /// 内存
         /// </summary>
         public MemInfo MemInfo { get; set; }
-
-        /// <summary>
-        ///硬盘信息
-        /// </summary>
-        public HDDInfo HDDInfo { get; set; }
-
-        /// <summary>
-        /// 网络信息
-        /// </summary>
-        public NetworkInfo NetworkInfo { get; set; }
-
-        /// <summary>
-        /// CPU序列号
-        /// </summary>
-        public string CpuSerialNumber { get; set; }
-
-        /// <summary>
-        /// CPU温度
-        /// </summary>
-        public float CpuTemperature { get; set; }
-
-        /// <summary>
-        /// CPU使用率
-        /// </summary>
-        public int CpuUsage { get; set; }
 
         /// <summary>
         /// 接包数据
@@ -502,10 +129,6 @@ namespace Chat.Uitl.Util
         /// 当前会话连接数
         /// </summary>
         public int SessionCount { get; set; }
-        /// <summary>
-        /// 写入时间
-        /// </summary>
-        public DateTime create_time { get; set; }
     }
     public class ConfigFile
     {
@@ -514,15 +137,6 @@ namespace Chat.Uitl.Util
         /// Gets the groups found in the configuration file.
         /// </summary>
         public Dictionary<string, SettingsGroup> SettingGroups { get; private set; }
-
-        /// <summary>
-        /// Creates a blank configuration file.
-        /// </summary>
-        public ConfigFile()
-        {
-            SettingGroups = new Dictionary<string, SettingsGroup>();
-        }
-
         /// <summary>
         /// Loads a configuration file.
         /// </summary>
@@ -531,41 +145,6 @@ namespace Chat.Uitl.Util
         {
             Load(file);
         }
-
-        /// <summary>
-        /// Loads a configuration file.
-        /// </summary>
-        /// <param name="file">The stream from which to load the configuration file.</param>
-        public ConfigFile(Stream stream)
-        {
-            Load(stream);
-        }
-
-        /// <summary>
-        /// Adds a new settings group to the configuration file.
-        /// </summary>
-        /// <param name="groupName">The name of the group.</param>
-        /// <returns>The newly created SettingsGroup.</returns>
-        public SettingsGroup AddSettingsGroup(string groupName)
-        {
-            if (SettingGroups.ContainsKey(groupName))
-                throw new Exception("Group already exists with name '" + groupName + "'");
-
-            SettingsGroup group = new SettingsGroup(groupName);
-            SettingGroups.Add(groupName, group);
-
-            return group;
-        }
-
-        /// <summary>
-        /// Deletes a settings group from the configuration file.
-        /// </summary>
-        /// <param name="groupName">The name of the group to delete.</param>
-        public void DeleteSettingsGroup(string groupName)
-        {
-            SettingGroups.Remove(groupName);
-        }
-
         /// <summary>
         /// Loads the configuration from a file.
         /// </summary>
@@ -728,16 +307,6 @@ namespace Chat.Uitl.Util
             }
         }
 
-        /// <summary>
-        /// Saves the configuration to a file
-        /// </summary>
-        /// <param name="filename">The filename for the saved configuration file.</param>
-        public void Save(string filename)
-        {
-            using (FileStream stream = new FileStream(filename, FileMode.Create, FileAccess.Write)) {
-                Save(stream);
-            }
-        }
 
         /// <summary>
         /// Saves the configuration to a stream.

@@ -20,3 +20,4 @@ D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.csproj.CoreCompileIn
 D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.dll
 D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\ref\Chat.Code.dll
 D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.pdb
+D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.csproj.AssemblyReference.cache
