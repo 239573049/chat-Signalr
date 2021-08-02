@@ -7,6 +7,6 @@
     <ActiveDebugProfile>Chat.Web</ActiveDebugProfile>
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
-    <NameOfLastUsedPublishProfile>D:\开发项目\Chat\Chat.Web\Properties\PublishProfiles\FTPProfile1.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\pr\new-chat\Chat.Web\Properties\PublishProfiles\FTPProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

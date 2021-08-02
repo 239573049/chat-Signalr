@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Cx.NetCoreUtils.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using NPOI.SS.Formula.Functions;
 using System;
@@ -22,6 +23,12 @@ namespace Chat.Uitl.Util
             this.redisUtil = redisUtil;
         }
 
+        public async Task<T> Get<T>(string key)
+        {
+            var data = await redisUtil.GetAsync<T>(key);
+            return data == null ? default : data;
+        }
+
         public Guid GetId()
         {
             accessor.HttpContext.Request.Cookies.TryGetValue("id",out string id);
@@ -36,7 +43,9 @@ namespace Chat.Uitl.Util
         public async Task<T> GetUser<T>()
         {
             accessor.HttpContext.Request.Cookies.TryGetValue("Authorization", out string authorization);
-            return await redisUtil.GetAsync<T>(authorization);
+            var user = await redisUtil.GetAsync<T>(authorization);
+            if (user == null) throw new BusinessLogicException(401,"请先登录账号");
+            return user;
         }
     }
 }

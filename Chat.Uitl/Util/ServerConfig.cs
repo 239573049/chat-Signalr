@@ -1,8 +1,5 @@
-﻿using CZGL.SystemInfo.Linux;
-using CZGL.SystemInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;

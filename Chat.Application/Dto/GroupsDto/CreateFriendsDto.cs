@@ -1,5 +1,5 @@
 ﻿using Chat.Code.DbEnum;
-using Chat.Code.Entities.User;
+using Chat.Code.Entities.Users;
 using Chat.Core.Base;
 using System;
 
@@ -27,7 +27,7 @@ namespace Chat.Application.Dto.GroupsDto
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-        public AccountDto Initiator{ get; set; }
-        public AccountDto BeInvited { get; set; }
+        public UserDto Initiator{ get; set; }
+        public UserDto BeInvited { get; set; }
     }
 }

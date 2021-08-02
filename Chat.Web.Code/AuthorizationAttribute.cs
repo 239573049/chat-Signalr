@@ -1,8 +1,9 @@
 ﻿
 using Cx.NetCoreUtils.Exceptions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Chat.Code.Entities.User;
 using Chat.Uitl.Util;
+using Chat.Application.Dto;
+using Chat.Code.DbEnum;
 
 namespace Chat.Web.Code
 {
@@ -16,10 +17,11 @@ namespace Chat.Web.Code
         {
 
             httpContext.HttpContext.Request.Cookies.TryGetValue("Authorization", out string authorization);
+            if(string.IsNullOrEmpty(authorization)) throw new BusinessLogicException(401, "请先登录账号");
             var path = httpContext.HttpContext.Request.Path.Value;
-            //var authorizations = new RedisUtil().Get<AccountDto>(authorization);
-            //if (authorizations==null) throw new BusinessLogicException(401, "请先登录账号");
-
+            var userDto = new RedisUtil().Get<UserDto>(authorization);
+            if (userDto == null) throw new BusinessLogicException(401, "请先登录账号");
+            if (userDto.Status != StatusEnum.Start) throw new BusinessLogicException($"账号无法使用账号状态：{EnumExtensionUtil.GetEnumStringVal(userDto.Status)}");
 
         }
 

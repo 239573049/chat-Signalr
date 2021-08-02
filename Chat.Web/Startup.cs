@@ -95,7 +95,7 @@ namespace Chat.Web
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseGlobalBufferMiddleware();
+            //app.UseGlobalBufferMiddleware();
             app.UseCors(Constants.CorsPolicy);
             app.UseStaticFiles();
             //app.UseHttpsRedirection();

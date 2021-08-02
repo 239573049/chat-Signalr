@@ -1,4 +1,4 @@
-﻿using Chat.Code.Entities.User;
+﻿using Chat.Code.Entities.Users;
 using Chat.Core.Base;
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,7 @@ namespace Chat.Code.Entities.Groups
         /// <summary>
         /// 
         /// </summary>
-        public Account Self { get; set; }
+        public User Self { get; set; }
+        public List<GroupMembers> GroupMembers { get; set; } = new List<GroupMembers>();
     }
 }

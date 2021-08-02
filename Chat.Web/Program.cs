@@ -1,15 +1,8 @@
 using Autofac.Extensions.DependencyInjection;
 using Cx.NetCoreUtils.Common;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Authentication;
-using System.Threading.Tasks;
-
 namespace Chat.Web
 {
     public class Program

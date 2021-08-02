@@ -21,3 +21,15 @@ D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.dll
 D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\ref\Chat.Code.dll
 D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.pdb
 D:\开发项目\Chat\Chat.Code\obj\Release\net5.0\Chat.Code.csproj.AssemblyReference.cache
+D:\pr\new-chat\Chat.Code\bin\Release\net5.0\Chat.Code.deps.json
+D:\pr\new-chat\Chat.Code\bin\Release\net5.0\Chat.Code.dll
+D:\pr\new-chat\Chat.Code\bin\Release\net5.0\ref\Chat.Code.dll
+D:\pr\new-chat\Chat.Code\bin\Release\net5.0\Chat.Code.pdb
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.csproj.AssemblyReference.cache
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.GeneratedMSBuildEditorConfig.editorconfig
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.AssemblyInfoInputs.cache
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.AssemblyInfo.cs
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.csproj.CoreCompileInputs.cache
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.dll
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\ref\Chat.Code.dll
+D:\pr\new-chat\Chat.Code\obj\Release\net5.0\Chat.Code.pdb

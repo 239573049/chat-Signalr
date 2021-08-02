@@ -27,7 +27,7 @@ namespace Chat.Web.Controllers
         public async Task<IActionResult> Uploading(IFormFile file)
         {
             if (file.Length > (50 * 1024 * 1024)) return new ModelStateResult("上传文件大小不能超过50MB");
-            Oss oss = new Oss
+            Oss oss = new()
             {
                 accessKeyId = AppSettings.App("oss:accessKeyId"),
                 accessKeySecret = AppSettings.App("oss:accessKeySecret"),

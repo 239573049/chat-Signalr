@@ -58,4 +58,17 @@ namespace Chat.Code.DbEnum
         [Description("拒绝")]
         Refuse
     }
+    public enum UseStateEnume
+    {
+        /// <summary>
+        /// 在线
+        /// </summary>
+        [Description("在线")]
+        OnLine,
+        /// <summary>
+        /// 离线
+        /// </summary>
+        [Description("离线")]
+        OffLine
+    }
 }
