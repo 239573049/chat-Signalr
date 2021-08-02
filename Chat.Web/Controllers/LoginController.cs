@@ -46,7 +46,7 @@ namespace Chat.Web.Controllers
         public async Task<IActionResult> Register(string accountNumber,string passWord)
         {
             var data =await accountService.GetAccount(accountNumber);
-            if (data.PassWrod != passWord.MD5Encrypt()) return new ModelStateResult("账号或者密码错误");
+            if (data.PassWrod != passWord) return new ModelStateResult("账号或者密码错误");
             switch (data.Status)
             {
                 case StatusEnum.Disabled:

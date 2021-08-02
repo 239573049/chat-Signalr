@@ -1,8 +1,7 @@
-﻿
-using Cx.NetCoreUtils.Exceptions;
+﻿using Cx.NetCoreUtils.Exceptions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Chat.Code.Entities.User;
 using Chat.Uitl.Util;
+using Chat.Application.Dto;
 
 namespace Chat.Web.Code
 {
@@ -17,8 +16,9 @@ namespace Chat.Web.Code
 
             httpContext.HttpContext.Request.Cookies.TryGetValue("Authorization", out string authorization);
             var path = httpContext.HttpContext.Request.Path.Value;
-            //var authorizations = new RedisUtil().Get<AccountDto>(authorization);
-            //if (authorizations==null) throw new BusinessLogicException(401, "请先登录账号");
+            var authorizations = new RedisUtil().Get<AccountDto>(authorization);
+            if (authorizations == null) throw new BusinessLogicException(401, "请先登录账号");
+
 
 
         }
