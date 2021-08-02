@@ -6,7 +6,7 @@ namespace Chat.Uitl.Util
     public static class CPULinuxLoadValue
     {
         private static CPU_OCCUPY previous_cpu_occupy = null;
-        private static readonly object syncobj = new object();
+        private static readonly object syncobj = new();
 
         private class CPU_OCCUPY
         {
@@ -73,8 +73,7 @@ namespace Chat.Uitl.Util
             if (string.IsNullOrEmpty(s)) {
                 return 0;
             }
-            long r;
-            long.TryParse(s, out r);
+            long.TryParse(s, out long r);
             return r;
         }
 
@@ -84,7 +83,7 @@ namespace Chat.Uitl.Util
             if (!File.Exists(path)) {
                 return null;
             }
-            FileStream stat = null;
+            FileStream stat;
             try {
                 stat = File.OpenRead(path);
                 if (stat == null) {
@@ -94,23 +93,21 @@ namespace Chat.Uitl.Util
             catch (Exception) {
                 return null;
             }
-            using (StreamReader sr = new StreamReader(stat)) {
-                CPU_OCCUPY occupy = new CPU_OCCUPY();
-                try {
-                    occupy.name = ReadArgumentValue(sr);
-                    occupy.user = ReadArgumentValueInt64(sr);
-                    occupy.nice = ReadArgumentValueInt64(sr);
-                    occupy.system = ReadArgumentValueInt64(sr);
-                    occupy.idle = ReadArgumentValueInt64(sr);
-                    occupy.lowait = ReadArgumentValueInt64(sr);
-                    occupy.irq = ReadArgumentValueInt64(sr);
-                    occupy.softirq = ReadArgumentValueInt64(sr);
-                }
-                catch (Exception) {
-                    return null;
-                }
-                return occupy;
+            using StreamReader sr = new(stat); CPU_OCCUPY occupy = new();
+            try {
+                occupy.name = ReadArgumentValue(sr);
+                occupy.user = ReadArgumentValueInt64(sr);
+                occupy.nice = ReadArgumentValueInt64(sr);
+                occupy.system = ReadArgumentValueInt64(sr);
+                occupy.idle = ReadArgumentValueInt64(sr);
+                occupy.lowait = ReadArgumentValueInt64(sr);
+                occupy.irq = ReadArgumentValueInt64(sr);
+                occupy.softirq = ReadArgumentValueInt64(sr);
             }
+            catch (Exception) {
+                return null;
+            }
+            return occupy;
         }
 
     }

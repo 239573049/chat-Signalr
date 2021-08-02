@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Chat.Web.Code;
 
 namespace Chat.Web.Controllers
 {
@@ -13,6 +14,7 @@ namespace Chat.Web.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorization]
     public class SystemController : ControllerBase
     {
         /// <summary>

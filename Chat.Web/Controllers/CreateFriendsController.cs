@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿using AutoMapper;
 using Chat.Application.AppServices.GroupsService;
 using Chat.Code.DbEnum;
+=======
+﻿using Chat.Web.Code;
+>>>>>>> c26aefd1cedbdbb5d8361719a5dabc59836bc54b
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,6 +23,7 @@ namespace Chat.Web.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorization]
     public class CreateFriendsController : ControllerBase
     {
         private readonly IMapper mapper;

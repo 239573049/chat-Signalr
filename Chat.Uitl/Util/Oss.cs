@@ -17,7 +17,7 @@ namespace Chat.Uitl.Util
             {
                 var client = new OssClient(endpoint, accessKeyId, accessKeySecret);
                 client.PutObject(bucketName, path, stream);
-                return $"{this.path}/{path}";
+                return $"{path}";
             });
         }
 

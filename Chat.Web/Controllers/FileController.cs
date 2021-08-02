@@ -1,4 +1,5 @@
 ﻿using Chat.Uitl.Util;
+using Chat.Web.Code;
 using Cx.NetCoreUtils.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace Chat.Web.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorization]
     public class FileController : ControllerBase
     {
 
@@ -35,7 +37,8 @@ namespace Chat.Web.Controllers
                 endpoint = AppSettings.App("oss:endpoint"),
                 path = AppSettings.App("oss:path")
             };
-            return new OkObjectResult(await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream()));
+            var data = await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream());
+            return new OkObjectResult(new { path =$"{oss.path}/{data}",key= data });
         }
 
     }
