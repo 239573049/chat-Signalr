@@ -120,6 +120,12 @@
             系统信息接口
             </summary>
         </member>
+        <member name="M:Chat.Web.Controllers.SystemController.OSVersion">
+            <summary>
+            获取服务器信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.UserController">
             <summary>
             账号接口
