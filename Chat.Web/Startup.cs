@@ -25,6 +25,7 @@ using static Cx.NetCoreUtils.Swagger.SwaggerSetup;
 using Chat.Uitl.Util;
 using Chat.Web.Code.Middleware;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Chat.Web.Code.Gadget;
 
 namespace Chat.Web
 {
@@ -67,6 +68,7 @@ namespace Chat.Web
             services.AddTransient(typeof(IPrincipalAccessor), typeof(PrincipalAccessor));
             services.AddAuthenticationSetup();
             services.AddCorsSetup();
+            services.AddSignalR();
             services.AddMemoryCache();
             services.AddSwaggerSetup("1.0.0.1", "Chat API", "Chat Web API", new Contact { Email = "239573049@qq.com", Name = "xiaohu", Url = new System.Uri("https://github.com/239573049") });
             services.AddAutoMapperSetup("Chat.Application", "Chat.Web.Code");
@@ -95,7 +97,7 @@ namespace Chat.Web
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            //app.UseGlobalBufferMiddleware();
+            app.UseGlobalBufferMiddleware();
             app.UseCors(Constants.CorsPolicy);
             app.UseStaticFiles();
             //app.UseHttpsRedirection();
@@ -111,6 +113,7 @@ namespace Chat.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("chatHub");
             });
         }
         /// <summary>
@@ -120,16 +123,13 @@ namespace Chat.Web
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             var basePath = ApplicationEnvironment.ApplicationBasePath;
-
             var servicesDllFile = Path.Combine(basePath, "Chat.Application.dll");
             var repositoryDllFile = Path.Combine(basePath, "Chat.EntityFrameworkCore.dll");
-
             var assemblysServices = Assembly.LoadFrom(servicesDllFile);
             containerBuilder.RegisterAssemblyTypes(assemblysServices)
                 .Where(x => x.FullName.EndsWith("Service"))
                       .AsImplementedInterfaces()
                       .InstancePerDependency();//引用Autofac.Extras.DynamicProxy;
-
             // 获取 Repository.dll 程序集服务，并注册
             var assemblysRepository = Assembly.LoadFrom(repositoryDllFile);
             containerBuilder.RegisterAssemblyTypes(assemblysRepository)
