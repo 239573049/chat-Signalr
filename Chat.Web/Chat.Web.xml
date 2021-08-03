@@ -92,6 +92,24 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Chat.Web.Controllers.HubController">
+            <summary>
+            推送调试
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.HubController.GetCount">
+            <summary>
+            获取当前人数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.HubController.SendId(Chat.Web.Code.Model.ChatVM.MessageVM)">
+            <summary>
+            发送调试信息
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.LoginController">
             <summary>
             登录接口
@@ -119,12 +137,6 @@
             <summary>
             系统信息接口
             </summary>
-        </member>
-        <member name="M:Chat.Web.Controllers.SystemController.OSVersion">
-            <summary>
-            获取服务器信息
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Chat.Web.Controllers.UserController">
             <summary>
