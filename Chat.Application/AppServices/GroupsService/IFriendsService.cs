@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Chat.Application.Dto.GroupsDto;
+using Cx.NetCoreUtils.Exceptions;
 
 namespace Chat.Application.AppServices.GroupsService
 {
@@ -21,6 +23,19 @@ namespace Chat.Application.AppServices.GroupsService
         /// <param name="friendId"></param>
         /// <returns></returns>
         Task<bool> GetIsFriends(Guid selfId,Guid friendId);
+        /// <summary>
+        /// 获取好友列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<FriendsDto>> GetFriendsDtos(Guid userId);
+        /// <summary>
+        /// 删除好友
+        /// </summary>
+        /// <param name="SelfId"></param>
+        /// <param name="FriendId"></param>
+        /// <returns></returns>
+        Task<bool> DeleteFriends(Guid selfId,Guid friendId);
     }
     public class FriendsService : BaseService<Friends>, IFriendsService 
     {
@@ -32,6 +47,20 @@ namespace Chat.Application.AppServices.GroupsService
             ):base(unitOfWork,friendsRespository)
         {
             this.mapper = mapper;
+        }
+
+        public async Task<bool> DeleteFriends(Guid selfId, Guid friendId)
+        {
+            var data =await currentRepository.FindAll(a=>a.SelfId== selfId || a.SelfId== friendId && a.FriendId== selfId || a.FriendId== friendId).Select(a=>a.Id).ToListAsync();
+            if (data.Count == 0) throw new BusinessLogicException("删除失败未找到好友信息");
+            await currentRepository.DeleteMany(data);
+            return (await unitOfWork.SaveChangesAsync())>0;
+        }
+
+        public async Task<List<FriendsDto>> GetFriendsDtos(Guid userId)
+        {
+            var data =await currentRepository.FindAll(a=>a.SelfId==userId).ToListAsync();
+            return mapper.Map<List<FriendsDto>>(data);
         }
 
         public async Task<bool> GetIsFriends(Guid selfId, Guid friendId)

@@ -3,7 +3,7 @@ using Chat.Application.Dto;
 using Chat.Application.Dto.GroupsDto;
 using Chat.Code.DbEnum;
 using Chat.Code.Entities.Groups;
-using Chat.Code.Entities.User;
+using Chat.Code.Entities.Users;
 using Chat.Uitl.Util;
 using System;
 using System.Net.Mail;
@@ -16,8 +16,9 @@ namespace Merchants.Ams.Application
         {
 
             #region domain to dto
-            CreateMap<Account, AccountDto>()
-                .ForMember(dest=>dest.StatusName,det=>det.MapFrom(a=> EnumExtensionUtil.GetEnumStringVal(a.Status)));
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.StatusCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.Status)))
+                .ForMember(dest => dest.UseStateCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.UseState)));
             CreateMap<GroupData, GroupDataDto>();
             CreateMap<GroupMembers, GroupMembersDto>();
             CreateMap<Friends, FriendsDto>();
@@ -25,8 +26,7 @@ namespace Merchants.Ams.Application
             #endregion domain to dto
 
             #region dto to domain
-            CreateMap<AccountDto, Account>()
-                .ForMember(dest => dest.Status, det => det.MapFrom(a => EnumExtensionUtil.GetEnumVal<StatusEnum>(a.StatusName)));
+            CreateMap<UserDto, User>();
             CreateMap<GroupDataDto, GroupData>();
             CreateMap<GroupMembersDto, GroupMembers>();
             CreateMap<FriendsDto, Friends>();

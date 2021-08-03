@@ -9,6 +9,7 @@ namespace Chat.Web.Code.Middleware
 {
     public  class CurrentLimiting: ActionFilterAttribute
     {
+
         private readonly IRedisUtil redisUtil;
         public CurrentLimiting(
             IRedisUtil redisUtil
@@ -29,7 +30,7 @@ namespace Chat.Web.Code.Middleware
                     Count = 1,
                     Time = now
                 };
-                await redisUtil.SetAsync(targetInfo, data, now);
+               await redisUtil.SetAsync(targetInfo,data, now);
             }
             else {
                 if (data.Count>=count) {

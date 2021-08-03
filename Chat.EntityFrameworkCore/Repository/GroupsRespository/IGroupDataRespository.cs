@@ -1,5 +1,5 @@
 ﻿using Chat.Code.Entities.Groups;
-using Chat.Code.Entities.User;
+using Chat.Code.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

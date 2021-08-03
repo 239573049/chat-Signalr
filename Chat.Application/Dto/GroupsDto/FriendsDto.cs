@@ -1,4 +1,4 @@
-﻿using Chat.Code.Entities.User;
+﻿using Chat.Code.Entities.Users;
 using Chat.Core.Base;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace Chat.Application.Dto.GroupsDto
         /// 好友id
         /// </summary>
         public Guid FriendId { get; set; }
-        public AccountDto Self { get; set; }
-        public AccountDto Friend { get; set; }
+        public UserDto Self { get; set; }
+        public UserDto Friend { get; set; }
     }
 }

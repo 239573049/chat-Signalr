@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zMKnT1ObyQQcGqRPhAHjjdKqXHL8dwCWNZrAzCrXzoP+qdrgOkmFMpE+vAeGqHFtzdmMK2cAMlGLaO38e4MapQ==",
+  "dgSpecHash": "tx4VK0jdGHUbJTqkNRs9iyQO+Dn2r7PYXXXE8lBSSSx1ASeKu/71ve1OZg+MhI8+Z5uPS6sPwe4f46C/IMeVwg==",
   "success": true,
-  "projectFilePath": "D:\\开发项目\\Chat\\Chat.EntityFrameworkCore\\Chat.EntityFrameworkCore.csproj",
+  "projectFilePath": "D:\\pr\\new-chat\\Chat.EntityFrameworkCore\\Chat.EntityFrameworkCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\cx.netcoreutils\\1.6.0\\cx.netcoreutils.1.6.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\efcore.bulkextensions\\5.2.8\\efcore.bulkextensions.5.2.8.nupkg.sha512",

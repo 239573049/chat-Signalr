@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ibiG2316tq16noq5RHF/u7h/G89gtKqF87EY1GYSJYeE3ujCNIOWsxxwgCzEDP7gtE/aD5vq1ooC8zLhyOlOqw==",
+  "dgSpecHash": "R0RGQTnjz0mddAkfIYPUIJWQIQGLY2E0FP8thAYNndVscgBWpUb7MDIBEEOMFVVQaDdOqTLgCGSd8zXMSa/dOQ==",
   "success": true,
-  "projectFilePath": "D:\\开发项目\\Chat\\Chat.Uitl\\Chat.Uitl.csproj",
+  "projectFilePath": "D:\\pr\\new-chat\\Chat.Uitl\\Chat.Uitl.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\aliyun.oss.sdk.netcore\\2.13.0\\aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\csrediscore\\3.6.6\\csrediscore.3.6.6.nupkg.sha512",
@@ -38,7 +38,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\system.security.permissions\\4.5.0\\system.security.permissions.4.5.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

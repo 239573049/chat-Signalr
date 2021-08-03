@@ -4,47 +4,26 @@
         <name>Chat.Web</name>
     </assembly>
     <members>
-        <member name="T:Chat.Web.Controllers.AccountController">
-            <summary>
-            账号接口
-            </summary>
-        </member>
-        <member name="M:Chat.Web.Controllers.AccountController.CreateAccount(Chat.Application.Dto.AccountDto)">
-            <summary>
-            新增账号
-            </summary>
-            <param name="account"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Chat.Web.Controllers.AccountController.FreezeAccount(System.Collections.Generic.List{System.Guid},System.DateTime)">
-            <summary>
-            封禁账号
-            </summary>
-            <param name="ids"></param>
-            <param name="time">封至时间</param>
-            <returns></returns>
-        </member>
-        <member name="M:Chat.Web.Controllers.AccountController.GetAccountList(System.String,System.SByte,System.Int32,System.Int32)">
-            <summary>
-            获取用户列表
-            </summary>
-            <param name="name"></param>
-            <param name="status"></param>
-            <param name="pageNo"></param>
-            <param name="pageSize"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Chat.Web.Controllers.AccountController.GetAccountName(System.String)">
-            <summary>
-            获取用户账号
-            </summary>
-            <param name="accountNumber"></param>
-            <returns></returns>
-        </member>
         <member name="T:Chat.Web.Controllers.CreateFriendsController">
             <summary>
             添加申请好友
             </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.CreateFriendsController.ChangeCreateFriends(System.Guid,Chat.Code.DbEnum.CreateFriendsEnum)">
+            <summary>
+            通过或拒绝好友申请
+            </summary>
+            <param name="id"></param>
+            <param name="create"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.CreateFriendsController.GetCreateFriendsDtos(System.Int32,System.Int32)">
+            <summary>
+            获取好友申请列表信息
+            </summary>
+            <param name="pageNo"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
         </member>
         <member name="T:Chat.Web.Controllers.FileController">
             <summary>
@@ -63,15 +42,55 @@
             好友列表
             </summary>
         </member>
+        <member name="M:Chat.Web.Controllers.FriendsController.GetFriendsDtos">
+            <summary>
+            获取好友列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.FriendsController.DeleteFriends(System.Guid)">
+            <summary>
+            删除好友
+            </summary>
+            <param name="friendId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.GroupDataController">
             <summary>
             群
             </summary>
         </member>
+        <member name="M:Chat.Web.Controllers.GroupDataController.CreateGroupData(Chat.Application.Dto.GroupsDto.GroupDataDto)">
+            <summary>
+            创建群
+            </summary>
+            <param name="group"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.GroupDataController.DeleteGroupData(System.Guid)">
+            <summary>
+            删除群
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.GroupDataController.GetGroup(System.Guid)">
+            <summary>
+            获取群信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.GroupMembersController">
             <summary>
             群列表
             </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.GroupMembersController.GetGroupMembersList">
+            <summary>
+            获取群列表
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Chat.Web.Controllers.LoginController">
             <summary>
@@ -105,6 +124,43 @@
             <summary>
             获取服务器信息
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.UserController">
+            <summary>
+            账号接口
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.CreateUser(Chat.Application.Dto.UserDto)">
+            <summary>
+            新增账号
+            </summary>
+            <param name="User"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.FreezeUser(System.Collections.Generic.List{System.Guid},System.DateTime)">
+            <summary>
+            封禁账号
+            </summary>
+            <param name="ids"></param>
+            <param name="time">封至时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.GetUserList(System.String,System.SByte,System.Int32,System.Int32)">
+            <summary>
+            获取用户列表
+            </summary>
+            <param name="name"></param>
+            <param name="status"></param>
+            <param name="pageNo"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.GetUserName(System.String)">
+            <summary>
+            获取用户账号
+            </summary>
+            <param name="UserNumber"></param>
             <returns></returns>
         </member>
         <member name="T:Chat.Web.Controllers.UtilController">

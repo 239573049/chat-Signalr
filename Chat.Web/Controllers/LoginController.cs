@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Chat.Application.AppServices.UserService;
 using Chat.Code.DbEnum;
-using Chat.Code.Entities.User;
+using Chat.Code.Entities.Users;
 using Chat.Uitl.Util;
 using Chat.Web.Code;
 using System;
@@ -23,19 +23,19 @@ namespace Chat.Web.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IAccountService accountService;
+        private readonly IUserService UserService;
         private readonly IRedisUtil redisUtil;
         private readonly IPrincipalAccessor principalAccessor;
         public LoginController(
             IMapper mapper,
             IRedisUtil redisUtil,
-            IAccountService accountService,
+            IUserService UserService,
             IPrincipalAccessor principalAccessor
             )
         {
             this.mapper = mapper;
             this.redisUtil = redisUtil;
-            this.accountService = accountService;
+            this.UserService = UserService;
             this.principalAccessor = principalAccessor;
         }
         /// <summary>
@@ -43,9 +43,9 @@ namespace Chat.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Register(string accountNumber,string passWord)
+        public async Task<IActionResult> Register(string UserNumber,string passWord)
         {
-            var data =await accountService.GetAccount(accountNumber);
+            var data =await UserService.GetUser(UserNumber);
             if (data.PassWrod != passWord) return new ModelStateResult("账号或者密码错误");
             switch (data.Status)
             {

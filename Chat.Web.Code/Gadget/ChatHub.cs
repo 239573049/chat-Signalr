@@ -1,4 +1,6 @@
-﻿using Chat.Web.Code.Model.ChatVM;
+﻿using Chat.Application.AppServices.UserService;
+using Chat.Code.DbEnum;
+using Chat.Web.Code.Model.ChatVM;
 using Cx.NetCoreUtils.Exceptions;
 using Cx.NetCoreUtils.HttpContext;
 using Microsoft.AspNetCore.SignalR;
@@ -12,19 +14,22 @@ namespace Chat.Web.Code.Gadget
     [Authorization]
     public class ChatHub : Hub
     {
+        private readonly IUserService userService;
         private readonly IPrincipalAccessor principalAccessor;
         public static ConcurrentDictionary<Guid, string> UserData = new ConcurrentDictionary<Guid, string>();
         public ChatHub(
+            IUserService userService,
             IPrincipalAccessor principalAccessor
             )
         {
+            this.userService = userService;
             this.principalAccessor = principalAccessor;
         }
         public override async Task OnConnectedAsync()
         {
             var userId = principalAccessor.ID;
-            if (userId == Guid.Empty) throw new BusinessLogicException(401, "未获取到登录用户的相关信息请先登录");
             UserData.AddOrUpdate(userId, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
+            await userService.UseState(userId,UseStateEnume.OnLine);
             await base.OnConnectedAsync();
         }
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -32,6 +37,7 @@ namespace Chat.Web.Code.Gadget
             var userId = principalAccessor.ID;
             if (userId != Guid.Empty) {
                 UserData.Remove(userId, out string connectionId);
+                await userService.UseState(userId, UseStateEnume.OffLine);
             }
             await base.OnDisconnectedAsync(exception);
         }

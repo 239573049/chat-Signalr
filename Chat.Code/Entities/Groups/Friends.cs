@@ -1,11 +1,6 @@
-﻿using Chat.Code.Entities.User;
+﻿using Chat.Code.Entities.Users;
 using Chat.Core.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Chat.Code.Entities.Groups
 {
     /// <summary>
@@ -25,7 +20,7 @@ namespace Chat.Code.Entities.Groups
         /// 好友id
         /// </summary>
         public Guid FriendId { get; set; }
-        public Account Self { get; set; }
-        public Account Friend { get; set; }
+        public User Self { get; set; }
+        public User Friend { get; set; }
     }
 }

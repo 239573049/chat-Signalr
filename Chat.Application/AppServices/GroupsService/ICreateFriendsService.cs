@@ -24,7 +24,7 @@ namespace Chat.Application.AppServices.GroupsService
         /// <returns></returns>
         Task<CreateFriendsDto> GetCreateFriends(Guid id);
         Task<Guid> CreateCreateFriends(CreateFriendsDto create);
-        Task<List<CreateFriendsDto>> GetCreateFriendsDtos(Guid userId);
+        Task<Tuple<List<CreateFriendsDto>, int>> GetCreateFriendsDtos(Guid userId, int pageNo = 1, int pageSize = 20);
         Task<bool> ChangeCreateFriends(Guid id,CreateFriendsEnum create);
     }
     public class CreateFriendsService:BaseService<CreateFriends>,ICreateFriendsService
@@ -68,10 +68,10 @@ namespace Chat.Application.AppServices.GroupsService
             return mapper.Map<CreateFriendsDto>(friends);
         }
 
-        public async Task<List<CreateFriendsDto>> GetCreateFriendsDtos(Guid userId)
+        public async Task<Tuple<List<CreateFriendsDto>,int>> GetCreateFriendsDtos(Guid userId,int pageNo=1,int pageSize=20)
         {
-            var data =await currentRepository.FindAll(a => a.InitiatorId == userId || a.BeInvitedId == userId).ToListAsync();
-            return mapper.Map<List<CreateFriendsDto>>(data);
+            var data =await currentRepository.GetPageAsync(a => a.InitiatorId == userId || a.BeInvitedId == userId,a=>a.CreatedTime,pageNo,pageSize,true);
+            return mapper.Map<Tuple<List<CreateFriendsDto>, int>>(data);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Chat.Web.Controllers
         [HttpGet]
         public IActionResult OSVersion()
         {
-            return new OkObjectResult(new { MemInfo= ServerConfig.ReadMemInfo(),Cpu= CPULinuxLoadValue.QUERY_CPULOAD(false) });
+            return new OkObjectResult(new { MemInfo = ServerConfig.ReadMemInfo(), Cpu = CPULinuxLoadValue.QUERY_CPULOAD(false) });
         }
     }
 }
