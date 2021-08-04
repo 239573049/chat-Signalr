@@ -72,7 +72,12 @@ namespace Chat.Application.AppServices.UserService
         /// <param name="useState"></param>
         /// <returns></returns>
         Task UseState(Guid id, UseStateEnume useState);
-
+        /// <summary>
+        /// 管理员编辑用户
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> UpdatesUsers(UserDto user);
 
     }
     public class UserService : BaseService<User>, IUserService
@@ -145,7 +150,7 @@ namespace Chat.Application.AppServices.UserService
         {
             var updates = new List<User>();
             var data =await currentRepository
-                .GetPageAsync(a=>string.IsNullOrEmpty(name)||a.Name.ToLower().Contains(name.ToLower()) && status==-1|| a.Status==(StatusEnum)status,a=>a.CreatedTime,pageNo,pageSize,true);
+                .GetPageAsync(a=>(status==-1?true:a.Status==(StatusEnum)status)&& (string.IsNullOrEmpty(name) ? true : a.Name.ToLower().Contains(name.ToLower())) , a=>a.CreatedTime,pageNo,pageSize,true);
             var now = DateTime.Now;
             foreach (var d in data.Item1)
             {
@@ -173,6 +178,21 @@ namespace Chat.Application.AppServices.UserService
             data.ForEach(a => { a.Status = StatusEnum.Start; a.Freezetime = null; });
             currentRepository.UpdateMany(data);
             return (await unitOfWork.SaveChangesAsync()) > 0;
+        }
+
+        public async Task<bool> UpdatesUsers(UserDto user)
+        {
+            var data =await currentRepository.FindAll(a => a.Id == user.Id||user.UserNumber==a.UserNumber).ToListAsync();
+            var isUserNumber = data.FirstOrDefault(a => a.UserNumber == user.UserNumber&&a.Id!=user.Id);
+            if (isUserNumber != null) throw new BusinessLogicException("用户名已经存在请重新编辑");
+            var userData = data.FirstOrDefault(a => a.Id == user.Id);
+            if (userData == null) throw new BusinessLogicException("用户不存在或者已被删除");
+            userData.Name = user.Name;
+            userData.UserNumber = user.UserNumber;
+            userData.Status = user.Status;
+            if (user.Status == StatusEnum.Freeze) userData.Freezetime = user.Freezetime;
+            currentRepository.Update(userData);
+            return (await unitOfWork.SaveChangesAsync())>0;
         }
 
         public async  Task<bool> UpdateUser(UserDto User)
