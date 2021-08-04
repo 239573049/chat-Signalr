@@ -8,9 +8,6 @@
       <string>d:\开发项目\chat\Chat.Code\Entities\Groups\CreateFriends.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Web\Controllers\SystemController.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>d:\开发项目\chat\Chat.Web.Code\Model\ChatVM\SystemMassageVM.cs</string>
     </ArrayOfString>
     <ArrayOfString>
@@ -18,9 +15,6 @@
     </ArrayOfString>
     <ArrayOfString>
       <string>d:\开发项目\chat\Chat.EntityFrameworkCore\Core\UnitOfWork.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Web.Code\Gadget\SystemUtil.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>d:\开发项目\chat\Chat.Web.Code\Model\SystemVM\SystemDataVM.cs</string>
@@ -32,55 +26,46 @@
       <string>d:\开发项目\chat\Chat.Code\Entities\Groups\GroupData.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Code\Entities\User\Account.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Web\Controllers\AccountController.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>d:\开发项目\chat\Chat.Application\AppServices\GroupsService\IGroupDataService.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Application\MapperProfile.cs</string>
+      <string>d:\开发项目\chat\Chat.Uitl\Util\ServerConfig.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Web.Code\Gadget\ChatHub.cs</string>
+      <string>d:\开发项目\chat\Chat.Uitl\Util\CPULinuxLoadValue.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Web\Startup.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\UtilController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\LoginController.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\GroupMembersController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web.Code\Middleware\CurrentLimiting.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\GroupDataController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Uitl\Util\ServerConfig.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\FriendsController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Uitl\Util\CPULinuxLoadValue.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\FileController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>Chat.Web: 发布</string>
+      <string>D:\开发项目\Chat\Chat.Web\Controllers\HubController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\UtilController.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\SystemController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\GroupMembersController.cs</string>
+      <string>D:\开发项目\Chat\Chat.Web.Code\AutoMapper\AutoMapperProfile.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\GroupDataController.cs</string>
+      <string>D:\开发项目\Chat\Chat.Web\Controllers\UserController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\FriendsController.cs</string>
+      <string>D:\开发项目\Chat\Chat.Application\AppServices\UserService\IUserService.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\FileController.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\CreateFriendsController.cs</string>
+      <string>D:\开发项目\Chat\Chat.Uitl\Util\PrincipalAccessor.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

@@ -18,7 +18,8 @@ namespace Merchants.Ams.Application
             #region domain to dto
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.StatusCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.Status)))
-                .ForMember(dest => dest.UseStateCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.UseState)));
+                .ForMember(dest => dest.UseStateCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.UseState)))
+                .ForMember(dest => dest.PowerCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.Power)));
             CreateMap<GroupData, GroupDataDto>();
             CreateMap<GroupMembers, GroupMembersDto>();
             CreateMap<Friends, FriendsDto>();

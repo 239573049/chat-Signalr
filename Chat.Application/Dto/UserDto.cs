@@ -41,6 +41,10 @@ namespace Chat.Application.Dto
         /// </summary>
         public PowerEnum Power { get; set; }
         /// <summary>
+        /// 权限区分
+        /// </summary>
+        public string PowerCode { get; set; }
+        /// <summary>
         /// 冻结时间
         /// </summary>
         public DateTime? Freezetime { get; set; }

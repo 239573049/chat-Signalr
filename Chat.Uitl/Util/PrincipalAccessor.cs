@@ -42,8 +42,8 @@ namespace Chat.Uitl.Util
 
         public async Task<T> GetUser<T>()
         {
-            accessor.HttpContext.Request.Cookies.TryGetValue("Authorization", out string authorization);
-            if (string.IsNullOrEmpty(authorization)) throw new BusinessLogicException("请先登录账号");
+            string authorization = accessor.HttpContext.Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(authorization)) throw new BusinessLogicException(401,"请先登录账号");
             var user = await redisUtil.GetAsync<T>(authorization);
             if (user == null) throw new BusinessLogicException(401,"请先登录账号");
             return user;

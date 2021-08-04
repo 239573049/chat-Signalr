@@ -58,8 +58,6 @@ namespace Chat.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var csredis = new CSRedisClient(Configuration["ConnectionString:Redis"]);
-            RedisHelper.Initialization(csredis);
             services.AddSingleton(new AppSettings(Env.ContentRootPath)); 
             services.AddDbContext<MasterDbContext>(option => option.UseMySql(Configuration["ConnectionString:Default"].MD5Decrypt(), new MySqlServerVersion(new Version(5, 7, 29))));
             services.AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
@@ -73,6 +71,8 @@ namespace Chat.Web
             services.AddSwaggerSetup("1.0.0.1", "Chat API", "Chat Web API", new Contact { Email = "239573049@qq.com", Name = "xiaohu", Url = new System.Uri("https://github.com/239573049") });
             services.AddAutoMapperSetup("Chat.Application", "Chat.Web.Code");
             services.AddHttpContext();
+            var csredis = new CSRedisClient(Configuration["ConnectionString:Redis"]);
+            RedisHelper.Initialization(csredis);
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(GlobalExceptionsFilter));

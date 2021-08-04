@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 using Chat.Application.Dto;
 using Chat.Web.Code.Model;
 using Chat.Web.Code;
+using Chat.Uitl.Util;
+using Cx.NetCoreUtils.Exceptions;
+using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
+using Cx.NetCoreUtils.Extensions;
 
 namespace Chat.Web.Controllers
 {
@@ -23,13 +27,16 @@ namespace Chat.Web.Controllers
     {
         private readonly IMapper mapper;
         private readonly IUserService UserService;
+        private readonly IPrincipalAccessor principalAccessor;
         public UserController(
             IMapper mapper,
-            IUserService UserService
+            IUserService UserService,
+            IPrincipalAccessor principalAccessor
             )
         {
             this.mapper = mapper;
             this.UserService = UserService;
+            this.principalAccessor = principalAccessor;
         }
         /// <summary>
         /// 新增账号
@@ -62,6 +69,8 @@ namespace Chat.Web.Controllers
         [HttpGet]
         public async Task<PeddleDataResponse<IList<UserDto>>> GetUserList(string name,sbyte status=-1, int pageNo = 1, int pageSize = 20)
         {
+            var userDto =await principalAccessor.GetUser<UserDto>();
+            if (userDto.Power != PowerEnum.Manage) throw new BusinessLogicException("权限不足，请联系管理员");
             var data = await UserService.GetUserList(name, status, pageNo, pageSize);
             return new PeddleDataResponse<IList<UserDto>>(SerialNumber.GetList(data.Item1, pageNo, pageSize), data.Item2);
         }
@@ -87,7 +96,14 @@ namespace Chat.Web.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<bool> UpdatesUsers(UserDto user) =>
-            await UserService.UpdatesUsers(user);
+        public async Task<IActionResult> UpdatesUsers(UserDto user)
+        {
+            var userDto = await principalAccessor.GetUser<UserDto>();
+            if (userDto.Power != PowerEnum.Manage) throw new BusinessLogicException("权限不足，请联系管理员");
+            if (user.PassWrod.Length < 5) return new ModelStateResult("密码长度不能小于五位");
+            if (user.UserNumber.Length < 5) return new ModelStateResult("用户名长度不能小于五位");
+            user.PassWrod = user.PassWrod.MD5Encrypt();
+            return new OkObjectResult(await UserService.UpdatesUsers(user)?"编辑成功":"编辑失败");
+        }
     }
 }

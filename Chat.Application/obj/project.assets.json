@@ -2968,19 +2968,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {}
+    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\pr\\new-chat\\Chat.Application\\Chat.Application.csproj",
+      "projectUniqueName": "D:\\开发项目\\Chat\\Chat.Application\\Chat.Application.csproj",
       "projectName": "Chat.Application",
-      "projectPath": "D:\\pr\\new-chat\\Chat.Application\\Chat.Application.csproj",
+      "projectPath": "D:\\开发项目\\Chat\\Chat.Application\\Chat.Application.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\pr\\new-chat\\Chat.Application\\obj\\",
+      "outputPath": "D:\\开发项目\\Chat\\Chat.Application\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2994,14 +3001,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj": {
-              "projectPath": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj"
+            "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj": {
+              "projectPath": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj"
             },
-            "D:\\pr\\new-chat\\Chat.EntityFrameworkCore\\Chat.EntityFrameworkCore.csproj": {
-              "projectPath": "D:\\pr\\new-chat\\Chat.EntityFrameworkCore\\Chat.EntityFrameworkCore.csproj"
+            "D:\\开发项目\\Chat\\Chat.EntityFrameworkCore\\Chat.EntityFrameworkCore.csproj": {
+              "projectPath": "D:\\开发项目\\Chat\\Chat.EntityFrameworkCore\\Chat.EntityFrameworkCore.csproj"
             },
-            "D:\\pr\\new-chat\\Chat.Uitl\\Chat.Uitl.csproj": {
-              "projectPath": "D:\\pr\\new-chat\\Chat.Uitl\\Chat.Uitl.csproj"
+            "D:\\开发项目\\Chat\\Chat.Uitl\\Chat.Uitl.csproj": {
+              "projectPath": "D:\\开发项目\\Chat\\Chat.Uitl\\Chat.Uitl.csproj"
             }
           }
         }
@@ -3040,7 +3047,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

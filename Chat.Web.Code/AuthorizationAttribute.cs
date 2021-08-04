@@ -15,8 +15,8 @@ namespace Chat.Web.Code
         public override void OnActionExecuting(ActionExecutingContext httpContext)
         {
 
-            httpContext.HttpContext.Request.Cookies.TryGetValue("Authorization", out string authorization);
-            if(string.IsNullOrEmpty(authorization)) throw new BusinessLogicException(401, "请先登录账号");
+            string authorization = httpContext.HttpContext.Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(authorization)) throw new BusinessLogicException(401, "请先登录账号");
             var path = httpContext.HttpContext.Request.Path.Value;
             var userDto = new RedisUtil().Get<UserDto>(authorization);
             if (userDto == null) throw new BusinessLogicException(401, "请先登录账号");

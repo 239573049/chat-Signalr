@@ -37,8 +37,8 @@ namespace Chat.Web.Controllers
                 endpoint = AppSettings.App("oss:endpoint"),
                 path = AppSettings.App("oss:path")
             };
-            var data = await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream());
-            return new OkObjectResult(new { path =$"{oss.path}/{data}",key= data });
+            var datas = await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream());
+            return new OkObjectResult(new { path =$"{oss.path}/{datas}",key= datas });
         }
 
     }
