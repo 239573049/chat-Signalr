@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/VnxiBgxO8oRnzSPODNlZrrnhSQ2yHQX2nnMW+wEFeGvrXIGex0UB3kiBQgcwi0HD1wJt6shBCW7IJFySP2t+Q==",
+  "dgSpecHash": "JJJx/M/Y9HWMsGeapPwEEfsZHftH9AeNqrOLQLCEDWLBrzoH08btBQOnzHZH5P0E4GKQcAXcdGMwXvgStd4k1Q==",
   "success": true,
-  "projectFilePath": "D:\\开发项目\\Chat\\Chat.Application\\Chat.Application.csproj",
+  "projectFilePath": "D:\\pr\\new-chat\\Chat.Application\\Chat.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\aliyun.oss.sdk.netcore\\2.13.0\\aliyun.oss.sdk.netcore.2.13.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
@@ -77,7 +77,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
   "logs": []

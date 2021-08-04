@@ -175,6 +175,20 @@
             <param name="UserNumber"></param>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.UserController.UpdateUser(Chat.Application.Dto.UserDto)">
+            <summary>
+            编辑用户
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.UpdatesUsers(Chat.Application.Dto.UserDto)">
+            <summary>
+            管理员编辑用户
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.UtilController">
             <summary>
             工具

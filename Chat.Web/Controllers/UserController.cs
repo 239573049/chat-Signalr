@@ -73,5 +73,21 @@ namespace Chat.Web.Controllers
         [HttpGet]
         public async Task<UserDto> GetUserName(string UserNumber) =>
             await UserService.GetUser(UserNumber);
+        /// <summary>
+        /// 编辑用户
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<bool> UpdateUser(UserDto user) =>
+            await UserService.UpdateUser(user);
+        /// <summary>
+        /// 管理员编辑用户
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<bool> UpdatesUsers(UserDto user) =>
+            await UserService.UpdatesUsers(user);
     }
 }
