@@ -170,7 +170,9 @@ namespace Chat.Application.AppServices.UserService
                 currentRepository.UpdateMany(updates);
                 await unitOfWork.SaveChangesAsync();
             }
-            return new Tuple<IList<UserDto>,int>(mapper.Map<IList<UserDto>>(data.Item1),data.Item2);
+            var datas = mapper.Map<List<UserDto>>(data.Item1);
+            datas.ForEach(a=>a.PassWrod=a.PassWrod.MD5Decrypt());
+            return new Tuple<IList<UserDto>,int>(datas, data.Item2);
         }
         public async Task<bool> ThawUser(List<Guid> ids)
         {
@@ -188,6 +190,7 @@ namespace Chat.Application.AppServices.UserService
             var userData = data.FirstOrDefault(a => a.Id == user.Id);
             if (userData == null) throw new BusinessLogicException("用户不存在或者已被删除");
             userData.Name = user.Name;
+            userData.PassWrod = user.PassWrod;
             userData.UserNumber = user.UserNumber;
             userData.Status = user.Status;
             if (user.Status == StatusEnum.Freeze) userData.Freezetime = user.Freezetime;

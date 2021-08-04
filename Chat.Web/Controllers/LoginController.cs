@@ -54,7 +54,7 @@ namespace Chat.Web.Controllers
                 case StatusEnum.Freeze:
                     return new ModelStateResult($"账号已冻结至{(DateTime)data.Freezetime:yyyy-MM-dd HH:mm:ss}");
             }
-            var token = StringUtil.GetString(50);
+            var token = StringUtil.GetString(54);
             await redisUtil.SetAsync(token, data,DateTime.Now.AddMinutes(30));
             HttpContext.Response.Cookies.Append("id",$"{data.Id}");
             return new OkObjectResult(new { token,user=data});
@@ -77,7 +77,7 @@ namespace Chat.Web.Controllers
         public async Task<IActionResult> Exit()
         {
             var token = principalAccessor.GetToken();
-            return new OkObjectResult( await redisUtil.DeleteAsync(token));
+            return new OkObjectResult( await redisUtil.DeleteAsync(token)?"退出登录成功": "退出登录失败");
         }
     }
 }

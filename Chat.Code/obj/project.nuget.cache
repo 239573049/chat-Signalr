@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3yzhyT1l+713HpFz/z2+h3MqwdT6TY0nTae5WAkn8c/ywNHZmPrtI33wN7ZcV2NwlUJuGtzKo0nYVgjLm1Ek5A==",
+  "dgSpecHash": "3aNd5LnGvLZ9avkyUzK1Cn8DD1oyBwuKnbqU0+G+WCu7UEfSQe2Sy+eeNa5VadU18NZgJlavzNxeadh22U+nYQ==",
   "success": true,
-  "projectFilePath": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj",
+  "projectFilePath": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.7\\microsoft.entityframeworkcore.5.0.7.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.7\\microsoft.entityframeworkcore.abstractions.5.0.7.nupkg.sha512",
