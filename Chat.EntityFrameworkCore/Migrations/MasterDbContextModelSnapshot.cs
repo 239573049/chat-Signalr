@@ -223,6 +223,9 @@ namespace Chat.EntityFrameworkCore.Migrations
                     b.Property<string>("HeadPortrait")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("HeadPortraitKey")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 

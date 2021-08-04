@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Cx.NetCoreUtils.Extensions;
 using Chat.Application.Dto;
+using Chat.Uitl.Util;
+using Cx.NetCoreUtils.Common;
 
 namespace Chat.Application.AppServices.UserService
 {
@@ -78,6 +80,7 @@ namespace Chat.Application.AppServices.UserService
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> UpdatesUsers(UserDto user);
+        Task<bool> DeleteUserList(List<Guid> ids);
 
     }
     public class UserService : BaseService<User>, IUserService
@@ -109,8 +112,33 @@ namespace Chat.Application.AppServices.UserService
         {
             var data =await currentRepository.FindAsync(id);
             if (data == null) throw new BusinessLogicException("用户不存在或者已被删除");
+            Oss oss = new()
+            {
+                accessKeyId = AppSettings.App("oss:accessKeyId"),
+                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
+                bucketName = AppSettings.App("oss:bucketName"),
+                endpoint = AppSettings.App("oss:endpoint"),
+                path = AppSettings.App("oss:path")
+            };
+            await oss.DeleteFile(data.HeadPortraitKey);
             await currentRepository.Delete(id);
             return (await unitOfWork.SaveChangesAsync()) > 0;
+        }
+
+        public async Task<bool> DeleteUserList(List<Guid> ids)
+        {
+            var key =await currentRepository.FindAll(a=>ids.Contains(a.Id)).Select(a => a.HeadPortraitKey).ToListAsync();
+            Oss oss = new()
+            {
+                accessKeyId = AppSettings.App("oss:accessKeyId"),
+                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
+                bucketName = AppSettings.App("oss:bucketName"),
+                endpoint = AppSettings.App("oss:endpoint"),
+                path = AppSettings.App("oss:path")
+            };
+            oss.DeletesFile(key);
+            await currentRepository.DeleteMany(ids);
+            return (await unitOfWork.SaveChangesAsync())>0;
         }
 
         public async Task<bool> FreezeUser(List<Guid> ids, DateTime time)
@@ -150,7 +178,7 @@ namespace Chat.Application.AppServices.UserService
         {
             var updates = new List<User>();
             var data =await currentRepository
-                .GetPageAsync(a=>(status==-1?true:a.Status==(StatusEnum)status)&& (string.IsNullOrEmpty(name) ? true : a.Name.ToLower().Contains(name.ToLower())) , a=>a.CreatedTime,pageNo,pageSize,true);
+                .GetPageAsync(a=>(status==-1 || a.Status==(StatusEnum)status)&& (string.IsNullOrEmpty(name) || a.Name.ToLower().Contains(name.ToLower()))||a.UserNumber.ToLower().Contains(a.Name.ToLower()) , a=>a.CreatedTime,pageNo,pageSize,true);
             var now = DateTime.Now;
             foreach (var d in data.Item1)
             {
@@ -193,7 +221,9 @@ namespace Chat.Application.AppServices.UserService
             userData.PassWrod = user.PassWrod;
             userData.UserNumber = user.UserNumber;
             userData.Status = user.Status;
-            if (user.Status == StatusEnum.Freeze) userData.Freezetime = user.Freezetime;
+            userData.Power = user.Power;
+            userData.Freezetime = user.Freezetime;
+            if (userData.Status != StatusEnum.Freeze) userData.Freezetime = null;
             currentRepository.Update(userData);
             return (await unitOfWork.SaveChangesAsync())>0;
         }

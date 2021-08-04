@@ -21,10 +21,10 @@ namespace Chat.Web.Controllers
         /// 获取服务器信息
         /// </summary>
         /// <returns></returns>
-        //[HttpGet]
-        //public IActionResult OSVersion()
-        //{
-        //    return new OkObjectResult(new { MemInfo = ServerConfig.ReadMemInfo(), Cpu = CPULinuxLoadValue.QUERY_CPULOAD(false) });
-        //}
+        [HttpGet]
+        public IActionResult OSVersion()
+        {
+            return new OkObjectResult(new { MemInfo = ServerConfig.ReadMemInfo(), Cpu = CPULinuxLoadValue.QUERY_CPULOAD(false) });
+        }
     }
 }

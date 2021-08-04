@@ -1,25 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj": {}
+    "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj": {}
   },
   "projects": {
-    "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj": {
+    "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj",
+        "projectUniqueName": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj",
         "projectName": "Chat.Code",
-        "projectPath": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj",
+        "projectPath": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\开发项目\\Chat\\Chat.Code\\obj\\",
+        "outputPath": "D:\\pr\\new-chat\\Chat.Code\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -65,7 +60,12 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "linux-x64": {
+          "#import": []
         }
       }
     }
