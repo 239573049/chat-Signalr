@@ -30,5 +30,21 @@ namespace Chat.Web.Code.EnumWeb
             /// </summary>
             Video
         }
+        public  enum ChatSystemEnum 
+        { 
+            /// <summary>
+            /// 系统信息
+            /// </summary>
+            SystemData,
+            /// <summary>
+            /// 系统提示
+            /// </summary>
+            SystemPrompt,
+            /// <summary>
+            /// 系统信息
+            /// </summary>
+            Systemmessage
+
+        }
     }
 }

@@ -117,6 +117,17 @@
             <param name="message"></param>
             <returns></returns>
         </member>
+        <member name="T:Chat.Web.Controllers.JobsController">
+            <summary>
+            定时器调试
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.JobsController.Demo">
+            <summary>
+            启动系统信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.LoginController">
             <summary>
             登录接口
@@ -139,11 +150,6 @@
             退出登录
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:Chat.Web.Controllers.SystemController">
-            <summary>
-            系统信息接口
-            </summary>
         </member>
         <member name="T:Chat.Web.Controllers.UserController">
             <summary>

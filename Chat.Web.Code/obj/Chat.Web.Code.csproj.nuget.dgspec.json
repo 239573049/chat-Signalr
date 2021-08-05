@@ -76,11 +76,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
         }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
-        }
       }
     },
     "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj": {
@@ -140,11 +135,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
         }
       }
     },
@@ -232,11 +222,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
         }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
-        }
       }
     },
     "D:\\pr\\new-chat\\Chat.Uitl\\Chat.Uitl.csproj": {
@@ -319,6 +304,14 @@
               "target": "Package",
               "version": "[2.5.3, )"
             },
+            "System.Diagnostics.PerformanceCounter": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "System.Management": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "log4net": {
               "target": "Package",
               "version": "[2.0.12, )"
@@ -340,11 +333,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
         }
       }
     },
@@ -411,6 +399,10 @@
               "target": "Package",
               "version": "[1.1.0, )"
             },
+            "Quartz": {
+              "target": "Package",
+              "version": "[3.3.3, )"
+            },
             "log4net": {
               "target": "Package",
               "version": "[2.0.12, )"
@@ -432,11 +424,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "linux-x64": {
-          "#import": []
         }
       }
     }

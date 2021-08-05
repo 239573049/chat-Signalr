@@ -26,6 +26,8 @@ using Chat.Uitl.Util;
 using Chat.Web.Code.Middleware;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Chat.Web.Code.Gadget;
+using Quartz.Impl;
+using Quartz;
 
 namespace Chat.Web
 {
@@ -66,6 +68,7 @@ namespace Chat.Web
             services.AddTransient(typeof(IPrincipalAccessor), typeof(PrincipalAccessor));
             services.AddAuthenticationSetup();
             services.AddCorsSetup();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             services.AddSignalR();
             services.AddMemoryCache();
             services.AddSwaggerSetup("1.0.0.1", "Chat API", "Chat Web API", new Contact { Email = "239573049@qq.com", Name = "xiaohu", Url = new System.Uri("https://github.com/239573049") });
