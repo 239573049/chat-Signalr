@@ -47,25 +47,28 @@
       <string>d:\开发项目\chat\Chat.Web\Controllers\FriendsController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>d:\开发项目\chat\Chat.Web\Controllers\FileController.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\HubController.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\HubController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>d:\开发项目\chat\Chat.Web\Controllers\SystemController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web.Code\AutoMapper\AutoMapperProfile.cs</string>
+      <string>d:\开发项目\chat\Chat.Web.Code\AutoMapper\AutoMapperProfile.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Web\Controllers\UserController.cs</string>
+      <string>d:\开发项目\chat\Chat.Web\Controllers\UserController.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Application\AppServices\UserService\IUserService.cs</string>
+      <string>d:\开发项目\chat\Chat.Application\AppServices\UserService\IUserService.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\开发项目\Chat\Chat.Uitl\Util\PrincipalAccessor.cs</string>
+      <string>D:\开发项目\Chat\Chat.Web\Startup.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\开发项目\Chat\Chat.Web\Controllers\FileController.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\开发项目\Chat\Chat.Web\Controllers\CreateFriendsController.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
