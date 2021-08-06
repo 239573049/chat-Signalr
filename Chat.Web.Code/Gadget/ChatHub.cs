@@ -20,6 +20,7 @@ namespace Chat.Web.Code.Gadget
         private readonly IUserService userService;
         private readonly IPrincipalAccessor principalAccessor;
         public static ConcurrentDictionary<Guid, string> UserData = new ConcurrentDictionary<Guid, string>();
+
         public ChatHub(
             IUserService userService,
             IPrincipalAccessor principalAccessor

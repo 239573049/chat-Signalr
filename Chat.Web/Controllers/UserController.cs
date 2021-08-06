@@ -15,6 +15,7 @@ using Chat.Uitl.Util;
 using Cx.NetCoreUtils.Exceptions;
 using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
 using Cx.NetCoreUtils.Extensions;
+using Org.BouncyCastle.Crypto;
 
 namespace Chat.Web.Controllers
 {
@@ -48,6 +49,37 @@ namespace Chat.Web.Controllers
         {
             return await UserService.CreateUser(User);
         }
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<bool> DeleteUser(Guid id)
+        {
+            var userDto =await principalAccessor.GetUser<UserDto>();
+            if (userDto.Power != PowerEnum.Manage) throw new BusinessLogicException("权限不足，请联系管理员");
+            if (userDto.Id == id) throw new BusinessLogicException("无法删除本账号");
+            return await UserService.DeleteUser(id);
+        }
+        /// <summary>
+        /// 批量删除账号
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<bool> DeleteUserList(List<Guid> ids)
+        {
+            var userDto = await principalAccessor.GetUser<UserDto>();
+            if (userDto.Power != PowerEnum.Manage) throw new BusinessLogicException("权限不足，请联系管理员");
+            var isUser = ids.FirstOrDefault(a=>a==userDto.Id);
+            if (isUser!=Guid.Empty) 
+            {
+                ids.Remove(isUser);
+            }
+            return await UserService.DeleteUserList(ids);
+        }
+
         /// <summary>
         /// 封禁账号
         /// </summary>

@@ -37,6 +37,13 @@
             <param name="file"></param>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.FileController.DeleteFile(System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.FriendsController">
             <summary>
             好友列表
@@ -110,6 +117,17 @@
             <param name="message"></param>
             <returns></returns>
         </member>
+        <member name="T:Chat.Web.Controllers.JobsController">
+            <summary>
+            定时器调试
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.JobsController.Demo">
+            <summary>
+            启动系统信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.LoginController">
             <summary>
             登录接口
@@ -133,11 +151,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Chat.Web.Controllers.SystemController">
-            <summary>
-            系统信息接口
-            </summary>
-        </member>
         <member name="T:Chat.Web.Controllers.UserController">
             <summary>
             账号接口
@@ -148,6 +161,20 @@
             新增账号
             </summary>
             <param name="User"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.DeleteUser(System.Guid)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.DeleteUserList(System.Collections.Generic.List{System.Guid})">
+            <summary>
+            批量删除账号
+            </summary>
+            <param name="ids"></param>
             <returns></returns>
         </member>
         <member name="M:Chat.Web.Controllers.UserController.FreezeUser(System.Collections.Generic.List{System.Guid},System.DateTime)">

@@ -34,6 +34,10 @@ namespace Chat.Code.Entities.Users
         /// </summary>
         public string HeadPortrait { get; set; }
         /// <summary>
+        /// 头像路径key
+        /// </summary>
+        public string HeadPortraitKey { get; set; }
+        /// <summary>
         /// 权限区分
         /// </summary>
         public PowerEnum Power { get; set; }

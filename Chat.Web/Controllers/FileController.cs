@@ -40,6 +40,23 @@ namespace Chat.Web.Controllers
             var datas = await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream());
             return new OkObjectResult(new { path =$"{oss.path}/{datas}",key= datas });
         }
-
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFile(string key)
+        {
+            Oss oss = new()
+            {
+                accessKeyId = AppSettings.App("oss:accessKeyId"),
+                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
+                bucketName = AppSettings.App("oss:bucketName"),
+                endpoint = AppSettings.App("oss:endpoint"),
+                path = AppSettings.App("oss:path")
+            };
+            return new OkObjectResult(await oss.DeleteFile(key)?"删除成功":"删除失败");
+        }
     }
 }
