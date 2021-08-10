@@ -43,8 +43,8 @@ namespace Chat.Application.AppServices.GroupsService
         public FriendsService(
             IMapper mapper,
              IUnitOfWork<MasterDbContext> unitOfWork,
-            IFriendsRespository friendsRespository
-            ):base(unitOfWork,friendsRespository)
+            IFriendsRepository friendsRepository
+            ) :base(unitOfWork, friendsRepository)
         {
             this.mapper = mapper;
         }

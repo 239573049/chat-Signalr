@@ -26,7 +26,6 @@ D:\pr\new-chat\Chat.Uitl\bin\Debug\net5.0\Chat.Uitl.deps.json
 D:\pr\new-chat\Chat.Uitl\bin\Debug\net5.0\Chat.Uitl.dll
 D:\pr\new-chat\Chat.Uitl\bin\Debug\net5.0\ref\Chat.Uitl.dll
 D:\pr\new-chat\Chat.Uitl\bin\Debug\net5.0\Chat.Uitl.pdb
-D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.csproj.AssemblyReference.cache
 D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.GeneratedMSBuildEditorConfig.editorconfig
 D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.AssemblyInfoInputs.cache
 D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.AssemblyInfo.cs
@@ -34,3 +33,4 @@ D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.csproj.CoreCompileInputs.cac
 D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.dll
 D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\ref\Chat.Uitl.dll
 D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.pdb
+D:\pr\new-chat\Chat.Uitl\obj\Debug\net5.0\Chat.Uitl.csproj.AssemblyReference.cache

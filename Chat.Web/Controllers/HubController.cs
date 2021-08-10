@@ -1,4 +1,5 @@
 ﻿using Chat.Application.Dto;
+using Chat.Uitl.Util.HttpUtil;
 using Chat.Web.Code.Gadget;
 using Chat.Web.Code.Model.ChatVM;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,7 @@ namespace Chat.Web.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class HubController : ControllerBase
+    public class HubController : UsersController
     {
         private readonly IHubContext<ChatHub> chatHub;
         public HubController(
@@ -41,9 +42,23 @@ namespace Chat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendId(MessageVM message)
         {
-            await chatHub.Clients.All.SendAsync("Message" + message.Receiving, message);
+            message.Key = Guid.NewGuid();
+            ChatHub.UserData.TryGetValue(Guid.Parse(message.Receiving), out string receiving);
+            await chatHub.Clients.Client(receiving).SendAsync("ChatData", message);
             return new OkObjectResult("");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> SendGroup(MessageVM message)
+        {
 
+            message.Key = Guid.NewGuid();
+            await chatHub.Clients.Group(message.Receiving).SendAsync("ChatData", message);
+            return new OkObjectResult("");
+        }
     }
 }

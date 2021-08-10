@@ -16,6 +16,9 @@ namespace Chat.Web.Code.Model.ChatVM
         /// 接收人id
         /// </summary>
         public string Receiving { get; set; }
+        public string HeadPortrait { get; set; }
+        public string Name { get; set; }
+        public string FileName { get; set; }
         /// <summary>
         /// 数据
         /// </summary>
@@ -23,6 +26,7 @@ namespace Chat.Web.Code.Model.ChatVM
         /// <summary>
         /// 传输类型
         /// </summary>
-        public ChatMessageEnum ChatMessageEnum{ get; set; }
+        public ChatMessageEnum Marking { get; set; }
+        public Guid Key { get; set; }
     }
 }

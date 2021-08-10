@@ -117,6 +117,13 @@
             <param name="message"></param>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.HubController.SendGroup(Chat.Web.Code.Model.ChatVM.MessageVM)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.JobsController">
             <summary>
             定时器调试

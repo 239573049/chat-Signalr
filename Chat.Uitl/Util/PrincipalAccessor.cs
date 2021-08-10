@@ -37,16 +37,25 @@ namespace Chat.Uitl.Util
 
         public string GetToken()
         {
-            return accessor.HttpContext.Request.Headers["Authorization"].ToString();
+            string authorization = accessor.HttpContext.Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(authorization)) return string.Empty;
+            return authorization.Split("Bearer ")[1];
         }
 
         public async Task<T> GetUser<T>()
         {
             string authorization = accessor.HttpContext.Request.Headers["Authorization"].ToString();
             if (string.IsNullOrEmpty(authorization)) throw new BusinessLogicException(401,"请先登录账号");
+            authorization = authorization.Split("Bearer ")[1];
             var user = await redisUtil.GetAsync<T>(authorization);
             if (user == null) throw new BusinessLogicException(401,"请先登录账号");
             return user;
+        }
+
+        public T GetUserDto<T>()
+        {
+            accessor.HttpContext.Request.Cookies.TryGetValue("user", out string user);
+            return JsonConvert.DeserializeObject<T>(user);
         }
     }
 }

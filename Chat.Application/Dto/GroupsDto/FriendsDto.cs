@@ -13,6 +13,10 @@ namespace Chat.Application.Dto.GroupsDto
     /// </summary>
     public class FriendsDto
     {
+        /// <summary>
+        /// 索引
+        /// </summary>
+        public int Key { get; set; }
         public Guid Id { get; set; }
         /// <summary>
         /// 聊天链接id

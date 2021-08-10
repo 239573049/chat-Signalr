@@ -18,6 +18,7 @@ namespace Chat.Web.Code
             string authorization = httpContext.HttpContext.Request.Headers["Authorization"].ToString();
             if (string.IsNullOrEmpty(authorization)) throw new BusinessLogicException(401, "请先登录账号");
             var path = httpContext.HttpContext.Request.Path.Value;
+            authorization = authorization.Split("Bearer ")[1];
             var userDto = new RedisUtil().Get<UserDto>(authorization);
             if (userDto == null) throw new BusinessLogicException(401, "请先登录账号");
             if (userDto.Status != StatusEnum.Start) throw new BusinessLogicException($"账号无法使用账号状态：{EnumExtensionUtil.GetEnumStringVal(userDto.Status)}");
