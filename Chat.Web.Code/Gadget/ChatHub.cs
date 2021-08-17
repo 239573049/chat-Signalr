@@ -21,37 +21,43 @@ namespace Chat.Web.Code.Gadget
     {
         private readonly IUserService userService;
         private readonly IPrincipalAccessor principalAccessor;
+        private readonly IRedisUtil redisUtil;
         private readonly IGroupDataRepository groupDataRespository;
         public static ConcurrentDictionary<Guid, string> UserData = new();
 
         public ChatHub(
+            IRedisUtil redisUtil,
             IUserService userService,
             IPrincipalAccessor principalAccessor,
             IGroupDataRepository groupDataRespository
             )
         {
+            this.redisUtil = redisUtil;
             this.userService = userService;
             this.principalAccessor = principalAccessor;
             this.groupDataRespository = groupDataRespository;
         }
         public override async Task OnConnectedAsync()
         {
-            var userId =await principalAccessor.GetUser<UserDto>();
-            UserData.AddOrUpdate(userId.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
-            var group =await groupDataRespository.GetReceiving(userId.Id);
+            var token = Context.GetHttpContext().Request.Query["access_token"] ;
+            var userDto = redisUtil.Get<UserDto>(token.ToString());
+            if (userDto == null) throw new BusinessLogicException(401,"请先登录");
+            UserData.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
+            var group =await groupDataRespository.GetReceiving(userDto.Id);
             foreach (var d in group) {
               await Groups.AddToGroupAsync(Context.ConnectionId, d);
             }
-            await userService.UseState(userId.Id, UseStateEnume.OnLine);
+            await userService.UseState(userDto.Id, UseStateEnume.OnLine);
             await base.OnConnectedAsync();
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var userId = await principalAccessor.GetUser<UserDto>();
-            if (userId != null) {
-                UserData.Remove(userId.Id, out string connectionId);
-                await userService.UseState(userId.Id, UseStateEnume.OffLine);
-                var group = await groupDataRespository.GetReceiving(userId.Id);
+            var token = Context.GetHttpContext().Request.Query["access_token"];
+            var userDto = redisUtil.Get<UserDto>(token.ToString());
+            if (userDto != null) {
+                UserData.Remove(userDto.Id, out string connectionId);
+                await userService.UseState(userDto.Id, UseStateEnume.OffLine);
+                var group = await groupDataRespository.GetReceiving(userDto.Id);
                 foreach (var d in group) {
                     await Groups.RemoveFromGroupAsync(connectionId,d);
                 }
@@ -62,9 +68,10 @@ namespace Chat.Web.Code.Gadget
         public async Task Message(MessageVM message)
         {
             message.Key = Guid.NewGuid();
-            var user = principalAccessor.GetUserDto<UserDto>();
-            message.Name = user.Name;
-            message.HeadPortrait = user.HeadPortrait;
+            var token = Context.GetHttpContext().Request.Query["access_token"];
+            var userDto = redisUtil.Get<UserDto>(token.ToString());
+            message.Name = userDto.Name;
+            message.HeadPortrait = userDto.HeadPortrait;
             UserData.TryGetValue(Guid.Parse(message.Receiving), out string receiving);
             await Clients.Client(receiving).SendAsync("ChatData",message);
         }
@@ -72,9 +79,11 @@ namespace Chat.Web.Code.Gadget
         public async Task SendGroup(MessageVM message)
         {
             message.Key = Guid.NewGuid();
-            var user = principalAccessor.GetUserDto<UserDto>();
-            message.HeadPortrait = user.HeadPortrait;
-            message.Name = user.Name;
+
+            var token = Context.GetHttpContext().Request.Query["access_token"];
+            var userDto = redisUtil.Get<UserDto>(token.ToString());
+            message.HeadPortrait = userDto.HeadPortrait;
+            message.Name = userDto.Name;
             await Clients.Group(message.Receiving).SendAsync("ChatData", message);
         }
         /// <summary>

@@ -199,6 +199,8 @@ namespace Chat.EntityFrameworkCore.Migrations
 
                     b.HasIndex("GroupDataId");
 
+                    b.HasIndex("SelfId");
+
                     b.ToTable("GroupMembers");
                 });
 
@@ -318,7 +320,15 @@ namespace Chat.EntityFrameworkCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Chat.Code.Entities.Users.User", "Self")
+                        .WithMany()
+                        .HasForeignKey("SelfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("GroupData");
+
+                    b.Navigation("Self");
                 });
 
             modelBuilder.Entity("Chat.Code.Entities.Groups.GroupData", b =>

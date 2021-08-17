@@ -30,5 +30,6 @@ namespace Chat.Application.Dto.GroupsDto
         /// 群成员id
         /// </summary>
         public Guid SelfId { get; set; }
+        public object Self{ get; set; }
     }
 }

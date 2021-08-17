@@ -14,6 +14,8 @@ namespace Chat.EntityFrameworkCore.Mappings.GroupsConfiguration
         public override void Configure(EntityTypeBuilder<GroupMembers> builder)
         {
             builder.ToTable("GroupMembers");
+            builder.HasOne(a => a.Self).WithMany().HasForeignKey(a => a.SelfId);
+            builder.Property(m => m.Id).ValueGeneratedOnAdd();
             base.Configure(builder);
         }
     }
