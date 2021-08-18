@@ -59,7 +59,7 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<List<FriendsDto>> GetFriendsDtos(Guid userId)
         {
-            var data =await currentRepository.FindAll(a=>a.SelfId==userId).ToListAsync();
+            var data =await currentRepository.FindAll(a=>a.SelfId==userId).Include(a=>a.Friend).ToListAsync();
             return mapper.Map<List<FriendsDto>>(data);
         }
 
