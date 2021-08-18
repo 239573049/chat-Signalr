@@ -10,6 +10,9 @@ using Cx.NetCoreUtils.Exceptions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Chat.Application.Dto;
+using Chat.Uitl.Util;
+using System.Collections.Generic;
+using Chat.EntityFrameworkCore.Repository.UserRepository;
 
 namespace Chat.Application.AppServices.GroupsService
 {
@@ -23,16 +26,19 @@ namespace Chat.Application.AppServices.GroupsService
     public class GroupDataService : BaseService<GroupData>, IGroupDataService
     {
         private readonly IMapper mapper;
-        private readonly IGroupMembersRespository groupMembersRespository;
+        private readonly IUserRepository userRepository;
+        private readonly IGroupMembersRepository groupMembersRepository;
         public GroupDataService(
             IMapper mapper,
+            IUserRepository userRepository,
             IUnitOfWork<MasterDbContext> unitOfWork,
-            IGroupDataRespository groupDataRespository,
-            IGroupMembersRespository groupMembersRespository
-            ) : base(unitOfWork, groupDataRespository)
+            IGroupDataRepository groupDataRepository,
+            IGroupMembersRepository groupMembersRepository
+            ) : base(unitOfWork, groupDataRepository)
         {
             this.mapper = mapper;
-            this.groupMembersRespository = groupMembersRespository;
+            this.userRepository = userRepository;
+            this.groupMembersRepository = groupMembersRepository;
         }
 
         public async Task<Guid> CreateGroupData(GroupDataDto group, UserDto userDto)
@@ -41,9 +47,11 @@ namespace Chat.Application.AppServices.GroupsService
             var data = mapper.Map<GroupData>(group);
             var groupMember = new GroupMembers();
             data= await  currentRepository.AddAsync(data);
+            data.Receiving = StringUtil.GetString(30);
+            data.SelfId = userDto.Id;
             groupMember.GroupDataId = data.Id;
             groupMember.SelfId = userDto.Id;
-            await groupMembersRespository.AddAsync(groupMember);
+            await groupMembersRepository.AddAsync(groupMember);
             unitOfWork.CommitTransaction();
             return data.Id; 
         }
@@ -59,9 +67,16 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<GroupDataDto> GetGroup(Guid id)
         {
-            var data =await currentRepository.FindAll(a=>a.Id==id).OrderBy(a=>a.CreatedTime).FirstOrDefaultAsync();
+            var data =await currentRepository.FindAll(a=>a.Id==id)
+                .Include(a=>a.GroupMembers)
+                .FirstOrDefaultAsync();
             if (data == null) throw new BusinessLogicException("数据不存在或已被删除");
-            return mapper.Map<GroupDataDto>(data);
+            var userids = data.GroupMembers.Select(a=>a.SelfId);
+            var userData =userRepository.FindAll(a=>userids.Contains(a.Id)).Select(user=> new { Id = user.Id, Name = user.Name, HeadPortrait = user.HeadPortrait, UserNumber = user.UserNumber }).ToListAsync();
+            var dataDto= mapper.Map<GroupDataDto>(data);
+            var conut = 0;
+            dataDto.GroupMembers.ForEach(a => { a.Self = userData.Result.FirstOrDefault(d => d.Id == a.SelfId);a.Key = conut++; });
+            return dataDto;
         }
 
         public async  Task<bool> UpdateGroupData(GroupDataDto group)

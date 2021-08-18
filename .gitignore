@@ -15,3 +15,11 @@
 /Chat.Application/bin
 /Chat.Web/obj
 /.vs
+/Chat.Web.Code/obj
+/Chat.Uitl/obj
+/Chat.Uitl/bin
+/Chat.EntityFrameworkCore/bin
+/Chat.EntityFrameworkCore/obj
+/Chat.Code/bin
+/Chat.Code/obj
+/Chat.Application/obj

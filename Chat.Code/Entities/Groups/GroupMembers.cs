@@ -1,4 +1,5 @@
-﻿using Chat.Core.Base;
+﻿using Chat.Code.Entities.Users;
+using Chat.Core.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,6 @@ namespace Chat.Code.Entities.Groups
         /// 群成员id
         /// </summary>
         public Guid SelfId { get; set; }
+        public virtual User Self { get; set; }
     }
 }

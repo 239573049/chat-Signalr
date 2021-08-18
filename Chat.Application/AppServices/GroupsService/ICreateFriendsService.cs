@@ -35,8 +35,8 @@ namespace Chat.Application.AppServices.GroupsService
             IMapper mapper,
             IFriendsService friendsService,
             IUnitOfWork<MasterDbContext> unitOfWork,
-            ICreateFriendsRespository createFriendsRespository
-            ):base(unitOfWork,createFriendsRespository)
+            ICreateFriendsRepository createFriendsRepository
+            ) :base(unitOfWork, createFriendsRepository)
         {
             this.mapper = mapper;
             this.friendsService = friendsService;

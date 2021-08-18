@@ -12,5 +12,6 @@ namespace Chat.Uitl.Util
         Task<T> Get<T>(string key);
         Guid GetId();
         string GetToken();
+        T GetUserDto<T>();
     }
 }

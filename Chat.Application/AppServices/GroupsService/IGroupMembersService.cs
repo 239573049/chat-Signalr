@@ -28,8 +28,8 @@ namespace Chat.Application.AppServices.GroupsService
         public GroupMembersService(
             IMapper mapper,
             IUnitOfWork<MasterDbContext> unitOfWork,
-            IGroupMembersRespository groupMembersRespository
-            ):base(unitOfWork,groupMembersRespository)
+            IGroupMembersRepository groupMembersRepository
+            ) :base(unitOfWork, groupMembersRepository)
         {
             this.mapper = mapper;
         }
@@ -57,7 +57,7 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<List<GroupMembersDto>> GetGroupMembersList(Guid userId)
         {
-            var data =await currentRepository.FindAll(a => a.SelfId == userId).ToListAsync();
+            var data =await currentRepository.FindAll(a => a.SelfId == userId).Include(a=>a.GroupData).ToListAsync();
             return mapper.Map<List<GroupMembersDto>>(data);
         }
 

@@ -25,6 +25,7 @@ namespace Chat.Code.Entities.Groups
         /// 群头像
         /// </summary>
         public string Picture { get; set; }
+        public string PictureKey { get; set; }
         /// <summary>
         /// 公告
         /// </summary>

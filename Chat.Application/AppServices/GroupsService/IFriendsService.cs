@@ -43,8 +43,8 @@ namespace Chat.Application.AppServices.GroupsService
         public FriendsService(
             IMapper mapper,
              IUnitOfWork<MasterDbContext> unitOfWork,
-            IFriendsRespository friendsRespository
-            ):base(unitOfWork,friendsRespository)
+            IFriendsRepository friendsRepository
+            ) :base(unitOfWork, friendsRepository)
         {
             this.mapper = mapper;
         }
@@ -59,7 +59,7 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<List<FriendsDto>> GetFriendsDtos(Guid userId)
         {
-            var data =await currentRepository.FindAll(a=>a.SelfId==userId).ToListAsync();
+            var data =await currentRepository.FindAll(a=>a.SelfId==userId).Include(a=>a.Friend).ToListAsync();
             return mapper.Map<List<FriendsDto>>(data);
         }
 

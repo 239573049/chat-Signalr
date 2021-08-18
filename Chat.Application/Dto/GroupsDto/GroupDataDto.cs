@@ -21,7 +21,11 @@ namespace Chat.Application.Dto.GroupsDto
         /// <summary>
         /// 连接地址
         /// </summary>
-        public string Receiving{ get; set; }
+        public string Receiving { get; set; }
+        /// <summary>
+        /// 连接地址
+        /// </summary>
+        public string PictureKey { get; set; }
         /// <summary>
         /// 群头像
         /// </summary>
@@ -38,5 +42,6 @@ namespace Chat.Application.Dto.GroupsDto
         /// 
         /// </summary>
         public UserDto Self { get; set; }
+        public List<GroupMembersDto> GroupMembers { get; set; } = new List<GroupMembersDto>();
     }
 }

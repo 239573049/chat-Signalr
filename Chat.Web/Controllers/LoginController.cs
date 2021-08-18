@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
 using Cx.NetCoreUtils.Extensions;
+using Newtonsoft.Json;
 
 namespace Chat.Web.Controllers
 {
@@ -55,8 +56,9 @@ namespace Chat.Web.Controllers
                     return new ModelStateResult($"账号已冻结至{(DateTime)data.Freezetime:yyyy-MM-dd HH:mm:ss}");
             }
             var token = StringUtil.GetString(54);
-            await redisUtil.SetAsync(token, data,DateTime.Now.AddMinutes(30));
+            await redisUtil.SetAsync(token, data,DateTime.Now.AddMinutes(35));
             HttpContext.Response.Cookies.Append("id",$"{data.Id}");
+            HttpContext.Response.Cookies.Append("user",JsonConvert.SerializeObject(data));
             return new OkObjectResult(new { token,user=data});
         }
         /// <summary>

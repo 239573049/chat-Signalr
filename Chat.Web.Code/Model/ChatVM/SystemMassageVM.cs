@@ -10,9 +10,16 @@ namespace Chat.Web.Code.Model.ChatVM
     public class SystemMassageVM
     {
         /// <summary>
+        /// 发送人id
+        /// </summary>
+        public Guid SendId { get; set; }
+        public Guid Key { get; set; }
+        /// <summary>
         /// 接收人
         /// </summary>
         public string Receiving { get; set; }
+        public string HeadPortrait { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// 数据
         /// </summary>
