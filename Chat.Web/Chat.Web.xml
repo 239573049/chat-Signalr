@@ -99,6 +99,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.GroupMembersController.AddGroup(System.Guid,System.Collections.Generic.List{System.Guid})">
+            <summary>
+            添加群成员
+            </summary>
+            <param name="groupId"></param>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.HubController">
             <summary>
             推送调试

@@ -54,5 +54,14 @@ namespace Chat.Web.Controllers
             list.AddRange(friends.Select(a => new GroupDataVM { Key = key++, ChatId = a.FriendId, Count = 0, Data = a.Friend, Id = a.Id, IsGroup = false, SelfId = a.SelfId }));
             return list;
         }
+        /// <summary>
+        /// 添加群成员
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> AddGroup(Guid groupId, List<Guid> ids) =>
+            await groupMembersService.AddGroup(groupId, ids);
     }
 }

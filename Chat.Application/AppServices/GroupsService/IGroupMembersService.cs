@@ -21,17 +21,30 @@ namespace Chat.Application.AppServices.GroupsService
         Task<Guid> CreateGroupMembers(GroupMembersDto group);
         Task<bool> UpdateGroupMembers(GroupMembersDto group);
         Task<bool> DeleteGroupMembers(Guid id);
+        Task<bool> AddGroup(Guid groupId, List<Guid> ids);
     }
     public class GroupMembersService : BaseService<GroupMembers>, IGroupMembersService
     {
         private readonly IMapper mapper;
+        private readonly IGroupDataRepository groupDataRepository;
         public GroupMembersService(
             IMapper mapper,
+            IGroupDataRepository groupDataRepository,
             IUnitOfWork<MasterDbContext> unitOfWork,
             IGroupMembersRepository groupMembersRepository
             ) :base(unitOfWork, groupMembersRepository)
         {
             this.mapper = mapper;
+            this.groupDataRepository = groupDataRepository;
+        }
+
+        public async Task<bool> AddGroup(Guid groupId, List<Guid> ids)
+        {
+            if (!groupDataRepository.IsExist(groupId)) throw new BusinessLogicException("群聊不存在或已被删除");
+            var groupIds =await currentRepository.FindAll(a=>ids.Contains(a.Id)).Select(a=>a.SelfId).ToListAsync();
+            var data = ids.Where(a=>!groupIds.Contains(a)).Select(a => new GroupMembers { GroupDataId = groupId, SelfId = a }).ToList();
+            await currentRepository.AddManyAsync(data);
+            return (await unitOfWork.SaveChangesAsync())>0;
         }
 
         public async Task<Guid> CreateGroupMembers(GroupMembersDto group)

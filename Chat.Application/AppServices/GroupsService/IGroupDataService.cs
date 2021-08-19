@@ -72,10 +72,10 @@ namespace Chat.Application.AppServices.GroupsService
                 .FirstOrDefaultAsync();
             if (data == null) throw new BusinessLogicException("数据不存在或已被删除");
             var userids = data.GroupMembers.Select(a=>a.SelfId);
-            var userData =userRepository.FindAll(a=>userids.Contains(a.Id)).Select(user=> new { Id = user.Id, Name = user.Name, HeadPortrait = user.HeadPortrait, UserNumber = user.UserNumber }).ToListAsync();
+            var userData =await userRepository.FindAll(a=>userids.Contains(a.Id)).Select(user=> new { Id = user.Id, Name = user.Name, HeadPortrait = user.HeadPortrait, UserNumber = user.UserNumber }).ToListAsync();
             var dataDto= mapper.Map<GroupDataDto>(data);
             var conut = 0;
-            dataDto.GroupMembers.ForEach(a => { a.Self = userData.Result.FirstOrDefault(d => d.Id == a.SelfId);a.Key = conut++; });
+            dataDto.GroupMembers.ForEach(a => { a.Self = userData.FirstOrDefault(d => d.Id == a.SelfId);a.Key = conut++; });
             return dataDto;
         }
 
