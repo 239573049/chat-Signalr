@@ -17,6 +17,12 @@ namespace Chat.EntityFrameworkCore.Repository.GroupsRespository
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<List<string>> GetReceiving(Guid userId);
+        /// <summary>
+        /// 是否存在群
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool IsExist(Guid id);
     }
 
     public class GroupDataRepository : MasterDbRepositoryBase<GroupData>, IGroupDataRepository
@@ -27,5 +33,8 @@ namespace Chat.EntityFrameworkCore.Repository.GroupsRespository
         {
            return await DbSet.Where(a => a.SelfId == userId).Select(a => a.Receiving).ToListAsync();
         }
+
+        public bool IsExist(Guid id) =>
+            DbSet.Any(a => a.Id == id);
     }
 }
