@@ -76,6 +76,8 @@ namespace Chat.Web
             services.AddHttpContext();
             var csredis = new CSRedisClient(Configuration["ConnectionString:Redis"]);
             RedisHelper.Initialization(csredis);
+            services.AddSignalR()
+                .AddStackExchangeRedis(Configuration["ConnectionString:Redis"]);
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(GlobalExceptionsFilter));
