@@ -20,7 +20,6 @@ namespace Chat.Web.Code.Gadget
     public class ChatHub : Hub
     {
         private readonly IUserService userService;
-        private readonly IPrincipalAccessor principalAccessor;
         private readonly IRedisUtil redisUtil;
         private readonly IGroupDataRepository groupDataRespository;
         public static ConcurrentDictionary<Guid, string> UserData = new();
@@ -28,13 +27,11 @@ namespace Chat.Web.Code.Gadget
         public ChatHub(
             IRedisUtil redisUtil,
             IUserService userService,
-            IPrincipalAccessor principalAccessor,
             IGroupDataRepository groupDataRespository
             )
         {
             this.redisUtil = redisUtil;
             this.userService = userService;
-            this.principalAccessor = principalAccessor;
             this.groupDataRespository = groupDataRespository;
         }
         public override async Task OnConnectedAsync()

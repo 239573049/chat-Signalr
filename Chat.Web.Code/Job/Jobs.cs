@@ -18,19 +18,19 @@ namespace Chat.Web.Code.Job
 {
     public class Jobs : IJob
     {
-        public static IHubContext<ChatHub> hubContext { get; set; }
+        public static IHubContext<ChatHub> HubContext { get; set; }
         public Task Execute(IJobExecutionContext context)
         {
             return Task.Run(() =>
             {
-                if (ChatHub.UserData.Count == 0) return;
+                if (ChatHub.UserData.IsEmpty) return;
                 var data = Dispose();
                 var systemData = new SystemMassageVM
                 {
                     Data = data,
                     Marking = ChatSystemEnum.SystemData
                 };
-                hubContext.Clients.All.SendAsync("SystemData", systemData);
+                HubContext.Clients.All.SendAsync("SystemData", systemData);
             });
         }
         public static SystemData Dispose()
