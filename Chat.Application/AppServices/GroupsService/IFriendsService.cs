@@ -65,9 +65,7 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<bool> GetIsFriends(Guid selfId, Guid friendId)
         {
-            var isF =await currentRepository.FindAll(a => a.SelfId == selfId && a.FriendId == friendId).OrderBy(a=>a.CreatedTime).FirstOrDefaultAsync();
-            if (isF == null) return false;
-            return true;
+            return await currentRepository.IsExist(a => a.SelfId == selfId && a.FriendId == friendId); ;
         }
     }
 

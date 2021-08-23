@@ -55,6 +55,8 @@ namespace Chat.Application.AppServices.GroupsService
         {
             var isF =await friendsService.GetIsFriends(create.InitiatorId, create.BeInvitedId);
             if (isF) throw new BusinessLogicException("已经是好友无法重复添加");
+            var isData = await currentRepository.IsExist(a => a.InitiatorId == create.InitiatorId && a.BeInvitedId == create.BeInvitedId&&a.CreateFriendsEnum!=CreateFriendsEnum.Refuse);
+            if (!isData) throw new BusinessLogicException("已申请添加好友还未通过");
             var data = mapper.Map<CreateFriends>(create);
             data.CreateFriendsEnum = CreateFriendsEnum.Applying;
             data=await currentRepository.AddAsync(data);
