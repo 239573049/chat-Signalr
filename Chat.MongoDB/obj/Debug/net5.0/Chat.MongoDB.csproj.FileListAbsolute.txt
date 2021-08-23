@@ -1,0 +1,15 @@
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.MongoDB.deps.json
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.MongoDB.dll
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\ref\Chat.MongoDB.dll
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.MongoDB.pdb
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.Code.dll
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.Code.pdb
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.csproj.AssemblyReference.cache
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.GeneratedMSBuildEditorConfig.editorconfig
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.AssemblyInfoInputs.cache
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.AssemblyInfo.cs
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.csproj.CoreCompileInputs.cache
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.csproj.CopyComplete
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.dll
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\ref\Chat.MongoDB.dll
+D:\pr\new-chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.pdb

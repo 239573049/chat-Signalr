@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Chat.Web.Code.Gadget;
 using Quartz.Impl;
 using Quartz;
+using Chat.MongoDB.Mappings;
+using Chat.Web.Code.Model.ChatVM;
 
 namespace Chat.Web
 {
@@ -78,6 +80,7 @@ namespace Chat.Web
             RedisHelper.Initialization(csredis);
             services.AddSignalR()
                 .AddStackExchangeRedis(Configuration["ConnectionString:Redis"]);
+            services.AddScoped<ChatLogConfiguration<MessageVM>>();
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(GlobalExceptionsFilter));

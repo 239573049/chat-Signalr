@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using static Chat.Web.Code.EnumWeb.EnumWeb;
 
 namespace Chat.Web.Code.Model.ChatVM
@@ -18,6 +19,10 @@ namespace Chat.Web.Code.Model.ChatVM
         public string Receiving { get; set; }
         public string HeadPortrait { get; set; }
         public string Name { get; set; }
+        /// <summary>
+        /// 发送时间
+        /// </summary>
+        public DateTime Date { get; set; }
         public string FileName { get; set; }
         /// <summary>
         /// 数据
@@ -27,6 +32,7 @@ namespace Chat.Web.Code.Model.ChatVM
         /// 传输类型
         /// </summary>
         public ChatMessageEnum Marking { get; set; }
+        [BsonId]
         public Guid Key { get; set; }
     }
 }
