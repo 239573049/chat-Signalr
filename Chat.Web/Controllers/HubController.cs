@@ -55,7 +55,6 @@ namespace Chat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendGroup(MessageVM message)
         {
-
             message.Key = Guid.NewGuid();
             await chatHub.Clients.Group(message.Receiving).SendAsync("ChatData", message);
             return new OkObjectResult("");
