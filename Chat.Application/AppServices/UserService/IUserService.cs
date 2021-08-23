@@ -245,7 +245,7 @@ namespace Chat.Application.AppServices.UserService
             if (data == null) throw new BusinessLogicException("用户不存在或者已被删除");
             if (data.UseState == useState) return;
             data.UseState = useState;
-            currentRepository.Update(data);
+            currentRepository.PartialUpdate(new List<User> { data },new List<string> { "UseState" });
             await unitOfWork.SaveChangesAsync();
         }
     }

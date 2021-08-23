@@ -38,17 +38,14 @@ namespace Chat.Web.Controllers
         public async Task<IActionResult> Demo()
         {
             _scheduler = await _schedulerFactory.GetScheduler();
-            Jobs.hubContext = chatHub;
+            Jobs.HubContext = chatHub;
             await _scheduler.Start();
             var trigger = TriggerBuilder.Create()
                             .WithSimpleSchedule(x => x.WithIntervalInSeconds(2).RepeatForever())
                             .Build();
-            //创建作业实例
-            //Jobs即我们需要执行的作业
             var jobDetail = JobBuilder.Create<Jobs>()
                             .WithIdentity("Myjob", "SystemData")
                             .Build();
-            //将触发器和作业任务绑定到调度器中
             await _scheduler.ScheduleJob(jobDetail, trigger);
             return Ok();
         }
