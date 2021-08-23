@@ -112,8 +112,12 @@ namespace Chat.Web.Controllers
         /// <param name="UserNumber"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<UserDto> GetUserName(string UserNumber) =>
-            await UserService.GetUser(UserNumber);
+        public async Task<UserDto> GetUserName(string userNumber)
+        {
+            var data= await UserService.GetUser(userNumber);
+            data.PassWrod = null;
+            return data;
+        }
         /// <summary>
         /// 编辑用户
         /// </summary>
@@ -137,5 +141,6 @@ namespace Chat.Web.Controllers
             user.PassWrod = user.PassWrod.MD5Encrypt();
             return new OkObjectResult(await UserService.UpdatesUsers(user)?"编辑成功":"编辑失败");
         }
+
     }
 }

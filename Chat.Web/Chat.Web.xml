@@ -36,6 +36,13 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.CreateFriendsController.CreateCreateFriends(Chat.Application.Dto.GroupsDto.CreateFriendsDto)">
+            <summary>
+            添加好友
+            </summary>
+            <param name="create"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.FileController">
             <summary>
             文件接口

@@ -25,11 +25,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-<<<<<<< HEAD
-      "applicationUrl": "http://localhost:8080"
-=======
       "applicationUrl": "http://localhost:8555"
->>>>>>> ec43da7b704cb31251b872c27dd2ecdc2c3adc18
     }
   }
 }
