@@ -20,10 +20,12 @@ namespace Merchants.Ams.Application
                 .ForMember(dest => dest.StatusCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.Status)))
                 .ForMember(dest => dest.UseStateCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.UseState)))
                 .ForMember(dest => dest.PowerCode, det => det.MapFrom(a => EnumExtensionUtil.GetEnumStringVal(a.Power)));
+            CreateMap<User, UsersDto>();
             CreateMap<GroupData, GroupDataDto>();
             CreateMap<GroupMembers, GroupMembersDto>();
             CreateMap<Friends, FriendsDto>();
-            CreateMap<CreateFriends, CreateFriendsDto>();
+            CreateMap<CreateFriends, CreateFriendsDto>()
+                .ForMember(a=>a.CreateFriendsCode,det=>det.MapFrom(dest=>EnumExtensionUtil.GetEnumStringVal(dest.CreateFriendsEnum)));
             #endregion domain to dto
 
             #region dto to domain

@@ -2,6 +2,7 @@
 using Chat.Application.Dto;
 using Chat.Code.DbEnum;
 using Chat.EntityFrameworkCore.Repository.GroupsRespository;
+using Chat.MongoDB.Mappings;
 using Chat.Uitl.Util;
 using Chat.Web.Code.Model.ChatVM;
 using Cx.NetCoreUtils.Exceptions;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 namespace Chat.Web.Code.Gadget
 {
     /// <summary>
@@ -19,6 +19,7 @@ namespace Chat.Web.Code.Gadget
     public class ChatHub : Hub
     {
         private readonly IUserService userService;
+        private readonly ChatLogConfiguration<MessageVM> chatLogConfiguration;
         private readonly IRedisUtil redisUtil;
         private readonly IGroupDataRepository groupDataRespository;
         public static ConcurrentDictionary<Guid, string> UserData = new();
@@ -26,12 +27,14 @@ namespace Chat.Web.Code.Gadget
         public ChatHub(
             IRedisUtil redisUtil,
             IUserService userService,
-            IGroupDataRepository groupDataRespository
+            IGroupDataRepository groupDataRespository,
+            ChatLogConfiguration<MessageVM> chatLogConfiguration
             )
         {
             this.redisUtil = redisUtil;
             this.userService = userService;
             this.groupDataRespository = groupDataRespository;
+            this.chatLogConfiguration = chatLogConfiguration;
         }
         public override async Task OnConnectedAsync()
         {
@@ -66,21 +69,30 @@ namespace Chat.Web.Code.Gadget
             message.Key = Guid.NewGuid();
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
+            message.Date = DateTime.Now;
             message.Name = userDto.Name;
             message.HeadPortrait = userDto.HeadPortrait;
-            UserData.TryGetValue(Guid.Parse(message.Receiving), out string receiving);
-            await Clients.Client(receiving).SendAsync("ChatData",message);
+            try {
+                UserData.TryGetValue(Guid.Parse(message.Receiving), out string receiving);
+                await Clients.Client(receiving).SendAsync("ChatData", message);
+            }
+            catch (Exception) {
+            }
+            UserData.TryGetValue(userDto.Id, out string userReceiving);
+            await Clients.Client(userReceiving).SendAsync("ChatData", message);
+            chatLogConfiguration.collection.InsertOne(message);
         }
 
         public async Task SendGroup(MessageVM message)
         {
             message.Key = Guid.NewGuid();
-
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             message.HeadPortrait = userDto.HeadPortrait;
             message.Name = userDto.Name;
+            message.Date = DateTime.Now;
             await Clients.Group(message.Receiving).SendAsync("ChatData", message);
+            chatLogConfiguration.collection.InsertOne(message);
         }
         /// <summary>
         /// 系统推送

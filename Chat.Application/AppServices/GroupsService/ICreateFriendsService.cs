@@ -12,6 +12,8 @@ using AutoMapper;
 using Cx.NetCoreUtils.Exceptions;
 using Chat.Code.DbEnum;
 using Microsoft.EntityFrameworkCore;
+using Chat.Uitl.Util;
+using Chat.Application.Dto;
 
 namespace Chat.Application.AppServices.GroupsService
 {
@@ -24,7 +26,7 @@ namespace Chat.Application.AppServices.GroupsService
         /// <returns></returns>
         Task<CreateFriendsDto> GetCreateFriends(Guid id);
         Task<Guid> CreateCreateFriends(CreateFriendsDto create);
-        Task<Tuple<List<CreateFriendsDto>, int>> GetCreateFriendsDtos(Guid userId, int pageNo = 1, int pageSize = 20);
+        Task<Tuple<IList<CreateFriendsDto>, int>> GetCreateFriendsDtos(Guid userId, int pageNo = 1, int pageSize = 20);
         Task<bool> ChangeCreateFriends(Guid id,CreateFriendsEnum create);
     }
     public class CreateFriendsService:BaseService<CreateFriends>,ICreateFriendsService
@@ -55,6 +57,8 @@ namespace Chat.Application.AppServices.GroupsService
         {
             var isF =await friendsService.GetIsFriends(create.InitiatorId, create.BeInvitedId);
             if (isF) throw new BusinessLogicException("已经是好友无法重复添加");
+            var isData = await currentRepository.IsExist(a => a.InitiatorId == create.InitiatorId && a.BeInvitedId == create.BeInvitedId&&a.CreateFriendsEnum!=CreateFriendsEnum.Refuse);
+            if (isData) throw new BusinessLogicException("已申请添加好友还未通过");
             var data = mapper.Map<CreateFriends>(create);
             data.CreateFriendsEnum = CreateFriendsEnum.Applying;
             data=await currentRepository.AddAsync(data);
@@ -68,10 +72,11 @@ namespace Chat.Application.AppServices.GroupsService
             return mapper.Map<CreateFriendsDto>(friends);
         }
 
-        public async Task<Tuple<List<CreateFriendsDto>,int>> GetCreateFriendsDtos(Guid userId,int pageNo=1,int pageSize=20)
+        public async Task<Tuple<IList<CreateFriendsDto>,int>> GetCreateFriendsDtos(Guid userId,int pageNo=1,int pageSize=20)
         {
-            var data =await currentRepository.GetPageAsync(a => a.InitiatorId == userId || a.BeInvitedId == userId,a=>a.CreatedTime,pageNo,pageSize,true);
-            return mapper.Map<Tuple<List<CreateFriendsDto>, int>>(data);
+            var data =await currentRepository
+                .GetFieldQuery(a => a.InitiatorId == userId || a.BeInvitedId == userId,a=>new CreateFriendsDto {Id=a.Id,BeInvitedId=a.BeInvitedId,BeInvited=mapper.Map<UsersDto>(a.BeInvited),CreateFriendsCode=EnumExtensionUtil.GetEnumStringVal(a.CreateFriendsEnum),CreateFriendsEnum=a.CreateFriendsEnum,InitiatorId=a.InitiatorId,Remark=a.Remark,Initiator=mapper.Map<UsersDto>(a.Initiator) },a=>a.CreatedTime,pageNo,pageSize);
+            return data;
         }
     }
 }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Application\Chat.Application.csproj" />
+    <ProjectReference Include="..\Chat.MongoDB\Chat.MongoDB.csproj" />
     <ProjectReference Include="..\Chat.Uitl\Chat.Uitl.csproj" />
   </ItemGroup>
 

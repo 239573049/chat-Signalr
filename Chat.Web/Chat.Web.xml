@@ -4,6 +4,17 @@
         <name>Chat.Web</name>
     </assembly>
     <members>
+        <member name="T:Chat.Web.Controllers.ChatLogController">
+            <summary>
+            聊天记录
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.ChatLogController.GetChatData(System.String)">
+            <summary>
+            获取聊天记录
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.CreateFriendsController">
             <summary>
             添加申请好友
@@ -23,6 +34,13 @@
             </summary>
             <param name="pageNo"></param>
             <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.CreateFriendsController.CreateCreateFriends(Chat.Application.Dto.GroupsDto.CreateFriendsDto)">
+            <summary>
+            添加好友
+            </summary>
+            <param name="create"></param>
             <returns></returns>
         </member>
         <member name="T:Chat.Web.Controllers.FileController">
