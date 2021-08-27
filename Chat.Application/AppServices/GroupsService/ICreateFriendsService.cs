@@ -20,37 +20,51 @@ namespace Chat.Application.AppServices.GroupsService
     public interface ICreateFriendsService
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<CreateFriendsDto> GetCreateFriends(Guid id);
         Task<Guid> CreateCreateFriends(CreateFriendsDto create);
         Task<Tuple<IList<CreateFriendsDto>, int>> GetCreateFriendsDtos(Guid userId, int pageNo = 1, int pageSize = 20);
-        Task<bool> ChangeCreateFriends(Guid id,CreateFriendsEnum create);
+        Task<Guid> ChangeCreateFriends(Guid id,CreateFriendsEnum create);
     }
     public class CreateFriendsService:BaseService<CreateFriends>,ICreateFriendsService
     {
         private readonly IMapper mapper;
         private readonly IFriendsService friendsService;
+        private readonly IFriendsRepository friendsRepository;
         public CreateFriendsService(
             IMapper mapper,
             IFriendsService friendsService,
+            IFriendsRepository friendsRepository,
             IUnitOfWork<MasterDbContext> unitOfWork,
             ICreateFriendsRepository createFriendsRepository
             ) :base(unitOfWork, createFriendsRepository)
         {
             this.mapper = mapper;
             this.friendsService = friendsService;
+            this.friendsRepository = friendsRepository;
         }
 
-        public async Task<bool> ChangeCreateFriends(Guid id, CreateFriendsEnum create)
+        public async Task<Guid> ChangeCreateFriends(Guid id, CreateFriendsEnum create)
         {
             if (create == CreateFriendsEnum.Applying) throw new BusinessLogicException("错误状态");
-            var data =await currentRepository.FindAsync(id);
+            var data =await currentRepository.FindAll(a=>a.Id==id)
+                .Include(a=>a.BeInvited)
+                .Include(a=>a.Initiator)
+                .OrderBy(a=>a.CreatedTime)
+                .FirstOrDefaultAsync();
             data.CreateFriendsEnum = create;
-            await Update(data);
-            return true;
+            var receiving = StringUtil.GetString(30);
+            var friends = new List<Friends>();
+            friends.Add(new Friends {FriendId=data.BeInvitedId,SelfId=data.InitiatorId,Receiving= receiving });
+            friends.Add(new Friends { SelfId= data.BeInvitedId, FriendId = data.InitiatorId,Receiving= receiving });
+            unitOfWork.BeginTransaction();
+            await friendsRepository.AddManyAsync(friends);
+            currentRepository.Update(data);
+            unitOfWork.CommitTransaction();
+            return data.InitiatorId;
         }
 
         public async Task<Guid> CreateCreateFriends(CreateFriendsDto create)
