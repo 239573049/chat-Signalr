@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6YuB9rvFCZftCcYPLig8ak3i8xnlyFuq7x+y5Ym/8QJzQQfmzvNIMwbBnCOSJc2083U/AQSWZ68dEU7UrNZ7ng==",
+  "dgSpecHash": "KSgWBniMDxYToreQRKSojrLT2LCHmJbeSsk7K35t+y/tN7qlLmuN1TDvZ0k+K3NfQq1kjMG0Vt34Lrl4DpeRhQ==",
   "success": true,
-  "projectFilePath": "D:\\pr\\new-chat\\Chat.MongoDB\\Chat.MongoDB.csproj",
+  "projectFilePath": "D:\\开发项目\\Chat\\Chat.MongoDB\\Chat.MongoDB.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\cx.netcoreutils\\1.6.0\\cx.netcoreutils.1.6.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",

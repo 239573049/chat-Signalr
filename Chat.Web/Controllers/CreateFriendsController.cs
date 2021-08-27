@@ -51,7 +51,12 @@ namespace Chat.Web.Controllers
         [HttpPut]
         public async Task<bool> ChangeCreateFriends(Guid id,CreateFriendsEnum create)
         {
-            return await createFriendsService.ChangeCreateFriends(id, create);
+            var userId= await createFriendsService.ChangeCreateFriends(id, create);
+            ChatHub.UserData.TryGetValue(userId, out string receiving);
+            if (!string.IsNullOrEmpty(receiving)) {
+                await chatHub.Clients.Clients(receiving).SendAsync("SystemMessage", new SystemPushVM { Key = Guid.NewGuid(), Data = create==CreateFriendsEnum.Consent?"您的好友已经同意您的好友申请了，快去愉快的聊天吧！":"您的好友申请已经被拒绝！", Name = "好友申请回复", IsRead = false });
+            }
+            return true;
         }
         /// <summary>
         /// 获取好友申请列表信息
