@@ -12,7 +12,7 @@ namespace Chat.MongoDB
     public class BaseService<T> 
     {
         public readonly IMongoCollection<T> collection;   //数据表操作对象
-        public BaseService(IConfiguration config,string name)
+        public BaseService(string name)
         {
             var client = new MongoClient(AppSettings.App("ConnectionString:MongoDB"));
             var database = client.GetDatabase(AppSettings.App("ConnectionString:MongoDBData"));

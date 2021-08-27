@@ -23,11 +23,12 @@ namespace Chat.Application.Dto.GroupsDto
         /// 状态
         /// </summary>
         public CreateFriendsEnum CreateFriendsEnum { get; set; }
+        public string CreateFriendsCode { get; set; }
         /// <summary>
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-        public UserDto Initiator{ get; set; }
-        public UserDto BeInvited { get; set; }
+        public UsersDto Initiator { get; set; }
+        public UsersDto BeInvited { get; set; }
     }
 }

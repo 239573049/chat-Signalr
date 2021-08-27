@@ -60,11 +60,11 @@ namespace Chat.Web.Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<PeddleDataResponse<List<CreateFriendsDto>>> GetCreateFriendsDtos(int pageNo = 1, int pageSize = 20)
+        public async Task<PeddleDataResponse<IList<CreateFriendsDto>>> GetCreateFriendsDtos(int pageNo = 1, int pageSize = 20)
         {
             var userDto =await principalAccessor.GetUser<UserDto>();
             var data =await createFriendsService.GetCreateFriendsDtos(userDto.Id, pageNo, pageSize);
-            return new PeddleDataResponse<List<CreateFriendsDto>>(data.Item1, data.Item2);
+            return new PeddleDataResponse<IList<CreateFriendsDto>>(data.Item1, data.Item2);
         }
         /// <summary>
         /// 添加好友
