@@ -23,19 +23,22 @@ namespace Chat.Web.Code.Job
         {
             return Task.Run(() =>
             {
-                if (ChatHub.UserData.IsEmpty) return;
+                if (ChatHub.Admin.IsEmpty) return;
                 var data = Dispose();
                 var systemData = new SystemMassageVM
                 {
                     Data = data,
                     Marking = ChatSystemEnum.SystemData
                 };
-                HubContext.Clients.All.SendAsync("SystemData", systemData);
+                HubContext.Clients.Clients(ChatHub.Admin.Select(a => a.Value).ToList()).SendAsync("SystemData", systemData);
             });
         }
         public static SystemData Dispose()
         {
-            var data = new SystemData();
+            var data = new SystemData
+            {
+                OnLine = ChatHub.UserData.Count
+            };
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
                 var use = ReadMemInfo();
                 data.Available = use.Available;

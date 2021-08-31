@@ -27,7 +27,7 @@ namespace Chat.Application.AppServices.GroupsService
         Task<CreateFriendsDto> GetCreateFriends(Guid id);
         Task<Guid> CreateCreateFriends(CreateFriendsDto create);
         Task<Tuple<IList<CreateFriendsDto>, int>> GetCreateFriendsDtos(Guid userId, int pageNo = 1, int pageSize = 20);
-        Task<Guid> ChangeCreateFriends(Guid id,CreateFriendsEnum create);
+        Task<Tuple<CreateFriendsDto,string>> ChangeCreateFriends(Guid id,CreateFriendsEnum create);
     }
     public class CreateFriendsService:BaseService<CreateFriends>,ICreateFriendsService
     {
@@ -47,7 +47,7 @@ namespace Chat.Application.AppServices.GroupsService
             this.friendsRepository = friendsRepository;
         }
 
-        public async Task<Guid> ChangeCreateFriends(Guid id, CreateFriendsEnum create)
+        public async Task<Tuple<CreateFriendsDto, string>> ChangeCreateFriends(Guid id, CreateFriendsEnum create)
         {
             if (create == CreateFriendsEnum.Applying) throw new BusinessLogicException("错误状态");
             var data =await currentRepository.FindAll(a=>a.Id==id)
@@ -57,21 +57,24 @@ namespace Chat.Application.AppServices.GroupsService
                 .FirstOrDefaultAsync();
             data.CreateFriendsEnum = create;
             var receiving = StringUtil.GetString(30);
-            var friends = new List<Friends>();
-            friends.Add(new Friends {FriendId=data.BeInvitedId,SelfId=data.InitiatorId,Receiving= receiving });
-            friends.Add(new Friends { SelfId= data.BeInvitedId, FriendId = data.InitiatorId,Receiving= receiving });
-            unitOfWork.BeginTransaction();
-            await friendsRepository.AddManyAsync(friends);
+            if (create == CreateFriendsEnum.Consent) {
+                var friends = new List<Friends>
+                {
+                    new Friends { FriendId = data.BeInvitedId, SelfId = data.InitiatorId, Receiving =receiving },
+                    new Friends { SelfId = data.BeInvitedId, FriendId = data.InitiatorId, Receiving =receiving }
+                };
+                await friendsRepository.AddManyAsync(friends);
+            }
             currentRepository.Update(data);
-            unitOfWork.CommitTransaction();
-            return data.InitiatorId;
+            await unitOfWork.SaveChangesAsync();
+            return new Tuple<CreateFriendsDto, string>(mapper.Map<CreateFriendsDto>(data), receiving);
         }
 
         public async Task<Guid> CreateCreateFriends(CreateFriendsDto create)
         {
             var isF =await friendsService.GetIsFriends(create.InitiatorId, create.BeInvitedId);
             if (isF) throw new BusinessLogicException("已经是好友无法重复添加");
-            var isData = await currentRepository.IsExist(a => a.InitiatorId == create.InitiatorId && a.BeInvitedId == create.BeInvitedId&&a.CreateFriendsEnum!=CreateFriendsEnum.Refuse);
+            var isData = await currentRepository.IsExist(a => a.InitiatorId == create.InitiatorId && a.BeInvitedId == create.BeInvitedId&&a.CreateFriendsEnum==CreateFriendsEnum.Applying);
             if (isData) throw new BusinessLogicException("已申请添加好友还未通过");
             var data = mapper.Map<CreateFriends>(create);
             data.CreateFriendsEnum = CreateFriendsEnum.Applying;

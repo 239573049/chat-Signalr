@@ -19,6 +19,10 @@ namespace Chat.Code.Entities.Groups
         public Guid GroupDataId { get; set; }
         public GroupData GroupData { get; set; }
         /// <summary>
+        /// 连接地址
+        /// </summary>
+        public string Receiving { get; set; }
+        /// <summary>
         /// 群成员id
         /// </summary>
         public Guid SelfId { get; set; }

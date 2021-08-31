@@ -51,6 +51,7 @@ namespace Chat.Application.AppServices.GroupsService
             data.SelfId = userDto.Id;
             groupMember.GroupDataId = data.Id;
             groupMember.SelfId = userDto.Id;
+            groupMember.Receiving = data.Receiving;
             await groupMembersRepository.AddAsync(groupMember);
             unitOfWork.CommitTransaction();
             return data.Id; 

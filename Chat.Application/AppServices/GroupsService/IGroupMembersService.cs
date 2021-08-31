@@ -22,27 +22,37 @@ namespace Chat.Application.AppServices.GroupsService
         Task<bool> UpdateGroupMembers(GroupMembersDto group);
         Task<bool> DeleteGroupMembers(Guid id);
         Task<bool> AddGroup(Guid groupId, List<Guid> ids);
+        /// <summary>
+        /// 获取链接id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<string>> GetReceiving(Guid userId);
     }
     public class GroupMembersService : BaseService<GroupMembers>, IGroupMembersService
     {
         private readonly IMapper mapper;
         private readonly IGroupDataRepository groupDataRepository;
+        private readonly IFriendsRepository friendsRepository;
         public GroupMembersService(
             IMapper mapper,
             IGroupDataRepository groupDataRepository,
             IUnitOfWork<MasterDbContext> unitOfWork,
+            IFriendsRepository friendsRepository,
             IGroupMembersRepository groupMembersRepository
             ) :base(unitOfWork, groupMembersRepository)
         {
             this.mapper = mapper;
+            this.friendsRepository = friendsRepository;
             this.groupDataRepository = groupDataRepository;
         }
 
         public async Task<bool> AddGroup(Guid groupId, List<Guid> ids)
         {
-            if (!groupDataRepository.IsExist(groupId)) throw new BusinessLogicException("群聊不存在或已被删除");
+            var group =await groupDataRepository.FirstOrDefaultAsync(a => a.Id == groupId);
+            if (group==null) throw new BusinessLogicException("群聊不存在或已被删除");
             var groupIds =await currentRepository.FindAll(a=>ids.Contains(a.Id)).Select(a=>a.SelfId).ToListAsync();
-            var data = ids.Where(a=>!groupIds.Contains(a)).Select(a => new GroupMembers { GroupDataId = groupId, SelfId = a }).ToList();
+            var data = ids.Where(a=>!groupIds.Contains(a)).Select(a => new GroupMembers { GroupDataId = groupId, SelfId = a,Receiving= group.Receiving }).ToList();
             await currentRepository.AddManyAsync(data);
             return (await unitOfWork.SaveChangesAsync())>0;
         }
@@ -72,6 +82,13 @@ namespace Chat.Application.AppServices.GroupsService
         {
             var data =await currentRepository.FindAll(a => a.SelfId == userId).Include(a=>a.GroupData).ToListAsync();
             return mapper.Map<List<GroupMembersDto>>(data);
+        }
+
+        public async Task<List<string>> GetReceiving(Guid userId)
+        {
+            var data = await currentRepository.FindAll(a => a.SelfId == userId).Select(a=>a.Receiving).ToListAsync();
+            data.AddRange(await friendsRepository.FindAll(a => a.SelfId == userId).Select(a => a.Receiving).ToListAsync());
+            return data;
         }
 
         public async Task<bool> UpdateGroupMembers(GroupMembersDto group)

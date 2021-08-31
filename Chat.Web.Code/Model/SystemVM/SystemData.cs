@@ -28,5 +28,9 @@ namespace Chat.Web.Code.Model.SystemVM
         /// 系统
         /// </summary>
         public string SystemOs { get; set; }
+        /// <summary>
+        /// 服务器在线人数
+        /// </summary>
+        public int OnLine  { get; set; }
     }
 }

@@ -1,21 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\开发项目\\Chat\\Chat.MongoDB\\Chat.MongoDB.csproj": {}
+    "D:\\pr\\new-chat\\Chat.MongoDB\\Chat.MongoDB.csproj": {}
   },
   "projects": {
-    "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj": {
+    "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj",
+        "projectUniqueName": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj",
         "projectName": "Chat.Code",
-        "projectPath": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj",
+        "projectPath": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\开发项目\\Chat\\Chat.Code\\obj\\",
+        "outputPath": "D:\\pr\\new-chat\\Chat.Code\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "E:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -69,18 +68,17 @@
         }
       }
     },
-    "D:\\开发项目\\Chat\\Chat.MongoDB\\Chat.MongoDB.csproj": {
+    "D:\\pr\\new-chat\\Chat.MongoDB\\Chat.MongoDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\开发项目\\Chat\\Chat.MongoDB\\Chat.MongoDB.csproj",
+        "projectUniqueName": "D:\\pr\\new-chat\\Chat.MongoDB\\Chat.MongoDB.csproj",
         "projectName": "Chat.MongoDB",
-        "projectPath": "D:\\开发项目\\Chat\\Chat.MongoDB\\Chat.MongoDB.csproj",
+        "projectPath": "D:\\pr\\new-chat\\Chat.MongoDB\\Chat.MongoDB.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\开发项目\\Chat\\Chat.MongoDB\\obj\\",
+        "outputPath": "D:\\pr\\new-chat\\Chat.MongoDB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "E:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -98,8 +96,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj": {
-                "projectPath": "D:\\开发项目\\Chat\\Chat.Code\\Chat.Code.csproj"
+              "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj": {
+                "projectPath": "D:\\pr\\new-chat\\Chat.Code\\Chat.Code.csproj"
               }
             }
           }

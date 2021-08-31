@@ -50,8 +50,8 @@ namespace Chat.Web.Controllers
             var friends = await friendsService.GetFriendsDtos(user.Id);
             var list = new List<GroupDataVM>();
             var key = 0;
-            list.AddRange(data.Select(a => new GroupDataVM { Key = key++, ChatId = a.GroupDataId, Count = 0, Id = a.Id, Data = a.GroupData, IsGroup = true, SelfId = a.SelfId }).ToList());
-            list.AddRange(friends.Select(a => new GroupDataVM { Key = key++, ChatId = a.FriendId, Count = 0, Data = a.Friend, Id = a.Id, IsGroup = false, SelfId = a.SelfId }));
+            list.AddRange(data.Select(a => new GroupDataVM { Key = key++, ChatId = a.GroupDataId, Count = 0, Id = a.Id, Data = a.GroupData, IsGroup = true, SelfId = a.SelfId,Receiving=a.GroupData.Receiving }).ToList());
+            list.AddRange(friends.Select(a => new GroupDataVM { Key = key++, ChatId = a.FriendId, Count = 0, Data = a.Friend, Id = a.Id, IsGroup = false, SelfId = a.SelfId,Receiving=a.Receiving }));
             return list;
         }
         /// <summary>

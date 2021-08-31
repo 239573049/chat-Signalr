@@ -16,7 +16,6 @@ namespace Chat.Web.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorization]
     public class FileController : ControllerBase
     {
 

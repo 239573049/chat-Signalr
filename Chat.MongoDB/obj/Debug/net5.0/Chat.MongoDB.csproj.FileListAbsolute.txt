@@ -1,6 +1,5 @@
 D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.MongoDB.deps.json
 D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.MongoDB.dll
-D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\ref\Chat.MongoDB.dll
 D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.MongoDB.pdb
 D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.Code.dll
 D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\Chat.Code.pdb
@@ -28,3 +27,4 @@ D:\开发项目\Chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.csproj.CopyCompl
 D:\开发项目\Chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.dll
 D:\开发项目\Chat\Chat.MongoDB\obj\Debug\net5.0\ref\Chat.MongoDB.dll
 D:\开发项目\Chat\Chat.MongoDB\obj\Debug\net5.0\Chat.MongoDB.pdb
+D:\pr\new-chat\Chat.MongoDB\bin\Debug\net5.0\ref\Chat.MongoDB.dll

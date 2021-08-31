@@ -1,4 +1,5 @@
 ﻿using Chat.Application.Dto.GroupsDto;
+using Chat.Code.DbEnum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,10 @@ namespace Chat.Web.Code.Model.GroupsVM
         /// 群id
         /// </summary>
         public Guid ChatId { get; set; }
+        /// <summary>
+        /// 聊天链接id
+        /// </summary>
+        public string Receiving { get; set; }
         /// <summary>
         /// 未读信息
         /// </summary>
