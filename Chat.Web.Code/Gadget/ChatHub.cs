@@ -1,4 +1,5 @@
-﻿using Chat.Application.AppServices.UserService;
+﻿using Chat.Application.AppServices.GroupsService;
+using Chat.Application.AppServices.UserService;
 using Chat.Application.Dto;
 using Chat.Code.DbEnum;
 using Chat.EntityFrameworkCore.Repository.GroupsRespository;
@@ -21,19 +22,20 @@ namespace Chat.Web.Code.Gadget
         private readonly IUserService userService;
         private readonly ChatLogConfiguration<MessageVM> chatLogConfiguration;
         private readonly IRedisUtil redisUtil;
-        private readonly IGroupDataRepository groupDataRespository;
+        private readonly IGroupMembersService groupMembersService;
         public static ConcurrentDictionary<Guid, string> UserData = new();
+        public static ConcurrentDictionary<Guid, string> Admin = new();
 
         public ChatHub(
             IRedisUtil redisUtil,
             IUserService userService,
-            IGroupDataRepository groupDataRespository,
+            IGroupMembersService groupMembersService,
             ChatLogConfiguration<MessageVM> chatLogConfiguration
             )
         {
             this.redisUtil = redisUtil;
             this.userService = userService;
-            this.groupDataRespository = groupDataRespository;
+            this.groupMembersService = groupMembersService;
             this.chatLogConfiguration = chatLogConfiguration;
         }
         public override async Task OnConnectedAsync()
@@ -41,8 +43,11 @@ namespace Chat.Web.Code.Gadget
             var token = Context.GetHttpContext().Request.Query["access_token"] ;
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto == null) throw new BusinessLogicException(401,"请先登录");
+            if (userDto.Power == PowerEnum.Manage) {
+                Admin.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
+            }
             UserData.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
-            var group =await groupDataRespository.GetReceiving(userDto.Id);
+            var group =await groupMembersService.GetReceiving(userDto.Id);
             foreach (var d in group) {
               await Groups.AddToGroupAsync(Context.ConnectionId, d);
             }
@@ -54,9 +59,12 @@ namespace Chat.Web.Code.Gadget
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto != null) {
+                if(userDto.Power == PowerEnum.Manage) {
+                    Admin.Remove(userDto.Id, out string connectionIds);
+                }
                 UserData.Remove(userDto.Id, out string connectionId);
                 await userService.UseState(userDto.Id, UseStateEnume.OffLine);
-                var group = await groupDataRespository.GetReceiving(userDto.Id);
+                var group = await groupMembersService.GetReceiving(userDto.Id);
                 foreach (var d in group) {
                     await Groups.RemoveFromGroupAsync(connectionId,d);
                 }
@@ -72,15 +80,7 @@ namespace Chat.Web.Code.Gadget
             message.Date = DateTime.Now;
             message.Name = userDto.Name;
             message.HeadPortrait = userDto.HeadPortrait;
-            try {
-                UserData.TryGetValue(Guid.Parse(message.Receiving), out string receiving);
-                await Clients.Client(receiving).SendAsync("ChatData", message);
-            }
-            catch (Exception) {
-            }
-            UserData.TryGetValue(userDto.Id, out string userReceiving);
-            await Clients.Client(userReceiving).SendAsync("ChatData", message);
-            chatLogConfiguration.collection.InsertOne(message);
+            await Clients.Group(message.Receiving).SendAsync("ChatData", message);
         }
 
         public async Task SendGroup(MessageVM message)
@@ -92,7 +92,6 @@ namespace Chat.Web.Code.Gadget
             message.Name = userDto.Name;
             message.Date = DateTime.Now;
             await Clients.Group(message.Receiving).SendAsync("ChatData", message);
-            chatLogConfiguration.collection.InsertOne(message);
         }
         /// <summary>
         /// 系统推送

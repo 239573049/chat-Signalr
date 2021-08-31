@@ -51,7 +51,7 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<bool> DeleteFriends(Guid selfId, Guid friendId)
         {
-            var data =await currentRepository.FindAll(a=>a.SelfId== selfId || a.SelfId== friendId && a.FriendId== selfId || a.FriendId== friendId).Select(a=>a.Id).ToListAsync();
+            var data =await currentRepository.FindAll(a=>(a.SelfId== selfId && a.FriendId == friendId) || (a.SelfId == friendId && a.FriendId== selfId)).Select(a=>a.Id).ToListAsync();
             if (data.Count == 0) throw new BusinessLogicException("删除失败未找到好友信息");
             await currentRepository.DeleteMany(data);
             return (await unitOfWork.SaveChangesAsync())>0;

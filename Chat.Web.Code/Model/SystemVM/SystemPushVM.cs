@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chat.Code.DbEnum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,9 @@ namespace Chat.Web.Code.Model.SystemVM
         /// 是否已读
         /// </summary>
         public bool IsRead { get; set; }
+        /// <summary>
+        /// 系统标识
+        /// </summary>
+        public SysytemMarkingEnum SystemMarking { get; set; }
     }
 }

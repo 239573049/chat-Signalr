@@ -71,4 +71,21 @@ namespace Chat.Code.DbEnum
         [Description("离线")]
         OffLine
     }
+    public enum SysytemMarkingEnum
+    {
+        /// <summary>
+        /// 好友申请
+        /// </summary>
+        FriendRequest,
+        /// <summary>
+        /// 系统通知
+        /// </summary>
+        SystematicNotification,
+        /// <summary>
+        /// 好友申请[通过|拒绝]
+        /// </summary>
+        FriendRequestStatus,
+
+
+    }
 }

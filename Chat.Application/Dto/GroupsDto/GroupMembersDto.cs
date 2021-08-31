@@ -25,6 +25,10 @@ namespace Chat.Application.Dto.GroupsDto
         /// 未读信息
         /// </summary>
         public int Count { get; set; }
+        /// <summary>
+        /// 连接地址
+        /// </summary>
+        public string Receiving { get; set; }
         public GroupDataDto GroupData { get; set; }
         /// <summary>
         /// 群成员id
