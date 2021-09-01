@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
+using Chat.Web.Code.Gadget;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.Web.Controllers
 {
@@ -24,15 +26,18 @@ namespace Chat.Web.Controllers
     public class GroupDataController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly IHubContext<ChatHub> chatHub;
         private readonly IGroupDataService groupDataService;
         private readonly IPrincipalAccessor principalAccessor;
         public GroupDataController(
             IMapper mapper,
+            IHubContext<ChatHub> chatHub,
             IGroupDataService groupDataService,
             IPrincipalAccessor principalAccessor
             )
         {
             this.mapper = mapper;
+            this.chatHub = chatHub;
             this.groupDataService = groupDataService;
             this.principalAccessor = principalAccessor;
         }
@@ -42,10 +47,13 @@ namespace Chat.Web.Controllers
         /// <param name="group"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Guid> CreateGroupData(GroupDataDto group)
+        public async Task<IActionResult> CreateGroupData(GroupDataDto group)
         {
             var user = await principalAccessor.GetUser<UserDto>();
-            return await groupDataService.CreateGroupData(group, user);
+            group = await groupDataService.CreateGroupData(group, user);
+            ChatHub.UserData.TryGetValue(user.Id, out var data);
+            if(string.IsNullOrEmpty(data))await chatHub.Groups.AddToGroupAsync(data, group.Receiving);
+            return new OkObjectResult("创建成功");
         }
         /// <summary>
         /// 删除群
