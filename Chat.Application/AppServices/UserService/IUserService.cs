@@ -81,7 +81,7 @@ namespace Chat.Application.AppServices.UserService
         /// <returns></returns>
         Task<bool> UpdatesUsers(UserDto user);
         Task<bool> DeleteUserList(List<Guid> ids);
-
+        Task<bool> IsExist(string UserNumber); 
     }
     public class UserService : BaseService<User>, IUserService
     {
@@ -101,7 +101,6 @@ namespace Chat.Application.AppServices.UserService
             data.Status = StatusEnum.Start;
             data.UseState = UseStateEnume.OffLine;
             data.Power = PowerEnum.Common;
-            data.PassWrod = data.PassWrod.MD5Encrypt();
             data.Freezetime = null;
             data = currentRepository.Add(data);
             await unitOfWork.SaveChangesAsync();
@@ -199,9 +198,15 @@ namespace Chat.Application.AppServices.UserService
                 await unitOfWork.SaveChangesAsync();
             }
             var datas = mapper.Map<List<UserDto>>(data.Item1);
-            datas.ForEach(a=>a.PassWrod=a.PassWrod.MD5Decrypt());
+            datas.ForEach(a=>a.PassWord = a.PassWord.MD5Decrypt());
             return new Tuple<IList<UserDto>,int>(datas, data.Item2);
         }
+
+        public async Task<bool> IsExist(string UserNumber)
+        {
+            return await currentRepository.FindAll(a => a.UserNumber == UserNumber).AnyAsync();
+        }
+
         public async Task<bool> ThawUser(List<Guid> ids)
         {
             var data =await currentRepository.FindAll(a=>ids.Contains(a.Id)).ToListAsync();
@@ -218,7 +223,7 @@ namespace Chat.Application.AppServices.UserService
             var userData = data.FirstOrDefault(a => a.Id == user.Id);
             if (userData == null) throw new BusinessLogicException("用户不存在或者已被删除");
             userData.Name = user.Name;
-            userData.PassWrod = user.PassWrod;
+            userData.PassWord = user.PassWord;
             userData.UserNumber = user.UserNumber;
             userData.Status = user.Status;
             userData.Power = user.Power;
@@ -232,7 +237,7 @@ namespace Chat.Application.AppServices.UserService
         {
             var data =await currentRepository.FindAll(a => a.Id == User.Id).OrderBy(a => a.CreatedTime).FirstOrDefaultAsync();
             if(data==null) throw new BusinessLogicException("用户不存在或者已被删除");
-            data.PassWrod = User.PassWrod;
+            data.PassWord = User.PassWord;
             data.Name = User.Name;
             data.HeadPortrait = User.HeadPortrait;
             currentRepository.Update(data);

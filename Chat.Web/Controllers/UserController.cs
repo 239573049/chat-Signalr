@@ -42,13 +42,26 @@ namespace Chat.Web.Controllers
         /// <summary>
         /// 新增账号
         /// </summary>
-        /// <param name="User"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Guid> CreateUser(UserDto User)
+        public async Task<IActionResult> CreateUser(UserDto user)
         {
-            return await UserService.CreateUser(User);
+            if (user.PassWord.Length < 5) return new ModelStateResult("密码长度不能少于五位");
+            if (user.PassWord!=user.PassWords) return new ModelStateResult("俩次输入的密码不一致");
+            if (user.UserNumber.Length < 5) return new ModelStateResult("密码长度不能少于五位");
+            if (string.IsNullOrEmpty(user.HeadPortrait)) return new ModelStateResult("头像不能为空");
+            if (await UserService.IsExist(user.UserNumber)) return new ModelStateResult("账号已经存在请重新编辑");
+            return new OkObjectResult(await UserService.CreateUser(user));
         }
+        /// <summary>
+        /// 是否存在用户名
+        /// </summary>
+        /// <param name="userNumber"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<bool> IsExist(string userNumber) =>
+            await UserService.IsExist(userNumber);
         /// <summary>
         /// 删除用户
         /// </summary>
@@ -115,7 +128,7 @@ namespace Chat.Web.Controllers
         public async Task<UserDto> GetUserName(string userNumber)
         {
             var data= await UserService.GetUser(userNumber);
-            data.PassWrod = null;
+            data.PassWord = null;
             return data;
         }
         /// <summary>
@@ -136,9 +149,9 @@ namespace Chat.Web.Controllers
         {
             var userDto = await principalAccessor.GetUser<UserDto>();
             if (userDto.Power != PowerEnum.Manage) throw new BusinessLogicException("权限不足，请联系管理员");
-            if (user.PassWrod.Length < 5) return new ModelStateResult("密码长度不能小于五位");
+            if (user.PassWord.Length < 5) return new ModelStateResult("密码长度不能小于五位");
             if (user.UserNumber.Length < 5) return new ModelStateResult("用户名长度不能小于五位");
-            user.PassWrod = user.PassWrod.MD5Encrypt();
+            user.PassWord = user.PassWord.MD5Encrypt();
             return new OkObjectResult(await UserService.UpdatesUsers(user)?"编辑成功":"编辑失败");
         }
 

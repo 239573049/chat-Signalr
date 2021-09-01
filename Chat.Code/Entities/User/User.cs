@@ -20,7 +20,7 @@ namespace Chat.Code.Entities.Users
         /// <summary>
         /// 用户密码
         /// </summary>
-        public string PassWrod { get; set; }
+        public string PassWord { get; set; }
         /// <summary>
         /// 状态
         /// </summary>
