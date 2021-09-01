@@ -18,7 +18,7 @@ namespace Chat.Application.AppServices.GroupsService
 {
     public interface IGroupDataService
     {
-        Task<Guid> CreateGroupData(GroupDataDto group,UserDto userDto);
+        Task<GroupDataDto> CreateGroupData(GroupDataDto group,UserDto userDto);
         Task<GroupDataDto> GetGroup(Guid id);
         Task<bool> UpdateGroupData(GroupDataDto group);
         Task<bool> DeleteGroupData(Guid id, Guid userId);
@@ -41,7 +41,7 @@ namespace Chat.Application.AppServices.GroupsService
             this.groupMembersRepository = groupMembersRepository;
         }
 
-        public async Task<Guid> CreateGroupData(GroupDataDto group, UserDto userDto)
+        public async Task<GroupDataDto> CreateGroupData(GroupDataDto group, UserDto userDto)
         {
             unitOfWork.BeginTransaction();
             var data = mapper.Map<GroupData>(group);
@@ -52,9 +52,9 @@ namespace Chat.Application.AppServices.GroupsService
             groupMember.GroupDataId = data.Id;
             groupMember.SelfId = userDto.Id;
             groupMember.Receiving = data.Receiving;
-            await groupMembersRepository.AddAsync(groupMember);
+            groupMember= await groupMembersRepository.AddAsync(groupMember);
             unitOfWork.CommitTransaction();
-            return data.Id; 
+            return mapper.Map<GroupDataDto>(data);
         }
 
         public async Task<bool> DeleteGroupData(Guid id,Guid userId)

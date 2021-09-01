@@ -2,7 +2,6 @@
 using Chat.Application.AppServices.UserService;
 using Chat.Application.Dto;
 using Chat.Code.DbEnum;
-using Chat.EntityFrameworkCore.Repository.GroupsRespository;
 using Chat.MongoDB.Mappings;
 using Chat.Uitl.Util;
 using Chat.Web.Code.Model.ChatVM;

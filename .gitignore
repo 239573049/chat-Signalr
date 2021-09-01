@@ -23,3 +23,5 @@
 /Chat.Code/bin
 /Chat.Code/obj
 /Chat.Application/obj
+/Chat.MongoDB/bin
+/Chat.MongoDB/obj
