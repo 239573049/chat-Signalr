@@ -193,7 +193,14 @@
             <summary>
             新增账号
             </summary>
-            <param name="User"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.IsExist(System.String)">
+            <summary>
+            是否存在用户名
+            </summary>
+            <param name="userNumber"></param>
             <returns></returns>
         </member>
         <member name="M:Chat.Web.Controllers.UserController.DeleteUser(System.Guid)">

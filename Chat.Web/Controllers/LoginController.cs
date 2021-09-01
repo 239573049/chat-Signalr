@@ -47,7 +47,7 @@ namespace Chat.Web.Controllers
         public async Task<IActionResult> Register(string UserNumber,string passWord)
         {
             var data =await UserService.GetUser(UserNumber);
-            if (data.PassWrod != passWord) return new ModelStateResult("账号或者密码错误");
+            if (data.PassWord != passWord) return new ModelStateResult("账号或者密码错误");
             switch (data.Status)
             {
                 case StatusEnum.Disabled:

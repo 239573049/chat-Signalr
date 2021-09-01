@@ -21,7 +21,11 @@ namespace Chat.Application.Dto
         /// <summary>
         /// 用户密码
         /// </summary>
-        public string PassWrod { get; set; }
+        public string PassWord { get; set; }
+        /// <summary>
+        /// 用户密码
+        /// </summary>
+        public string PassWords { get; set; }
         /// <summary>
         /// 状态
         /// </summary>
