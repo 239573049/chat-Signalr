@@ -239,7 +239,7 @@
             <summary>
             获取用户账号
             </summary>
-            <param name="UserNumber"></param>
+            <param name="userNumber"></param>
             <returns></returns>
         </member>
         <member name="M:Chat.Web.Controllers.UserController.UpdateUser(Chat.Application.Dto.UserDto)">

@@ -22,9 +22,32 @@ namespace Chat.Web.Code.Gadget
         private readonly ChatLogConfiguration<MessageVM> chatLogConfiguration;
         private readonly IRedisUtil redisUtil;
         private readonly IGroupMembersService groupMembersService;
-        public static ConcurrentDictionary<Guid, string> UserData = new();
-        public static ConcurrentDictionary<Guid, string> Admin = new();
-
+        public static ConcurrentDictionary<Guid, string> UserData { get; set; } = new();
+        public static ConcurrentDictionary<Guid, string> Admin { get; set; } = new();
+        public static string GetUserData(Guid key)
+        {
+            var receiving = string.Empty;
+            try {
+                UserData.TryGetValue(key,out receiving);
+            }
+            catch (ArgumentNullException) {
+                return receiving;
+            }
+            return receiving;
+        }
+        public static List<string> GetUserData(List<Guid> key)
+        {
+            var receivings =new List<string>();
+            foreach (var d in key) {
+                try {
+                    UserData.TryGetValue(d, out string receiving);
+                    receivings.Add(receiving);
+                }
+                catch (ArgumentNullException) {
+                }
+            }
+            return receivings;
+        }
         public ChatHub(
             IRedisUtil redisUtil,
             IUserService userService,

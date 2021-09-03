@@ -159,7 +159,7 @@ namespace Chat.Application.AppServices.UserService
         public async  Task<UserDto> GetUser(string UserNumber)
         {
             var data =await currentRepository.FindAll(a=>a.UserNumber==UserNumber).OrderBy(a=>a.CreatedTime).FirstOrDefaultAsync();
-            if (data == null) throw new BusinessLogicException("账号不存在");
+            if (data == null) throw new BusinessLogicException("用户不存在或者已被删除");
             if (data.Status == StatusEnum.Freeze)
             {
                 if (data.Freezetime < DateTime.Now)

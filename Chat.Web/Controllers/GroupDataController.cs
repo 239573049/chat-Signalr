@@ -52,7 +52,7 @@ namespace Chat.Web.Controllers
             var user = await principalAccessor.GetUser<UserDto>();
             group = await groupDataService.CreateGroupData(group, user);
             ChatHub.UserData.TryGetValue(user.Id, out var data);
-            if(string.IsNullOrEmpty(data))await chatHub.Groups.AddToGroupAsync(data, group.Receiving);
+            if(!string.IsNullOrEmpty(data))await chatHub.Groups.AddToGroupAsync(data, group.Receiving);
             return new OkObjectResult("创建成功");
         }
         /// <summary>

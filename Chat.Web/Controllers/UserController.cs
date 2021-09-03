@@ -122,7 +122,7 @@ namespace Chat.Web.Controllers
         /// <summary>
         /// 获取用户账号
         /// </summary>
-        /// <param name="UserNumber"></param>
+        /// <param name="userNumber"></param>
         /// <returns></returns>
         [HttpGet]
         public async Task<UserDto> GetUserName(string userNumber)

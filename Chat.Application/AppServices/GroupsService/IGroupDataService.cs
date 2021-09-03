@@ -63,6 +63,11 @@ namespace Chat.Application.AppServices.GroupsService
             if (data == null) throw new BusinessLogicException("数据不存在或已被删除");
             if (data.SelfId != userId) throw new BusinessLogicException("没有权限删除群组");
             await currentRepository.Delete(id);
+            var deletes =await groupMembersRepository
+                .FindAll(a => a.GroupDataId == data.Id)
+                .Select(a=>a.Id)
+                .ToListAsync();
+            await groupMembersRepository.DeleteMany(deletes);
             return (await unitOfWork.SaveChangesAsync()) > 0;
         }
 
@@ -73,10 +78,10 @@ namespace Chat.Application.AppServices.GroupsService
                 .FirstOrDefaultAsync();
             if (data == null) throw new BusinessLogicException("数据不存在或已被删除");
             var userids = data.GroupMembers.Select(a=>a.SelfId);
-            var userData =await userRepository.FindAll(a=>userids.Contains(a.Id)).Select(user=> new { Id = user.Id, Name = user.Name, HeadPortrait = user.HeadPortrait, UserNumber = user.UserNumber }).ToListAsync();
+            var userData =await userRepository.FindAll(a=>userids.Contains(a.Id)).ToListAsync();
             var dataDto= mapper.Map<GroupDataDto>(data);
             var conut = 0;
-            dataDto.GroupMembers.ForEach(a => { a.Self = userData.FirstOrDefault(d => d.Id == a.SelfId);a.Key = conut++; });
+            dataDto.GroupMembers.ForEach(a => { a.Self = mapper.Map<UsersDto>(userData.FirstOrDefault(d => d.Id == a.SelfId));a.Key = conut++; });
             return dataDto;
         }
 

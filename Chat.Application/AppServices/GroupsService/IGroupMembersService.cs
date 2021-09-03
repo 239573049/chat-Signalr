@@ -21,7 +21,7 @@ namespace Chat.Application.AppServices.GroupsService
         Task<Guid> CreateGroupMembers(GroupMembersDto group);
         Task<bool> UpdateGroupMembers(GroupMembersDto group);
         Task<bool> DeleteGroupMembers(Guid id);
-        Task<bool> AddGroup(Guid groupId, List<Guid> ids);
+        Task<GroupDataDto> AddGroup(Guid groupId, List<Guid> ids);
         /// <summary>
         /// 获取链接id
         /// </summary>
@@ -47,14 +47,15 @@ namespace Chat.Application.AppServices.GroupsService
             this.groupDataRepository = groupDataRepository;
         }
 
-        public async Task<bool> AddGroup(Guid groupId, List<Guid> ids)
+        public async Task<GroupDataDto> AddGroup(Guid groupId, List<Guid> ids)
         {
             var group =await groupDataRepository.FirstOrDefaultAsync(a => a.Id == groupId);
             if (group==null) throw new BusinessLogicException("群聊不存在或已被删除");
             var groupIds =await currentRepository.FindAll(a=>ids.Contains(a.Id)).Select(a=>a.SelfId).ToListAsync();
             var data = ids.Where(a=>!groupIds.Contains(a)).Select(a => new GroupMembers { GroupDataId = groupId, SelfId = a,Receiving= group.Receiving }).ToList();
             await currentRepository.AddManyAsync(data);
-            return (await unitOfWork.SaveChangesAsync())>0;
+            await unitOfWork.SaveChangesAsync();
+            return mapper.Map<GroupDataDto>(group);
         }
 
         public async Task<Guid> CreateGroupMembers(GroupMembersDto group)

@@ -4,9 +4,11 @@ using Chat.Application.Dto;
 using Chat.Application.Dto.GroupsDto;
 using Chat.Uitl.Util;
 ﻿using Chat.Web.Code;
+using Chat.Web.Code.Gadget;
 using Chat.Web.Code.Model.GroupsVM;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +25,20 @@ namespace Chat.Web.Controllers
     public class GroupMembersController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly IHubContext<ChatHub> chatHub;
         private readonly IPrincipalAccessor principalAccessor;
         private readonly IFriendsService friendsService;
         private readonly IGroupMembersService groupMembersService;
         public GroupMembersController(
             IMapper mapper,
+            IHubContext<ChatHub> chatHub,
             IFriendsService friendsService,
             IPrincipalAccessor principalAccessor,
             IGroupMembersService groupMembersService
             )
         {
             this.mapper = mapper;
+            this.chatHub = chatHub;
             this.friendsService = friendsService;
             this.principalAccessor = principalAccessor;
             this.groupMembersService = groupMembersService;
@@ -61,7 +66,12 @@ namespace Chat.Web.Controllers
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> AddGroup(Guid groupId, List<Guid> ids) =>
-            await groupMembersService.AddGroup(groupId, ids);
+        public async Task<bool> AddGroup(Guid groupId, List<Guid> ids)
+        {
+            var data= await groupMembersService.AddGroup(groupId, ids);
+            var userIds = ChatHub.GetUserData(ids);
+            userIds.ForEach(async a => await chatHub.Groups.AddToGroupAsync(a, data.Receiving));
+            return true;
+        }
     }
 }
