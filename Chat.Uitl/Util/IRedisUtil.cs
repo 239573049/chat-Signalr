@@ -18,5 +18,9 @@ namespace Chat.Uitl.Util
         Task<bool> SetDateAsync(string key,DateTime date);
         Task<bool> DeleteAsync(string key);
         bool Delete(string key);
+        bool HSetNx(string key, string field, object value);
+        Task<string[]> GetReceivings(Guid id);
+        Task<bool> SetReceivings(Guid id,string receiving);
+        Task<bool> DeleteReceivings(Guid id,string receiving);
     }
 }

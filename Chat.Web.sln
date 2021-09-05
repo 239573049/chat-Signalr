@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Web", "Chat.Web\Chat.Web.csproj", "{07BF491F-D61C-4F01-BFFA-A644E99ACA72}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.EntityFrameworkCore", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Uitl", "Chat.Uitl\Chat.Uitl.csproj", "{6E76F86A-E477-4CDC-9626-E01E071AA9B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.MongoDB", "Chat.MongoDB\Chat.MongoDB.csproj", "{41C9DF01-576C-40DD-A859-488C42D68D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.MongoDB", "Chat.MongoDB\Chat.MongoDB.csproj", "{41C9DF01-576C-40DD-A859-488C42D68D37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

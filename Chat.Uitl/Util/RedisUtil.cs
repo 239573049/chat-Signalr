@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Chat.Uitl.Util
@@ -98,6 +100,57 @@ namespace Chat.Uitl.Util
         public bool Delete(string key)
         {
             return RedisHelper.Del(key) > 0;
+        }
+        /// <summary>
+        /// 只有在字段 field 不存在时，设置哈希表字段的值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool HSetNx(string key, string field, object value)
+        {
+            return RedisHelper.HSetNx(key,field,value);
+        }
+
+        public async Task<string[]> GetReceivings(Guid id)
+        {
+            var data =await RedisHelper.GetAsync(id.ToString());
+            if (!string.IsNullOrEmpty(data)) {
+                var receivings = data.Split(",");
+                return receivings;
+            }
+            return Array.Empty<string>();
+        }
+
+        public async Task<bool> SetReceivings(Guid id, string receiving)
+        {
+            var data=await RedisHelper.GetAsync(id.ToString());
+            if (!string.IsNullOrEmpty(data)) {
+                await RedisHelper.SetAsync(id.ToString(), data + "," + receiving);
+                return true;
+            }
+            else {
+                await RedisHelper.SetAsync(id.ToString(), receiving);
+                return true;
+            }
+
+        }
+
+        public async Task<bool> DeleteReceivings(Guid id, string receiving)
+        {
+            var data = await RedisHelper.GetAsync(id.ToString());
+            if (!string.IsNullOrEmpty(data)) {
+                var receivings = data.Split(",");
+                receivings = receivings.Where(a => a != receiving).ToArray();
+                if (receivings.Length == 0) {
+                    await RedisHelper.DelAsync(id.ToString());
+                    return true;
+                }
+                await RedisHelper.SetAsync(id.ToString(), string.Join(',', receivings));
+                return true;
+            }
+            return true;
         }
     }
 }

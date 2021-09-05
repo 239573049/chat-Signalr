@@ -59,5 +59,26 @@ namespace Chat.Web.Controllers
             await chatHub.Clients.Group(message.Receiving).SendAsync("ChatData", message);
             return new OkObjectResult("");
         }
+        /// <summary>
+        /// 获取所有在线
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+        {
+            return new OkObjectResult(ChatHub.UserData);
+        }
+        /// <summary>
+        /// 发送指定链接地址测试
+        /// </summary>
+        /// <param name="rediver"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Send(string rediver,[FromBody] MessageVM message)
+        {
+           await chatHub.Clients.Client(rediver).SendAsync("ChatData",  message);
+            return Ok();
+        }
     }
 }

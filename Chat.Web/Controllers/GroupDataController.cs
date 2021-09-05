@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
 using Chat.Web.Code.Gadget;
 using Microsoft.AspNetCore.SignalR;
+using static Chat.Web.Code.Middleware.CurrentLimiting;
 
 namespace Chat.Web.Controllers
 {
@@ -26,11 +27,13 @@ namespace Chat.Web.Controllers
     public class GroupDataController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly IRedisUtil redisUtil;
         private readonly IHubContext<ChatHub> chatHub;
         private readonly IGroupDataService groupDataService;
         private readonly IPrincipalAccessor principalAccessor;
         public GroupDataController(
             IMapper mapper,
+            IRedisUtil redisUtil,
             IHubContext<ChatHub> chatHub,
             IGroupDataService groupDataService,
             IPrincipalAccessor principalAccessor
@@ -38,6 +41,7 @@ namespace Chat.Web.Controllers
         {
             this.mapper = mapper;
             this.chatHub = chatHub;
+            this.redisUtil = redisUtil;
             this.groupDataService = groupDataService;
             this.principalAccessor = principalAccessor;
         }
@@ -51,8 +55,10 @@ namespace Chat.Web.Controllers
         {
             var user = await principalAccessor.GetUser<UserDto>();
             group = await groupDataService.CreateGroupData(group, user);
-            ChatHub.UserData.TryGetValue(user.Id, out var data);
-            if(!string.IsNullOrEmpty(data))await chatHub.Groups.AddToGroupAsync(data, group.Receiving);
+            var ids = await redisUtil.GetReceivings(user.Id);
+            for (int i = 0; i < ids.Length; i++) {
+                await chatHub.Groups.AddToGroupAsync(ids[i], group.Receiving);
+            }
             return new OkObjectResult("创建成功");
         }
         /// <summary>

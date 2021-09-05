@@ -7,9 +7,11 @@ using Chat.Uitl.Util;
 using Chat.Web.Code.Model.ChatVM;
 using Cx.NetCoreUtils.Exceptions;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 namespace Chat.Web.Code.Gadget
 {
@@ -68,6 +70,7 @@ namespace Chat.Web.Code.Gadget
             if (userDto.Power == PowerEnum.Manage) {
                 Admin.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
             }
+            await redisUtil.SetReceivings(userDto.Id, Context.ConnectionId);
             UserData.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
             var group =await groupMembersService.GetReceiving(userDto.Id);
             foreach (var d in group) {
@@ -81,7 +84,8 @@ namespace Chat.Web.Code.Gadget
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto != null) {
-                if(userDto.Power == PowerEnum.Manage) {
+                await redisUtil.DeleteReceivings(userDto.Id, Context.ConnectionId);
+                if (userDto.Power == PowerEnum.Manage) {
                     Admin.Remove(userDto.Id, out string connectionIds);
                 }
                 UserData.Remove(userDto.Id, out string connectionId);

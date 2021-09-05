@@ -2,6 +2,7 @@
 using Chat.Web.Code.Gadget;
 using Chat.Web.Code.Model.ChatVM;
 using Chat.Web.Code.Model.SystemVM;
+using Cx.NetCoreUtils.Common;
 using Microsoft.AspNetCore.SignalR;
 using Quartz;
 using System;
@@ -55,6 +56,7 @@ namespace Chat.Web.Code.Job
                 data.Cpu = WinData.GetCpuUsage();
                 data.Usage = Convert.ToInt32((data.Total - data.Available) / data.Total * 100);
             }
+            data.ServiceName = AppSettings.GetValue<string>("ServiceName"); 
             return data;
         }
     }

@@ -24,7 +24,6 @@ using System.Reflection;
 using static Cx.NetCoreUtils.Swagger.SwaggerSetup;
 using Chat.Uitl.Util;
 using Chat.Web.Code.Middleware;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Chat.Web.Code.Gadget;
 using Quartz.Impl;
 using Quartz;
@@ -79,6 +78,7 @@ namespace Chat.Web
             var csredis = new CSRedisClient(Configuration["ConnectionString:Redis"]);
             RedisHelper.Initialization(csredis);
             services.AddSignalR()
+                .AddRedis(Configuration["ConnectionString:Redis"])
                 .AddStackExchangeRedis(Configuration["ConnectionString:Redis"]);
             services.AddScoped<ChatLogConfiguration<MessageVM>>();
             services.AddControllers(o =>

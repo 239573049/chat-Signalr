@@ -150,6 +150,20 @@
             <param name="message"></param>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.HubController.GetUser">
+            <summary>
+            获取所有在线
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chat.Web.Controllers.HubController.Send(System.String,Chat.Web.Code.Model.ChatVM.MessageVM)">
+            <summary>
+            发送指定链接地址测试
+            </summary>
+            <param name="rediver"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.JobsController">
             <summary>
             定时器调试
