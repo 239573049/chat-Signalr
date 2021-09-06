@@ -55,7 +55,7 @@ namespace Chat.Web.Controllers
         {
             var user = await principalAccessor.GetUser<UserDto>();
             group = await groupDataService.CreateGroupData(group, user);
-            var ids = await redisUtil.GetReceivings(user.Id);
+            var ids = await redisUtil.SMembersAsync<string>("connection" + user.Id);
             for (int i = 0; i < ids.Length; i++) {
                 await chatHub.Groups.AddToGroupAsync(ids[i], group.Receiving);
             }

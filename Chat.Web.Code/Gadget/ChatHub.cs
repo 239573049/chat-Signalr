@@ -65,12 +65,14 @@ namespace Chat.Web.Code.Gadget
         public override async Task OnConnectedAsync()
         {
             var token = Context.GetHttpContext().Request.Query["access_token"] ;
+            var isPower = Context.GetHttpContext().Request.Query["isPower"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto == null) throw new BusinessLogicException(401,"请先登录");
             if (userDto.Power == PowerEnum.Manage) {
-                Admin.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
+                if(Convert.ToBoolean(isPower))Admin.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
             }
-            await redisUtil.SetReceivings(userDto.Id, Context.ConnectionId);
+            await redisUtil.SAdd("connection"+userDto.Id,new List<string> { Context.ConnectionId });
+            //await redisUtil.SetReceivings(userDto.Id, Context.ConnectionId);
             UserData.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
             var group =await groupMembersService.GetReceiving(userDto.Id);
             foreach (var d in group) {
@@ -84,7 +86,7 @@ namespace Chat.Web.Code.Gadget
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto != null) {
-                await redisUtil.DeleteReceivings(userDto.Id, Context.ConnectionId);
+                await redisUtil.SRemAsync("connection" + userDto.Id, new List<string> { Context.ConnectionId });
                 if (userDto.Power == PowerEnum.Manage) {
                     Admin.Remove(userDto.Id, out string connectionIds);
                 }

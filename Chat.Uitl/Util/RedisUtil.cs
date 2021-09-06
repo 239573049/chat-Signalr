@@ -113,44 +113,38 @@ namespace Chat.Uitl.Util
             return RedisHelper.HSetNx(key,field,value);
         }
 
-        public async Task<string[]> GetReceivings(Guid id)
+
+        /// <summary>
+        /// 向集合添加一个或多个成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<long> SAdd<T>(string key, List<T> obj)
         {
-            var data =await RedisHelper.GetAsync(id.ToString());
-            if (!string.IsNullOrEmpty(data)) {
-                var receivings = data.Split(",");
-                return receivings;
-            }
-            return Array.Empty<string>();
+            return await RedisHelper.SAddAsync(key,obj);
         }
-
-        public async Task<bool> SetReceivings(Guid id, string receiving)
+        /// <summary>
+        /// 移除集合中一个或多个成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public async Task<long> SRemAsync<T>(string key, List<T> obj)
         {
-            var data=await RedisHelper.GetAsync(id.ToString());
-            if (!string.IsNullOrEmpty(data)) {
-                await RedisHelper.SetAsync(id.ToString(), data + "," + receiving);
-                return true;
-            }
-            else {
-                await RedisHelper.SetAsync(id.ToString(), receiving);
-                return true;
-            }
-
+            return await RedisHelper.SRemAsync(key, obj);
         }
-
-        public async Task<bool> DeleteReceivings(Guid id, string receiving)
+        /// <summary>
+        /// 返回集合中的所有成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<T[]> SMembersAsync<T>(string key)
         {
-            var data = await RedisHelper.GetAsync(id.ToString());
-            if (!string.IsNullOrEmpty(data)) {
-                var receivings = data.Split(",");
-                receivings = receivings.Where(a => a != receiving).ToArray();
-                if (receivings.Length == 0) {
-                    await RedisHelper.DelAsync(id.ToString());
-                    return true;
-                }
-                await RedisHelper.SetAsync(id.ToString(), string.Join(',', receivings));
-                return true;
-            }
-            return true;
+            return await RedisHelper.SMembersAsync<T>(key);
         }
     }
 }
