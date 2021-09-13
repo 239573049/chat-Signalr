@@ -113,11 +113,11 @@ namespace Chat.Application.AppServices.UserService
             if (data == null) throw new BusinessLogicException("用户不存在或者已被删除");
             Oss oss = new()
             {
-                accessKeyId = AppSettings.App("oss:accessKeyId"),
-                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
-                bucketName = AppSettings.App("oss:bucketName"),
-                endpoint = AppSettings.App("oss:endpoint"),
-                path = AppSettings.App("oss:path")
+                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
+                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
+                bucketName = AppSettingsUtil.App("oss:bucketName"),
+                endpoint = AppSettingsUtil.App("oss:endpoint"),
+                path = AppSettingsUtil.App("oss:path")
             };
             await oss.DeleteFile(data.HeadPortraitKey);
             await currentRepository.Delete(id);
@@ -129,11 +129,11 @@ namespace Chat.Application.AppServices.UserService
             var key =await currentRepository.FindAll(a=>ids.Contains(a.Id)).Select(a => a.HeadPortraitKey).ToListAsync();
             Oss oss = new()
             {
-                accessKeyId = AppSettings.App("oss:accessKeyId"),
-                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
-                bucketName = AppSettings.App("oss:bucketName"),
-                endpoint = AppSettings.App("oss:endpoint"),
-                path = AppSettings.App("oss:path")
+                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
+                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
+                bucketName = AppSettingsUtil.App("oss:bucketName"),
+                endpoint = AppSettingsUtil.App("oss:endpoint"),
+                path = AppSettingsUtil.App("oss:path")
             };
             oss.DeletesFile(key);
             await currentRepository.DeleteMany(ids);

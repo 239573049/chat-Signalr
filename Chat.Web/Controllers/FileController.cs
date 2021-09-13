@@ -30,11 +30,11 @@ namespace Chat.Web.Controllers
             if (file.Length > (50 * 1024 * 1024)) return new ModelStateResult("上传文件大小不能超过50MB");
             Oss oss = new()
             {
-                accessKeyId = AppSettings.App("oss:accessKeyId"),
-                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
-                bucketName = AppSettings.App("oss:bucketName"),
-                endpoint = AppSettings.App("oss:endpoint"),
-                path = AppSettings.App("oss:path")
+                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
+                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
+                bucketName = AppSettingsUtil.App("oss:bucketName"),
+                endpoint = AppSettingsUtil.App("oss:endpoint"),
+                path = AppSettingsUtil.App("oss:path")
             };
             var datas = await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream());
             return new OkObjectResult(new { path =$"{oss.path}/{datas}",key= datas });
@@ -49,11 +49,11 @@ namespace Chat.Web.Controllers
         {
             Oss oss = new()
             {
-                accessKeyId = AppSettings.App("oss:accessKeyId"),
-                accessKeySecret = AppSettings.App("oss:accessKeySecret"),
-                bucketName = AppSettings.App("oss:bucketName"),
-                endpoint = AppSettings.App("oss:endpoint"),
-                path = AppSettings.App("oss:path")
+                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
+                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
+                bucketName = AppSettingsUtil.App("oss:bucketName"),
+                endpoint = AppSettingsUtil.App("oss:endpoint"),
+                path = AppSettingsUtil.App("oss:path")
             };
             return new OkObjectResult(await oss.DeleteFile(key)?"删除成功":"删除失败");
         }

@@ -7,11 +7,9 @@ using Chat.Uitl.Util;
 using Chat.Web.Code.Model.ChatVM;
 using Cx.NetCoreUtils.Exceptions;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 namespace Chat.Web.Code.Gadget
 {
@@ -21,8 +19,10 @@ namespace Chat.Web.Code.Gadget
     public class ChatHub : Hub
     {
         private readonly IUserService userService;
+        private object _lock = new();
         private readonly ChatLogConfiguration<MessageVM> chatLogConfiguration;
         private readonly IRedisUtil redisUtil;
+        private readonly IHubContext<ChatHub> chatHub;
         private readonly IGroupMembersService groupMembersService;
         public static ConcurrentDictionary<Guid, string> UserData { get; set; } = new();
         public static ConcurrentDictionary<Guid, string> Admin { get; set; } = new();
@@ -53,10 +53,12 @@ namespace Chat.Web.Code.Gadget
         public ChatHub(
             IRedisUtil redisUtil,
             IUserService userService,
+            IHubContext<ChatHub> chatHub,
             IGroupMembersService groupMembersService,
             ChatLogConfiguration<MessageVM> chatLogConfiguration
             )
         {
+            this.chatHub = chatHub;
             this.redisUtil = redisUtil;
             this.userService = userService;
             this.groupMembersService = groupMembersService;
@@ -65,14 +67,21 @@ namespace Chat.Web.Code.Gadget
         public override async Task OnConnectedAsync()
         {
             var token = Context.GetHttpContext().Request.Query["access_token"] ;
-            var isPower = Context.GetHttpContext().Request.Query["isPower"];
+            var isPower = Context.GetHttpContext().Request.Query["isPower"].ToString()=="null" || string.IsNullOrEmpty(Context.GetHttpContext().Request.Query["isPower"].ToString()) ? "" : Context.GetHttpContext().Request.Query["isPower"].ToString();
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto == null) throw new BusinessLogicException(401,"请先登录");
             if (userDto.Power == PowerEnum.Manage) {
-                if(Convert.ToBoolean(isPower))Admin.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
+                if (!string.IsNullOrEmpty(isPower) && Convert.ToBoolean(isPower)) {
+                    await redisUtil.SAdd("admin", Context.ConnectionId);
+                    if (!TimedTask.IsStatus) {
+                        lock (_lock) TimedTask.IsStatus = true;
+                        if (TimedTask.HubContext == null) TimedTask.HubContext = chatHub;
+                        if (TimedTask.redisUtil == null) TimedTask.redisUtil = redisUtil;
+                        TimedTask.Tasks();
+                    }
+                }
             }
             await redisUtil.SAdd("connection"+userDto.Id,new List<string> { Context.ConnectionId });
-            //await redisUtil.SetReceivings(userDto.Id, Context.ConnectionId);
             UserData.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
             var group =await groupMembersService.GetReceiving(userDto.Id);
             foreach (var d in group) {
@@ -83,12 +92,22 @@ namespace Chat.Web.Code.Gadget
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var token = Context.GetHttpContext().Request.Query["access_token"];
+            var token = Context.GetHttpContext().Request.Query["access_token"]; 
+            var isPower = Context.GetHttpContext().Request.Query["isPower"].ToString() == "null" || string.IsNullOrEmpty(Context.GetHttpContext().Request.Query["isPower"].ToString()) ? "" : Context.GetHttpContext().Request.Query["isPower"].ToString();
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto != null) {
                 await redisUtil.SRemAsync("connection" + userDto.Id, new List<string> { Context.ConnectionId });
                 if (userDto.Power == PowerEnum.Manage) {
-                    Admin.Remove(userDto.Id, out string connectionIds);
+                    if (!string.IsNullOrEmpty(isPower) && Convert.ToBoolean(isPower)) {
+                        await redisUtil.SRemAsync("admin", Context.ConnectionId);
+                        if(await redisUtil.IsExist("admin")) {
+                            if (TimedTask.IsStatus) {
+                                lock (_lock) TimedTask.IsStatus = false;
+                                if (TimedTask.HubContext != null) TimedTask.HubContext = null;
+                                if (TimedTask.redisUtil != null) TimedTask.redisUtil = null;
+                            }
+                        }
+                    }
                 }
                 UserData.Remove(userDto.Id, out string connectionId);
                 await userService.UseState(userDto.Id, UseStateEnume.OffLine);

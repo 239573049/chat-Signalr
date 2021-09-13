@@ -87,9 +87,12 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<List<string>> GetReceiving(Guid userId)
         {
-            var data = await currentRepository.FindAll(a => a.SelfId == userId).Select(a=>a.Receiving).ToListAsync();
-            data.AddRange(await friendsRepository.FindAll(a => a.SelfId == userId).Select(a => a.Receiving).ToListAsync());
-            return data;
+            var data =await currentRepository.FindAll(a => a.SelfId == userId).Select(a=>a.Receiving)
+                .AsNoTracking().ToListAsync();
+            var userReceiving= await friendsRepository.FindAll(a => a.SelfId == userId).Select(a => a.Receiving)
+                .AsNoTracking().ToListAsync();
+            userReceiving.AddRange(data);
+            return userReceiving;
         }
 
         public async Task<bool> UpdateGroupMembers(GroupMembersDto group)

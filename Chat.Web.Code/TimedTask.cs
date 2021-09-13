@@ -4,35 +4,40 @@ using Chat.Web.Code.Model.ChatVM;
 using Chat.Web.Code.Model.SystemVM;
 using Cx.NetCoreUtils.Common;
 using Microsoft.AspNetCore.SignalR;
-using Quartz;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static Chat.Uitl.Util.LinuxData;
 using static Chat.Web.Code.EnumWeb.EnumWeb;
-
-namespace Chat.Web.Code.Job
+namespace Chat.Web.Code
 {
-    public class Jobs : IJob
+    public class TimedTask
     {
         public static IHubContext<ChatHub> HubContext { get; set; }
-        public Task Execute(IJobExecutionContext context)
+        public static IRedisUtil redisUtil { get; set; }
+        public static bool IsStatus { get; set; } = false;
+        public static void Tasks()
         {
-            return Task.Run(() =>
-            {
-                if (ChatHub.Admin.IsEmpty) return;
-                var data = Dispose();
-                var systemData = new SystemMassageVM
-                {
-                    Data = data,
-                    Marking = ChatSystemEnum.SystemData
-                };
-                HubContext.Clients.Clients(ChatHub.Admin.Select(a => a.Value).ToList()).SendAsync("SystemData", systemData);
-            });
+            new Thread(async delegate() {
+                while (IsStatus) {
+                    var pushTime = AppSettingsUtil.GetValue<int>("PushTime");
+                    var data = Dispose();
+                    var systemData = new SystemMassageVM
+                    {
+                        Data = data,
+                        Marking = ChatSystemEnum.SystemData
+                    };
+                    var receiving =(await redisUtil.SMembersAsync<string>("admin"));
+                    foreach (var d in receiving) {
+                        await HubContext.Clients.Client(d).SendAsync("SystemData", systemData);
+                    }
+                    Thread.Sleep(pushTime);
+                }
+            }).Start();
         }
         public static SystemData Dispose()
         {
@@ -49,14 +54,14 @@ namespace Chat.Web.Code.Job
                 data.SystemOs = "Linux";
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                data.Available=WinData.GetRAM();
+                data.Available = WinData.GetRAM();
                 data.SystemOs = "Windows";
                 data.SystemUpTime = WinData.GetSystemUpTime();
                 data.Total = WinData.GetMemory();
                 data.Cpu = WinData.GetCpuUsage();
                 data.Usage = Convert.ToInt32((data.Total - data.Available) / data.Total * 100);
             }
-            data.ServiceName = AppSettings.GetValue<string>("ServiceName"); 
+            data.ServiceName = Uitl.Util.AppSettingsUtil.GetValue<string>("ServiceName");
             return data;
         }
     }

@@ -121,7 +121,7 @@ namespace Chat.Uitl.Util
         /// <param name="key"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public async Task<long> SAdd<T>(string key, List<T> obj)
+        public async Task<long> SAdd<T>(string key, params T[]  obj)
         {
             return await RedisHelper.SAddAsync(key,obj);
         }
@@ -132,7 +132,7 @@ namespace Chat.Uitl.Util
         /// <param name="key"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public async Task<long> SRemAsync<T>(string key, List<T> obj)
+        public async Task<long> SRemAsync<T>(string key, params T[] obj)
         {
             return await RedisHelper.SRemAsync(key, obj);
         }
@@ -145,6 +145,11 @@ namespace Chat.Uitl.Util
         public async Task<T[]> SMembersAsync<T>(string key)
         {
             return await RedisHelper.SMembersAsync<T>(key);
+        }
+
+        public async Task<bool> IsExist(string key)
+        {
+           return await RedisHelper.ExistsAsync(key);
         }
     }
 }

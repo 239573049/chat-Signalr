@@ -1,4 +1,5 @@
-﻿using Cx.NetCoreUtils.Common;
+﻿using Chat.Uitl.Util;
+using Cx.NetCoreUtils.Common;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System;
@@ -14,8 +15,8 @@ namespace Chat.MongoDB
         public readonly IMongoCollection<T> collection;   //数据表操作对象
         public BaseService(string name)
         {
-            var client = new MongoClient(AppSettings.App("ConnectionString:MongoDB"));
-            var database = client.GetDatabase(AppSettings.App("ConnectionString:MongoDBData"));
+            var client = new MongoClient(AppSettingsUtil.App("ConnectionString:MongoDB"));
+            var database = client.GetDatabase(AppSettingsUtil.App("ConnectionString:MongoDBData"));
             collection = database.GetCollection<T>(name);
         }
         public List<T> Get()

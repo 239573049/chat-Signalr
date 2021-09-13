@@ -46,6 +46,12 @@ namespace Chat.Web
         {
             Configuration = configuration;
             Env = env;
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)  //增加环境配置文件，新建项目默认有
+                .AddEnvironmentVariables()
+                .Build();
         }
         /// <summary>
         /// appsettings文件
@@ -61,7 +67,7 @@ namespace Chat.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(new AppSettings(Env.ContentRootPath)); 
+            services.AddSingleton(new AppSettingsUtil( Configuration)); 
             services.AddDbContext<MasterDbContext>(option => option.UseMySql(Configuration["ConnectionString:Default"].MD5Decrypt(), new MySqlServerVersion(new Version(5, 7, 29))));
             services.AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IMasterDbRepositoryBase<,>), typeof(MasterDbRepositoryBase<,>));
