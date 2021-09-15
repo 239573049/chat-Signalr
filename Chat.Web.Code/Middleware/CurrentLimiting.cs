@@ -19,8 +19,8 @@ namespace Chat.Web.Code.Middleware
         }
         public async override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var seconds = Uitl.Util.AppSettingsUtil.GetValue<int>("CurrentLimiting:second");
-            var count = Uitl.Util.AppSettingsUtil.GetValue<int>("CurrentLimiting:count");
+            var seconds = AppSettingsUtil.GetValue<int>("currentLimiting:second");
+            var count = AppSettingsUtil.GetValue<int>("currentLimiting:count");
             var targetInfo = $"{filterContext.HttpContext.Connection.RemoteIpAddress.MapToIPv4()}";
             var data =await redisUtil.GetAsync<Data>(targetInfo);
             if (data==null) {

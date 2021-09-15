@@ -24,11 +24,12 @@ namespace Chat.Web.Code
         {
             new Thread(async delegate() {
                 while (IsStatus) {
-                    var pushTime = AppSettingsUtil.GetValue<int>("PushTime");
+                    var pushTime = AppSettingsUtil.GetValue<int>("pushTime");
                     var data = Dispose();
                     var systemData = new SystemMassageVM
                     {
                         Data = data,
+                        Key=Guid.NewGuid(),
                         Marking = ChatSystemEnum.SystemData
                     };
                     var receiving =(await redisUtil.SMembersAsync<string>("admin"));

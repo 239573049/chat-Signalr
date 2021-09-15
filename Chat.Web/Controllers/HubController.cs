@@ -20,6 +20,10 @@ namespace Chat.Web.Controllers
     public class HubController : UsersController
     {
         private readonly IHubContext<ChatHub> chatHub;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="chatHub"></param>
         public HubController(
             IHubContext<ChatHub> chatHub)
         {
@@ -64,7 +68,7 @@ namespace Chat.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public IActionResult GetUser()
         {
             return new OkObjectResult(ChatHub.UserData);
         }

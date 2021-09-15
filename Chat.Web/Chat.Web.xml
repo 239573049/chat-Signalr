@@ -130,6 +130,12 @@
             推送调试
             </summary>
         </member>
+        <member name="M:Chat.Web.Controllers.HubController.#ctor(Microsoft.AspNetCore.SignalR.IHubContext{Chat.Web.Code.Gadget.ChatHub})">
+            <summary>
+            
+            </summary>
+            <param name="chatHub"></param>
+        </member>
         <member name="M:Chat.Web.Controllers.HubController.GetCount">
             <summary>
             获取当前人数
@@ -184,6 +190,17 @@
         <member name="M:Chat.Web.Controllers.LoginController.Exit">
             <summary>
             退出登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.SystemSettingsController">
+            <summary>
+            系统设置
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.SystemSettingsController.GetSystemSettings">
+            <summary>
+            获取系统设置信息
             </summary>
             <returns></returns>
         </member>

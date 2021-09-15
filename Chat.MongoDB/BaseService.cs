@@ -15,8 +15,8 @@ namespace Chat.MongoDB
         public readonly IMongoCollection<T> collection;   //数据表操作对象
         public BaseService(string name)
         {
-            var client = new MongoClient(AppSettingsUtil.App("ConnectionString:MongoDB"));
-            var database = client.GetDatabase(AppSettingsUtil.App("ConnectionString:MongoDBData"));
+            var client = new MongoClient(AppSettingsUtil.App("connectionString:mongoDB"));
+            var database = client.GetDatabase(AppSettingsUtil.App("connectionString:mongoDBData"));
             collection = database.GetCollection<T>(name);
         }
         public List<T> Get()
