@@ -42,8 +42,9 @@ namespace Chat.Application.AppServices.GroupsService
 
         public async Task<List<ChatMessageDto>> GetChatMessageDataList(string receiving, int pageNo = 1, int pageSize = 20)
         {
+            var date = Convert.ToDateTime(DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd 00:00:00"));
             var data =await currentRepository
-                .FindAll(a=>a.Receiving==receiving)
+                .FindAll(a=>a.Receiving==receiving&&a.Date> date)
                 .AsNoTracking()
                 .OrderByDescending(a=>a.Date)
                 .Skip((pageNo - 1) * pageSize)
