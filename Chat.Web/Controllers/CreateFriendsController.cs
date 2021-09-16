@@ -62,7 +62,7 @@ namespace Chat.Web.Controllers
                 await chatHub.Clients.Clients(initiatorIds[i])
                                   .SendAsync("SystemMessage",
                                   new SystemPushVM { Key = Guid.NewGuid(), Data = create == CreateFriendsEnum.Consent ? "您的好友已经同意您的好友申请了，快去愉快的聊天吧！" : "您的好友申请已经被拒绝！", Name = "好友申请回复", IsRead = false, SystemMarking = SysytemMarkingEnum.FriendRequestStatus });
-                await chatHub.Groups.AddToGroupAsync(initiatorIds[0], userId.Item2);
+               if(create == CreateFriendsEnum.Consent)await chatHub.Groups.AddToGroupAsync(initiatorIds[i], userId.Item2);
             }
             for (int i = 0; i < beInvitedIds.Length; i++) {
                 await chatHub.Groups.AddToGroupAsync(beInvitedIds[i], userId.Item2);
