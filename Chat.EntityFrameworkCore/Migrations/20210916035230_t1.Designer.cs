@@ -3,14 +3,16 @@ using System;
 using Chat.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chat.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    partial class MasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210916035230_t1")]
+    partial class t1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,8 +62,6 @@ namespace Chat.EntityFrameworkCore.Migrations
 
                     b.HasIndex("BeInvitedId");
 
-                    b.HasIndex("Id");
-
                     b.HasIndex("InitiatorId");
 
                     b.ToTable("CreateFriends");
@@ -106,8 +106,6 @@ namespace Chat.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FriendId");
-
-                    b.HasIndex("Id");
 
                     b.HasIndex("SelfId");
 
@@ -161,8 +159,6 @@ namespace Chat.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id");
-
                     b.HasIndex("SelfId");
 
                     b.ToTable("GuroupData");
@@ -207,8 +203,6 @@ namespace Chat.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GroupDataId");
-
-                    b.HasIndex("Id");
 
                     b.HasIndex("SelfId");
 
@@ -271,51 +265,7 @@ namespace Chat.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id");
-
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("Chat.EntityFrameworkCore.Mappings.GroupsConfiguration.ChatMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("HeadPortrait")
-                        .HasColumnType("longtext");
-
-                    b.Property<sbyte>("Marking")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Receiving")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<Guid>("SendId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id");
-
-                    b.HasIndex("Receiving");
-
-                    b.ToTable("ChatMessage");
                 });
 
             modelBuilder.Entity("Chat.Code.Entities.Groups.CreateFriends", b =>

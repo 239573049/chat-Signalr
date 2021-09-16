@@ -1,15 +1,20 @@
 ﻿using Chat.Code.Entities.Groups;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Chat.EntityFrameworkCore.Mappings.GroupsConfiguration
 {
-    public class IFriendsConfiguration : EntityConfiguration<Friends>
+    public class GroupMembersConfiguration : EntityConfiguration<GroupMembers>
     {
-        public override void Configure(EntityTypeBuilder<Friends> builder)
+        public override void Configure(EntityTypeBuilder<GroupMembers> builder)
         {
-            builder.ToTable("Friends");
+            builder.ToTable("GroupMembers");
             builder.HasOne(a => a.Self).WithMany().HasForeignKey(a => a.SelfId);
-            builder.HasOne(a => a.Friend).WithMany().HasForeignKey(a => a.FriendId);
             builder.Property(m => m.Id).ValueGeneratedOnAdd();
             base.Configure(builder);
         }

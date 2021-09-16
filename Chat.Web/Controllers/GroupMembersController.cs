@@ -25,12 +25,14 @@ namespace Chat.Web.Controllers
     public class GroupMembersController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly IRedisUtil redisUtil;
         private readonly IHubContext<ChatHub> chatHub;
         private readonly IPrincipalAccessor principalAccessor;
         private readonly IFriendsService friendsService;
         private readonly IGroupMembersService groupMembersService;
         public GroupMembersController(
             IMapper mapper,
+            IRedisUtil redisUtil,
             IHubContext<ChatHub> chatHub,
             IFriendsService friendsService,
             IPrincipalAccessor principalAccessor,
@@ -39,6 +41,7 @@ namespace Chat.Web.Controllers
         {
             this.mapper = mapper;
             this.chatHub = chatHub;
+            this.redisUtil = redisUtil;
             this.friendsService = friendsService;
             this.principalAccessor = principalAccessor;
             this.groupMembersService = groupMembersService;
@@ -69,8 +72,11 @@ namespace Chat.Web.Controllers
         public async Task<bool> AddGroup(Guid groupId, List<Guid> ids)
         {
             var data= await groupMembersService.AddGroup(groupId, ids);
-            var userIds = ChatHub.GetUserData(ids);
-            userIds.ForEach(async a => await chatHub.Groups.AddToGroupAsync(a, data.Receiving));
+            var receiving = new List<string>();
+            foreach (var d in ids) {
+                receiving.AddRange(await redisUtil.SMembersAsync<string>("connection"+d));
+            }
+            receiving.ForEach(async a => await chatHub.Groups.AddToGroupAsync(a, data.Receiving));
             return true;
         }
     }

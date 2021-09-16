@@ -4,6 +4,41 @@
         <name>Chat.Web</name>
     </assembly>
     <members>
+<<<<<<< HEAD
+=======
+        <member name="T:Chat.Web.Controllers.ChatLogController">
+            <summary>
+            聊天记录
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.ChatLogController.GetChatData(System.String)">
+            <summary>
+            获取聊天记录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Controllers.ChatMessageController">
+            <summary>
+            聊天纪录
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.ChatMessageController.#ctor(AutoMapper.IMapper,Chat.Application.AppServices.GroupsService.IChatMessageService)">
+             <summary>
+            
+             </summary>
+             <param name="mapper"></param>
+             <param name="chatMessageService"></param>
+        </member>
+        <member name="M:Chat.Web.Controllers.ChatMessageController.GetChatMessageDataList(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取聊天纪录
+            </summary>
+            <param name="receiving"></param>
+            <param name="pageNo"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+>>>>>>> 904183c8357629c274b2625038b6d548f437d990
         <member name="T:Chat.Web.Controllers.CreateFriendsController">
             <summary>
             添加申请好友

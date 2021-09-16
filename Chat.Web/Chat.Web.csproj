@@ -43,4 +43,6 @@
     <ProjectReference Include="..\Chat.Web.Code\Chat.Web.Code.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>
