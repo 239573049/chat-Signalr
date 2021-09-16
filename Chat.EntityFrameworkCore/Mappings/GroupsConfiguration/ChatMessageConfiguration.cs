@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace Chat.EntityFrameworkCore.Mappings.GroupsConfiguration
 {
-    public class IGroupMembersConfiguration : EntityConfiguration<GroupMembers>
+    public class ChatMessageConfiguration : EntityConfiguration<ChatMessage>
     {
-        public override void Configure(EntityTypeBuilder<GroupMembers> builder)
+        public override void Configure(EntityTypeBuilder<ChatMessage> builder)
         {
-            builder.ToTable("GroupMembers");
-            builder.HasOne(a => a.Self).WithMany().HasForeignKey(a => a.SelfId);
-            builder.Property(m => m.Id).ValueGeneratedOnAdd();
+            builder.ToTable("ChatMessage");
             base.Configure(builder);
         }
     }

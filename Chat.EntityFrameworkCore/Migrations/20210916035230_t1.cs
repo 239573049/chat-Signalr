@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Chat.EntityFrameworkCore.Migrations
 {
-    public partial class t5 : Migration
+    public partial class t1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

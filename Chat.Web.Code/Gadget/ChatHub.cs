@@ -1,7 +1,11 @@
-﻿using Chat.Application.AppServices.GroupsService;
+﻿using AutoMapper;
+using Chat.Application.AppServices.GroupsService;
 using Chat.Application.AppServices.UserService;
 using Chat.Application.Dto;
+using Chat.Application.Dto.GroupsDto;
 using Chat.Code.DbEnum;
+using Chat.EntityFrameworkCore.Mappings.GroupsConfiguration;
+using Chat.EntityFrameworkCore.Repository.GroupsRespository;
 using Chat.MongoDB.Mappings;
 using Chat.Uitl.Util;
 using Chat.Web.Code.Model.ChatVM;
@@ -19,11 +23,12 @@ namespace Chat.Web.Code.Gadget
     public class ChatHub : Hub
     {
         private readonly IUserService userService;
-        private object _lock = new();
-        private readonly ChatLogConfiguration<MessageVM> chatLogConfiguration;
+        private readonly object _lock = new();
         private readonly IRedisUtil redisUtil;
         private readonly IHubContext<ChatHub> chatHub;
+        private readonly IMapper mapper;
         private readonly IGroupMembersService groupMembersService;
+        private readonly IChatMessageService chatMessageService;
         public static ConcurrentDictionary<Guid, string> UserData { get; set; } = new();
         public static ConcurrentDictionary<Guid, string> Admin { get; set; } = new();
         public static string GetUserData(Guid key)
@@ -51,18 +56,20 @@ namespace Chat.Web.Code.Gadget
             return receivings;
         }
         public ChatHub(
+            IMapper mapper,
             IRedisUtil redisUtil,
             IUserService userService,
             IHubContext<ChatHub> chatHub,
-            IGroupMembersService groupMembersService,
-            ChatLogConfiguration<MessageVM> chatLogConfiguration
+            IChatMessageService chatMessageService,
+            IGroupMembersService groupMembersService
             )
         {
+            this.mapper = mapper;
             this.chatHub = chatHub;
             this.redisUtil = redisUtil;
             this.userService = userService;
+            this.chatMessageService = chatMessageService;
             this.groupMembersService = groupMembersService;
-            this.chatLogConfiguration = chatLogConfiguration;
         }
         public override async Task OnConnectedAsync()
         {
@@ -81,7 +88,7 @@ namespace Chat.Web.Code.Gadget
                     }
                 }
             }
-            await redisUtil.SAdd("connection"+userDto.Id,new List<string> { Context.ConnectionId });
+            await redisUtil.SAdd("connection"+userDto.Id, Context.ConnectionId);
             UserData.AddOrUpdate(userDto.Id, Context.ConnectionId, (uuId, _) => Context.ConnectionId);
             var group =await groupMembersService.GetReceiving(userDto.Id);
             foreach (var d in group) {
@@ -92,11 +99,11 @@ namespace Chat.Web.Code.Gadget
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var token = Context.GetHttpContext().Request.Query["access_token"]; 
+            var token = Context.GetHttpContext().Request.Query["access_token"];
             var isPower = Context.GetHttpContext().Request.Query["isPower"].ToString() == "null" || string.IsNullOrEmpty(Context.GetHttpContext().Request.Query["isPower"].ToString()) ? "" : Context.GetHttpContext().Request.Query["isPower"].ToString();
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             if (userDto != null) {
-                await redisUtil.SRemAsync("connection" + userDto.Id, new List<string> { Context.ConnectionId });
+                await redisUtil.SRemAsync("connection" + userDto.Id, Context.ConnectionId);
                 if (userDto.Power == PowerEnum.Manage) {
                     if (!string.IsNullOrEmpty(isPower) && Convert.ToBoolean(isPower)) {
                         await redisUtil.SRemAsync("admin", Context.ConnectionId);
@@ -119,26 +126,28 @@ namespace Chat.Web.Code.Gadget
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task Message(MessageVM message)
+        public async Task Message(ChatMessageDto message)
         {
-            message.Key = Guid.NewGuid();
+            message.Id = Guid.NewGuid();
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             message.Date = DateTime.Now;
             message.Name = userDto.Name;
             message.HeadPortrait = userDto.HeadPortrait;
             await Clients.Group(message.Receiving).SendAsync("ChatData", message);
+            await chatMessageService.CreateChatMessage(mapper.Map<ChatMessageDto>(message));
         }
 
-        public async Task SendGroup(MessageVM message)
+        public async Task SendGroup(ChatMessageDto message)
         {
-            message.Key = Guid.NewGuid();
+            message.Id = Guid.NewGuid();
             var token = Context.GetHttpContext().Request.Query["access_token"];
             var userDto = redisUtil.Get<UserDto>(token.ToString());
             message.HeadPortrait = userDto.HeadPortrait;
             message.Name = userDto.Name;
             message.Date = DateTime.Now;
             await Clients.Group(message.Receiving).SendAsync("ChatData", message);
+            await chatMessageService.CreateChatMessage(mapper.Map<ChatMessageDto>(message));
         }
         /// <summary>
         /// 系统推送

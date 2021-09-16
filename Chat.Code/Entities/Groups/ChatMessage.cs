@@ -1,13 +1,15 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using Chat.Code.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
-using static Chat.Web.Code.EnumWeb.EnumWeb;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Chat.Web.Code.Model.ChatVM
+namespace Chat.EntityFrameworkCore.Mappings.GroupsConfiguration
 {
-    /// <summary>
-    /// 数据模型
-    /// </summary>
-    public class MessageVM
+    [Index(nameof(Receiving))]
+    public class ChatMessage: EntityCreateDate
     {
         /// <summary>
         /// 发送人id
@@ -31,8 +33,6 @@ namespace Chat.Web.Code.Model.ChatVM
         /// <summary>
         /// 传输类型
         /// </summary>
-        public ChatMessageEnum Marking { get; set; }
-        [BsonId]
-        public Guid Id { get; set; }
+        public sbyte Marking { get; set; }
     }
 }

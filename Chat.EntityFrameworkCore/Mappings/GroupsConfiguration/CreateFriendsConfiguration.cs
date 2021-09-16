@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Chat.EntityFrameworkCore.Mappings.GroupsConfiguration
 {
-    public class ICreateFriendsConfiguration : EntityConfiguration<CreateFriends>
+    public class CreateFriendsConfiguration : EntityConfiguration<CreateFriends>
     {
         public override void Configure(EntityTypeBuilder<CreateFriends> builder)
         {

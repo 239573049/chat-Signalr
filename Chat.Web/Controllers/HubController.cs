@@ -46,7 +46,7 @@ namespace Chat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendId(MessageVM message)
         {
-            message.Key = Guid.NewGuid();
+            message.Id = Guid.NewGuid();
             ChatHub.UserData.TryGetValue(Guid.Parse(message.Receiving), out string receiving);
             await chatHub.Clients.Client(receiving).SendAsync("ChatData", message);
             return new OkObjectResult("");
@@ -59,7 +59,7 @@ namespace Chat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendGroup(MessageVM message)
         {
-            message.Key = Guid.NewGuid();
+            message.Id = Guid.NewGuid();
             await chatHub.Clients.Group(message.Receiving).SendAsync("ChatData", message);
             return new OkObjectResult("");
         }
