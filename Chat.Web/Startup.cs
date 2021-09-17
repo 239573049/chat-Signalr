@@ -27,7 +27,6 @@ using Chat.Web.Code.Middleware;
 using Chat.Web.Code.Gadget;
 using Quartz.Impl;
 using Quartz;
-using Chat.MongoDB.Mappings;
 using Chat.Web.Code.Model.ChatVM;
 
 namespace Chat.Web
@@ -58,16 +57,16 @@ namespace Chat.Web
         /// </summary>
         public IConfiguration Configuration { get; }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public IWebHostEnvironment Env { get; }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(new AppSettingsUtil( Configuration)); 
+            services.AddSingleton(new AppSettingsUtil( Configuration));
             services.AddDbContext<MasterDbContext>(option => option.UseMySql(Configuration["connectionString:default"].MD5Decrypt(), new MySqlServerVersion(new Version(5, 7, 29))));
             services.AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IMasterDbRepositoryBase<,>), typeof(MasterDbRepositoryBase<,>));
@@ -86,7 +85,6 @@ namespace Chat.Web
             services.AddSignalR()
                 .AddRedis(Configuration["connectionString:redis"])
                 .AddStackExchangeRedis(Configuration["connectionString:redis"]);
-            services.AddScoped<ChatLogConfiguration<MessageVM>>();
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(GlobalExceptionsFilter));
@@ -131,7 +129,7 @@ namespace Chat.Web
             });
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="containerBuilder"></param>
         public void ConfigureContainer(ContainerBuilder containerBuilder)

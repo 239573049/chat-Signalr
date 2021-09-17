@@ -38,7 +38,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Application\Chat.Application.csproj" />
-    <ProjectReference Include="..\Chat.MongoDB\Chat.MongoDB.csproj" />
     <ProjectReference Include="..\Chat.Uitl\Chat.Uitl.csproj" />
     <ProjectReference Include="..\Chat.Web.Code\Chat.Web.Code.csproj" />
   </ItemGroup>

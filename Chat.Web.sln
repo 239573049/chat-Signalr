@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.EntityFrameworkCore", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Uitl", "Chat.Uitl\Chat.Uitl.csproj", "{6E76F86A-E477-4CDC-9626-E01E071AA9B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.MongoDB", "Chat.MongoDB\Chat.MongoDB.csproj", "{41C9DF01-576C-40DD-A859-488C42D68D37}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{6E76F86A-E477-4CDC-9626-E01E071AA9B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E76F86A-E477-4CDC-9626-E01E071AA9B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E76F86A-E477-4CDC-9626-E01E071AA9B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41C9DF01-576C-40DD-A859-488C42D68D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41C9DF01-576C-40DD-A859-488C42D68D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41C9DF01-576C-40DD-A859-488C42D68D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41C9DF01-576C-40DD-A859-488C42D68D37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
