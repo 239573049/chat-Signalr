@@ -36,7 +36,7 @@ namespace Chat.Web.Code
                     foreach (var d in receiving) {
                         await HubContext.Clients.Client(d).SendAsync("SystemData", systemData);
                     }
-                    Thread.Sleep(pushTime);
+                    Thread.Sleep((int)pushTime);
                 }
             }).Start();
         }
@@ -62,7 +62,7 @@ namespace Chat.Web.Code
                 data.Cpu = WinData.GetCpuUsage();
                 data.Usage = Convert.ToInt32((data.Total - data.Available) / data.Total * 100);
             }
-            data.ServiceName = Uitl.Util.AppSettingsUtil.GetValue<string>("ServiceName");
+            data.ServiceName = (string)AppSettingsUtil.GetValue<string>("ServiceName");
             return data;
         }
     }

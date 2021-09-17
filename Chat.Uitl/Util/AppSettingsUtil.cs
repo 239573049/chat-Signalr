@@ -49,9 +49,15 @@ namespace Chat.Uitl.Util
             return "";
         }
 
-        public static T GetValue<T>(string sections)
+        public static object GetValue<T>(string sections)
         {
-            return Configuration.GetValue<T>(sections);
+            var data = Configuration.GetValue<string>(sections);
+            try {
+                return Convert.ToInt32(data);
+            }
+            catch (FormatException) {
+            }
+            return data;
         }
     }
 }

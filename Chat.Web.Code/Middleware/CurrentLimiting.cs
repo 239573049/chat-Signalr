@@ -24,7 +24,7 @@ namespace Chat.Web.Code.Middleware
             var targetInfo = $"{filterContext.HttpContext.Connection.RemoteIpAddress.MapToIPv4()}";
             var data =await redisUtil.GetAsync<Data>(targetInfo);
             if (data==null) {
-                var now = DateTime.Now.AddSeconds(seconds);
+                var now = DateTime.Now.AddSeconds((int)seconds);
                 data = new Data
                 {
                     Count = 1,
@@ -33,7 +33,7 @@ namespace Chat.Web.Code.Middleware
                await redisUtil.SetAsync(targetInfo,data, now);
             }
             else {
-                if (data.Count>=count) {
+                if (data.Count>=(int)count) {
                     filterContext.Result = new ObjectResult(new ModelStateResult($"ip：{filterContext.HttpContext.Connection.RemoteIpAddress.MapToIPv4()} 超出访问{count}次限制，请稍后请求", 413));
                 }
                 else {

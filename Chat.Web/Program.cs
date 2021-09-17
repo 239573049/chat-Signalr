@@ -19,7 +19,7 @@ namespace Chat.Web
                 {
                     webBuilder.ConfigureKestrel(kestrelOptions =>
                     {
-                        kestrelOptions.Limits.MaxRequestBodySize = Uitl.Util.AppSettingsUtil.GetValue<int>("fileServer:singleFileMaxSize") * 1024 * 1024;
+                        kestrelOptions.Limits.MaxRequestBodySize = (int)Uitl.Util.AppSettingsUtil.GetValue<int>("fileServer:singleFileMaxSize") * 1024 * 1024;
                         kestrelOptions.ConfigureHttpsDefaults(s => s.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13);
                     });
                     webBuilder.UseStartup<Startup>();

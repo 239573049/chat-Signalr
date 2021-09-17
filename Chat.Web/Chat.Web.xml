@@ -214,6 +214,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Chat.Web.Controllers.SystemSettingsController.SetSystemSettings(Chat.Web.Code.Model.SystemVM.Appsettings)">
+            <summary>
+            设置系统信息
+            </summary>
+            <param name="appsettings"></param>
+            <returns></returns>
+        </member>
         <member name="T:Chat.Web.Controllers.UserController">
             <summary>
             账号接口
@@ -323,15 +330,15 @@
             </summary>
         </member>
         <member name="P:Chat.Web.Startup.Env">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:Chat.Web.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
+             <summary>
             
-            </summary>
-            <param name="services"></param>
+             </summary>
+             <param name="services"></param>
         </member>
         <member name="M:Chat.Web.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
@@ -342,10 +349,10 @@
             <param name="log"></param>
         </member>
         <member name="M:Chat.Web.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
-            <summary>
+             <summary>
             
-            </summary>
-            <param name="containerBuilder"></param>
+             </summary>
+             <param name="containerBuilder"></param>
         </member>
     </members>
 </doc>
