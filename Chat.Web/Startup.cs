@@ -67,7 +67,7 @@ namespace Chat.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(new AppSettingsUtil( Configuration));
-            services.AddDbContext<MasterDbContext>(option => option.UseMySql(Configuration["connectionString:default"].MD5Decrypt(), new MySqlServerVersion(new Version(5, 7, 29))));
+            services.AddDbContext<MasterDbContext>(option => option.UseMySql(Configuration["connectionString:default"], new MySqlServerVersion(new Version(5, 7, 29))));
             services.AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IMasterDbRepositoryBase<,>), typeof(MasterDbRepositoryBase<,>));
             services.AddTransient(typeof(IRedisUtil), typeof(RedisUtil));
