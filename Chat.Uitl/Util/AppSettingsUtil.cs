@@ -52,6 +52,7 @@ namespace Chat.Uitl.Util
         public static object GetValue<T>(string sections)
         {
             var data = Configuration.GetValue<string>(sections);
+            if (typeof(T).Name.Contains("String")) return data;
             try {
                 return Convert.ToInt32(data);
             }
