@@ -1,10 +1,18 @@
 using Autofac;
+
+using Chat.EntityFrameworkCore;
+using Chat.EntityFrameworkCore.Core;
+using Chat.EntityFrameworkCore.Repository;
+using Chat.Uitl.Util;
+using Chat.Web.Code.Gadget;
+using Chat.Web.Code.Middleware;
+
 using CSRedis;
+
 using Cx.NetCoreUtils;
-using Cx.NetCoreUtils.Common;
-using Cx.NetCoreUtils.Extensions;
 using Cx.NetCoreUtils.Filters;
 using Cx.NetCoreUtils.Swagger;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.DotNet.PlatformAbstractions;
@@ -13,21 +21,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Chat.EntityFrameworkCore;
-using Chat.EntityFrameworkCore.Core;
-using Chat.EntityFrameworkCore.Repository;
+
+using Quartz;
+using Quartz.Impl;
+
 using Swashbuckle.AspNetCore.SwaggerUI;
+
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 using static Cx.NetCoreUtils.Swagger.SwaggerSetup;
-using Chat.Uitl.Util;
-using Chat.Web.Code.Middleware;
-using Chat.Web.Code.Gadget;
-using Quartz.Impl;
-using Quartz;
-using Chat.Web.Code.Model.ChatVM;
 
 namespace Chat.Web
 {
