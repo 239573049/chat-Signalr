@@ -29,6 +29,12 @@ namespace Chat.Web.Controllers
         private readonly IMapper mapper;
         private readonly IUserService UserService;
         private readonly IPrincipalAccessor principalAccessor;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="UserService"></param>
+        /// <param name="principalAccessor"></param>
         public UserController(
             IMapper mapper,
             IUserService UserService,

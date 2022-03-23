@@ -32,6 +32,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Util;
+
 using static Cx.NetCoreUtils.Swagger.SwaggerSetup;
 
 namespace Chat.Web
@@ -71,7 +73,7 @@ namespace Chat.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(new AppSettingsUtil( Configuration));
+            services.AddSingleton(new AppSettings(Env.ContentRootPath));
             services.AddDbContext<MasterDbContext>(option => option.UseMySql(Configuration["connectionString:default"], new MySqlServerVersion(new Version(5, 7, 29))));
             services.AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IMasterDbRepositoryBase<,>), typeof(MasterDbRepositoryBase<,>));

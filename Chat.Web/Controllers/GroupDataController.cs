@@ -31,6 +31,14 @@ namespace Chat.Web.Controllers
         private readonly IHubContext<ChatHub> chatHub;
         private readonly IGroupDataService groupDataService;
         private readonly IPrincipalAccessor principalAccessor;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="redisUtil"></param>
+        /// <param name="chatHub"></param>
+        /// <param name="groupDataService"></param>
+        /// <param name="principalAccessor"></param>
         public GroupDataController(
             IMapper mapper,
             IRedisUtil redisUtil,

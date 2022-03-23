@@ -15,6 +15,8 @@ using Cx.NetCoreUtils.Extensions;
 using Chat.Application.Dto;
 using Chat.Uitl.Util;
 using Cx.NetCoreUtils.Common;
+using Util;
+using NPOI.POIFS.Crypt.Dsig;
 
 namespace Chat.Application.AppServices.UserService
 {
@@ -111,15 +113,8 @@ namespace Chat.Application.AppServices.UserService
         {
             var data =await currentRepository.FindAsync(id);
             if (data == null) throw new BusinessLogicException("用户不存在或者已被删除");
-            Oss oss = new()
-            {
-                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
-                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
-                bucketName = AppSettingsUtil.App("oss:bucketName"),
-                endpoint = AppSettingsUtil.App("oss:endpoint"),
-                path = AppSettingsUtil.App("oss:path")
-            };
-            await oss.DeleteFile(data.HeadPortraitKey);
+
+            await new  OssUtil().DeleteFile(data.HeadPortraitKey);
             await currentRepository.Delete(id);
             return (await unitOfWork.SaveChangesAsync()) > 0;
         }
@@ -127,15 +122,7 @@ namespace Chat.Application.AppServices.UserService
         public async Task<bool> DeleteUserList(List<Guid> ids)
         {
             var key =await currentRepository.FindAll(a=>ids.Contains(a.Id)).Select(a => a.HeadPortraitKey).ToListAsync();
-            Oss oss = new()
-            {
-                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
-                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
-                bucketName = AppSettingsUtil.App("oss:bucketName"),
-                endpoint = AppSettingsUtil.App("oss:endpoint"),
-                path = AppSettingsUtil.App("oss:path")
-            };
-            oss.DeletesFile(key);
+            new OssUtil().DeletesFile(key);
             await currentRepository.DeleteMany(ids);
             return (await unitOfWork.SaveChangesAsync())>0;
         }

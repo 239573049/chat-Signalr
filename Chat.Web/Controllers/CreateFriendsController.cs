@@ -32,6 +32,14 @@ namespace Chat.Web.Controllers
         private readonly IHubContext<ChatHub> chatHub;
         private readonly IPrincipalAccessor principalAccessor;
         private readonly ICreateFriendsService createFriendsService;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="redisUtil"></param>
+        /// <param name="chatHub"></param>
+        /// <param name="principalAccessor"></param>
+        /// <param name="createFriendsService"></param>
         public CreateFriendsController(
             IMapper mapper,
             IRedisUtil redisUtil,

@@ -2,15 +2,15 @@
 using Chat.Web.Code.Gadget;
 using Chat.Web.Code.Model.ChatVM;
 using Chat.Web.Code.Model.SystemVM;
+
 using Cx.NetCoreUtils.Common;
+
 using Microsoft.AspNetCore.SignalR;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+
 using static Chat.Uitl.Util.LinuxData;
 using static Chat.Web.Code.EnumWeb.EnumWeb;
 namespace Chat.Web.Code
@@ -24,7 +24,7 @@ namespace Chat.Web.Code
         {
             new Thread(async delegate() {
                 while (IsStatus) {
-                    var pushTime = AppSettingsUtil.GetValue<int>("pushTime");
+                    var pushTime = AppSettings.GetValue<int>("pushTime");
                     var data = Dispose();
                     var systemData = new SystemMassageVM
                     {
@@ -54,15 +54,15 @@ namespace Chat.Web.Code
                 data.Cpu = QUERY_CPULOAD(false);
                 data.SystemOs = "Linux";
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                data.Available = WinData.GetRAM();
-                data.SystemOs = "Windows";
-                data.SystemUpTime = WinData.GetSystemUpTime();
-                data.Total = WinData.GetMemory();
-                data.Cpu = WinData.GetCpuUsage();
-                data.Usage = Convert.ToInt32((data.Total - data.Available) / data.Total * 100);
-            }
-            data.ServiceName = (string)AppSettingsUtil.GetValue<string>("ServiceName");
+            //else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            //    data.Available = WinData.GetRAM();
+            //    data.SystemOs = "Windows";
+            //    data.SystemUpTime = WinData.GetSystemUpTime();
+            //    data.Total = WinData.GetMemory();
+            //    data.Cpu = WinData.GetCpuUsage();
+            //    data.Usage = Convert.ToInt32((data.Total - data.Available) / data.Total * 100);
+            //}
+            data.ServiceName = (string)AppSettings.GetValue<string>("ServiceName");
             return data;
         }
     }

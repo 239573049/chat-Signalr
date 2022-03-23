@@ -30,6 +30,16 @@
             添加申请好友
             </summary>
         </member>
+        <member name="M:Chat.Web.Controllers.CreateFriendsController.#ctor(AutoMapper.IMapper,Chat.Uitl.Util.IRedisUtil,Microsoft.AspNetCore.SignalR.IHubContext{Chat.Web.Code.Gadget.ChatHub},Chat.Uitl.Util.IPrincipalAccessor,Chat.Application.AppServices.GroupsService.ICreateFriendsService)">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="redisUtil"></param>
+            <param name="chatHub"></param>
+            <param name="principalAccessor"></param>
+            <param name="createFriendsService"></param>
+        </member>
         <member name="M:Chat.Web.Controllers.CreateFriendsController.ChangeCreateFriends(System.Guid,Chat.Code.DbEnum.CreateFriendsEnum)">
             <summary>
             通过或拒绝好友申请
@@ -58,24 +68,34 @@
             文件接口
             </summary>
         </member>
-        <member name="M:Chat.Web.Controllers.FileController.Uploading(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:Chat.Web.Controllers.FileController.Uploading(Microsoft.AspNetCore.Http.IFormFile,System.SByte)">
             <summary>
-            上传文件接口
+            上传文件
             </summary>
             <param name="file"></param>
+            <param name="type">0(文件)|1(图片)|2（视频）|3（音频）|4（其他）</param>
             <returns></returns>
+            <exception cref="T:Cx.NetCoreUtils.Exceptions.BusinessLogicException"></exception>
         </member>
         <member name="M:Chat.Web.Controllers.FileController.DeleteFile(System.String)">
             <summary>
             删除文件
             </summary>
-            <param name="key"></param>
+            <param name="path"></param>
             <returns></returns>
         </member>
         <member name="T:Chat.Web.Controllers.FriendsController">
             <summary>
             好友列表
             </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.FriendsController.#ctor(AutoMapper.IMapper,Chat.Application.AppServices.GroupsService.IFriendsService,Chat.Uitl.Util.IPrincipalAccessor)">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="friendsService"></param>
+            <param name="principalAccessor"></param>
         </member>
         <member name="M:Chat.Web.Controllers.FriendsController.GetFriendsDtos">
             <summary>
@@ -94,6 +114,16 @@
             <summary>
             群
             </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.GroupDataController.#ctor(AutoMapper.IMapper,Chat.Uitl.Util.IRedisUtil,Microsoft.AspNetCore.SignalR.IHubContext{Chat.Web.Code.Gadget.ChatHub},Chat.Application.AppServices.GroupsService.IGroupDataService,Chat.Uitl.Util.IPrincipalAccessor)">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="redisUtil"></param>
+            <param name="chatHub"></param>
+            <param name="groupDataService"></param>
+            <param name="principalAccessor"></param>
         </member>
         <member name="M:Chat.Web.Controllers.GroupDataController.CreateGroupData(Chat.Application.Dto.GroupsDto.GroupDataDto)">
             <summary>
@@ -120,6 +150,17 @@
             <summary>
             群列表
             </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.GroupMembersController.#ctor(AutoMapper.IMapper,Chat.Uitl.Util.IRedisUtil,Microsoft.AspNetCore.SignalR.IHubContext{Chat.Web.Code.Gadget.ChatHub},Chat.Application.AppServices.GroupsService.IFriendsService,Chat.Uitl.Util.IPrincipalAccessor,Chat.Application.AppServices.GroupsService.IGroupMembersService)">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="redisUtil"></param>
+            <param name="chatHub"></param>
+            <param name="friendsService"></param>
+            <param name="principalAccessor"></param>
+            <param name="groupMembersService"></param>
         </member>
         <member name="M:Chat.Web.Controllers.GroupMembersController.GetGroupMembersList">
             <summary>
@@ -185,6 +226,15 @@
             登录接口
             </summary>
         </member>
+        <member name="M:Chat.Web.Controllers.LoginController.#ctor(AutoMapper.IMapper,Chat.Uitl.Util.IRedisUtil,Chat.Application.AppServices.UserService.IUserService,Chat.Uitl.Util.IPrincipalAccessor)">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="redisUtil"></param>
+            <param name="UserService"></param>
+            <param name="principalAccessor"></param>
+        </member>
         <member name="M:Chat.Web.Controllers.LoginController.Register(System.String,System.String)">
             <summary>
             登录接口
@@ -225,6 +275,14 @@
             <summary>
             账号接口
             </summary>
+        </member>
+        <member name="M:Chat.Web.Controllers.UserController.#ctor(AutoMapper.IMapper,Chat.Application.AppServices.UserService.IUserService,Chat.Uitl.Util.IPrincipalAccessor)">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="UserService"></param>
+            <param name="principalAccessor"></param>
         </member>
         <member name="M:Chat.Web.Controllers.UserController.CreateUser(Chat.Application.Dto.UserDto)">
             <summary>
@@ -310,6 +368,24 @@
             MD5加密
             </summary>
             <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Chat.Web.Program">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Chat.Web.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Chat.Web.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
             <returns></returns>
         </member>
         <member name="T:Chat.Web.Startup">

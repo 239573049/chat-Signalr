@@ -1,12 +1,11 @@
-﻿using Chat.Application.Dto;
-using Chat.Uitl.Util.HttpUtil;
+﻿using Chat.Uitl.Util.HttpUtil;
 using Chat.Web.Code.Gadget;
 using Chat.Web.Code.Model.ChatVM;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

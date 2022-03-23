@@ -1,12 +1,12 @@
-﻿using Chat.Uitl.Util;
-using Chat.Web.Code.Model.SystemVM;
+﻿using Chat.Web.Code.Model.SystemVM;
+
 using Cx.NetCoreUtils.Extensions;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using Util;
 
 namespace Chat.Web.Controllers
 {
@@ -26,12 +26,12 @@ namespace Chat.Web.Controllers
         {
             var data = new Appsettings
             {
-                ConnectionString = new ConnectionString() { Default = AppSettingsUtil.App("connectionString:default").MD5Decrypt(), Redis = AppSettingsUtil.App("connectionString:redis") },
-                CurrentLimiting = new CurrentLimiting() { count = (int)AppSettingsUtil.GetValue<int>("currentLimiting:count"), second = (int)AppSettingsUtil.GetValue<int>("currentLimiting:second") },
-                FileServer = new FileServer { SingleFileMaxSize = AppSettingsUtil.App("fileServer:SingleFileMaxSize") },
-                Oss = new Code.Model.SystemVM.Oss { accessKeyId = AppSettingsUtil.App("oss:accessKeyId"), accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"), bucketName = AppSettingsUtil.App("oss:bucketName"), endpoint = AppSettingsUtil.App("oss:endpoint"), path = AppSettingsUtil.App("oss:path") },
-                PushTime = (int)AppSettingsUtil.GetValue<int>("pushTime"),
-                ServiceName = AppSettingsUtil.App("serviceName")
+                ConnectionString = new ConnectionString() { Default = AppSettings.App("connectionString:default").MD5Decrypt(), Redis = AppSettings.App("connectionString:redis") },
+                CurrentLimiting = new CurrentLimiting() { count = Convert.ToInt32(AppSettings.App("currentLimiting:count")), second = Convert.ToInt32(AppSettings.App("currentLimiting:second")) },
+                FileServer = new FileServer { SingleFileMaxSize = AppSettings.App("fileServer:SingleFileMaxSize") },
+                Oss = new Code.Model.SystemVM.Oss { accessKeyId = AppSettings.App("oss:accessKeyId"), accessKeySecret = AppSettings.App("oss:accessKeySecret"), bucketName = AppSettings.App("oss:bucketName"), endpoint = AppSettings.App("oss:endpoint"), path = AppSettings.App("oss:path") },
+                PushTime = Convert.ToInt32(AppSettings.App("pushTime")),
+                ServiceName = AppSettings.App("serviceName")
             };
             return new OkObjectResult(data);
         }
@@ -43,20 +43,20 @@ namespace Chat.Web.Controllers
         [HttpPut]
         public IActionResult SetSystemSettings(Appsettings appsettings)
         {
-            if (appsettings != null) {
-                AppSettingsUtil.SetValue(appsettings.ConnectionString.Default.MD5Encrypt(), "connectionString:default");
-                AppSettingsUtil.SetValue(appsettings.ConnectionString.Redis, "connectionString:redis");
-                AppSettingsUtil.SetValue(appsettings.CurrentLimiting.count.ToString(), "currentLimiting:count");
-                AppSettingsUtil.SetValue(appsettings.CurrentLimiting.second.ToString(), "currentLimiting:second");
-                AppSettingsUtil.SetValue(appsettings.FileServer.SingleFileMaxSize, "fileServer:SingleFileMaxSize");
-                AppSettingsUtil.SetValue(appsettings.Oss.accessKeyId, "oss:accessKeyId");
-                AppSettingsUtil.SetValue(appsettings.Oss.accessKeySecret, "oss:accessKeySecret");
-                AppSettingsUtil.SetValue(appsettings.Oss.bucketName, "oss:bucketName");
-                AppSettingsUtil.SetValue(appsettings.Oss.endpoint, "oss:endpoint");
-                AppSettingsUtil.SetValue(appsettings.Oss.path, "oss:path");
-                AppSettingsUtil.SetValue(appsettings.PushTime.ToString(), "pushTime");
-                AppSettingsUtil.SetValue(appsettings.ServiceName, "serviceName");
-            }
+            //if (appsettings != null) {
+            //    AppSettings.SetValue(appsettings.ConnectionString.Default.MD5Encrypt(), "connectionString:default");
+            //    AppSettings.SetValue(appsettings.ConnectionString.Redis, "connectionString:redis");
+            //    AppSettings.SetValue(appsettings.CurrentLimiting.count.ToString(), "currentLimiting:count");
+            //    AppSettings.SetValue(appsettings.CurrentLimiting.second.ToString(), "currentLimiting:second");
+            //    AppSettings.SetValue(appsettings.FileServer.SingleFileMaxSize, "fileServer:SingleFileMaxSize");
+            //    AppSettings.SetValue(appsettings.Oss.accessKeyId, "oss:accessKeyId");
+            //    AppSettings.SetValue(appsettings.Oss.accessKeySecret, "oss:accessKeySecret");
+            //    AppSettings.SetValue(appsettings.Oss.bucketName, "oss:bucketName");
+            //    AppSettings.SetValue(appsettings.Oss.endpoint, "oss:endpoint");
+            //    AppSettings.SetValue(appsettings.Oss.path, "oss:path");
+            //    AppSettings.SetValue(appsettings.PushTime.ToString(), "pushTime");
+            //    AppSettings.SetValue(appsettings.ServiceName, "serviceName");
+            //}
             return new OkObjectResult("");
         }
     }

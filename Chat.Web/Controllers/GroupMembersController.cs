@@ -30,6 +30,15 @@ namespace Chat.Web.Controllers
         private readonly IPrincipalAccessor principalAccessor;
         private readonly IFriendsService friendsService;
         private readonly IGroupMembersService groupMembersService;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="redisUtil"></param>
+        /// <param name="chatHub"></param>
+        /// <param name="friendsService"></param>
+        /// <param name="principalAccessor"></param>
+        /// <param name="groupMembersService"></param>
         public GroupMembersController(
             IMapper mapper,
             IRedisUtil redisUtil,

@@ -1,8 +1,13 @@
 ﻿using Chat.Uitl.Util;
-using Cx.NetCoreUtils.Common;
+
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+
 using System;
+
+using Util;
+
 using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
 
 namespace Chat.Web.Code.Middleware
@@ -19,8 +24,8 @@ namespace Chat.Web.Code.Middleware
         }
         public async override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var seconds = AppSettingsUtil.GetValue<int>("currentLimiting:second");
-            var count = AppSettingsUtil.GetValue<int>("currentLimiting:count");
+            var seconds = Convert.ToInt32(AppSettings.App("currentLimiting:second"));
+            var count =Convert.ToInt32(AppSettings.App("currentLimiting:count"));
             var targetInfo = $"{filterContext.HttpContext.Connection.RemoteIpAddress.MapToIPv4()}";
             var data =await redisUtil.GetAsync<Data>(targetInfo);
             if (data==null) {

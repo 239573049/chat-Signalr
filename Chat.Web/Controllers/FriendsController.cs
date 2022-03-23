@@ -23,6 +23,12 @@ namespace Chat.Web.Controllers
         private readonly IMapper mapper;
         private readonly IPrincipalAccessor principalAccessor;
         private readonly IFriendsService friendsService;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="friendsService"></param>
+        /// <param name="principalAccessor"></param>
         public FriendsController(
             IMapper mapper,
             IFriendsService friendsService,

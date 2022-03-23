@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+
 using Chat.Application.AppServices.UserService;
 using Chat.Code.DbEnum;
-using Chat.Code.Entities.Users;
 using Chat.Uitl.Util;
-using Chat.Web.Code;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
-using Cx.NetCoreUtils.Extensions;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
+using System;
+using System.Threading.Tasks;
+
+using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
 
 namespace Chat.Web.Controllers
 {
@@ -27,6 +27,13 @@ namespace Chat.Web.Controllers
         private readonly IUserService UserService;
         private readonly IRedisUtil redisUtil;
         private readonly IPrincipalAccessor principalAccessor;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="redisUtil"></param>
+        /// <param name="UserService"></param>
+        /// <param name="principalAccessor"></param>
         public LoginController(
             IMapper mapper,
             IRedisUtil redisUtil,

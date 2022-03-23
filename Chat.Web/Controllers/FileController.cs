@@ -1,13 +1,14 @@
 ﻿using Chat.Uitl.Util;
-using Chat.Web.Code;
-using Cx.NetCoreUtils.Common;
+
+using Cx.NetCoreUtils.Exceptions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using static Cx.NetCoreUtils.Filters.GlobalModelStateValidationFilter;
+
+using Util;
 
 namespace Chat.Web.Controllers
 {
@@ -20,42 +21,55 @@ namespace Chat.Web.Controllers
     {
 
         /// <summary>
-        /// 上传文件接口
+        /// 上传文件
         /// </summary>
         /// <param name="file"></param>
+        /// <param name="type">0(文件)|1(图片)|2（视频）|3（音频）|4（其他）</param>
         /// <returns></returns>
+        /// <exception cref="BusinessLogicException"></exception>
         [HttpPost]
-        public async Task<IActionResult> Uploading(IFormFile file)
+        public async Task<IActionResult> Uploading(IFormFile file, sbyte type = 0)
         {
-            if (file.Length > (50 * 1024 * 1024)) return new ModelStateResult("上传文件大小不能超过50MB");
-            Oss oss = new()
+            var max = Convert.ToInt64(AppSettings.App("File:max"));
+            if (file.Length > max * 1024 * 1024) throw new BusinessLogicException($"文件大于{max}MB无法上传");
+            var path = AppSettings.App("File:path");
+            switch (type)
             {
-                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
-                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
-                bucketName = AppSettingsUtil.App("oss:bucketName"),
-                endpoint = AppSettingsUtil.App("oss:endpoint"),
-                path = AppSettingsUtil.App("oss:path")
-            };
-            var datas = await oss.UploadingFile($"file/{StringUtil.GetString(10)}{file.FileName}", file.OpenReadStream());
-            return new OkObjectResult(new { path =$"{oss.path}/{datas}",key= datas });
+                case 0:
+                    path += "/files";
+                    break;
+                case 1:
+                    path += "/image";
+                    break;
+                case 2:
+                    path += "/mp4";
+                    break;
+                case 3:
+                    path += "/mp3";
+                    break;
+                default:
+                    path += "/data";
+                    break;
+            }
+            var names = file.FileName.Split(".");
+            var name = $"{StringUtil.GetString(20)}{DateTime.Now:yyyyMMddHHmmss}";
+            if (name.Length > 1)
+            {
+                name += "." + names[^1];
+            }
+            path = await new OssUtil().UploadingFile(path + "/" + name, file.OpenReadStream());
+            return new OkObjectResult(path);
         }
         /// <summary>
         /// 删除文件
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="path"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> DeleteFile(string key)
+        public async Task<IActionResult> DeleteFile(string path)
         {
-            Oss oss = new()
-            {
-                accessKeyId = AppSettingsUtil.App("oss:accessKeyId"),
-                accessKeySecret = AppSettingsUtil.App("oss:accessKeySecret"),
-                bucketName = AppSettingsUtil.App("oss:bucketName"),
-                endpoint = AppSettingsUtil.App("oss:endpoint"),
-                path = AppSettingsUtil.App("oss:path")
-            };
-            return new OkObjectResult(await oss.DeleteFile(key)?"删除成功":"删除失败");
+
+            return new OkObjectResult((await new OssUtil().DeleteFile(path)) ? "删除成功" : "删除失败");
         }
     }
 }

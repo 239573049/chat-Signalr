@@ -1,64 +1,42 @@
-﻿using Microsoft.Extensions.Configuration.Json;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
-namespace Chat.Uitl.Util
+namespace Util
 {
-    public class AppSettingsUtil
+    public class AppSettings
     {
-
         private static IConfiguration Configuration
         {
             get;
             set;
         }
-
-        private static string ContentPath
+        public AppSettings(string contentPath, string path = "appsettings.json")
         {
-            get;
-            set;
-        }
-
-        public AppSettingsUtil(IConfiguration configuration, string path = "appsettings.json")
-        {
-            Configuration = configuration;
-        }
-        public static void SetValue(string value,params string[] sections)
-        {
-
-            try {
-                if (sections.Any()) {
-                    Configuration[string.Join(":", sections)]= value;
-                }
-            }
-            catch (Exception) { }
+            Configuration = new ConfigurationBuilder()
+            .SetBasePath(contentPath).Add(new JsonConfigurationSource
+            {
+                Path = path,
+                Optional = false,
+                ReloadOnChange = true
+            }).Build();
         }
         public static string App(params string[] sections)
         {
-            try {
-                if (sections.Any()) {
-                    return Configuration[string.Join(":", sections)];
+            try
+            {
+                if (sections.Any())
+                {
+                    return Configuration == null ? "" : Configuration[string.Join(":", sections)];
                 }
             }
-            catch (Exception) {}
+            catch (Exception)
+            {
+            }
 
             return "";
-        }
-
-        public static object GetValue<T>(string sections)
-        {
-            var data = Configuration.GetValue<string>(sections);
-            if (typeof(T).Name.Contains("String")) return data;
-            try {
-                return Convert.ToInt32(data);
-            }
-            catch (FormatException) {
-            }
-            return data;
         }
     }
 }
